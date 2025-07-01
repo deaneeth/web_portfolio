@@ -267,11 +267,11 @@ export function ServicesSection() {
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
-                {/* Most Popular Badge */}
+                {/* Most Popular Badge - Centered at Top */}
                 {service.mostPopular && (
-                  <div className="absolute top-4 right-4 z-20">
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                     <motion.div
-                      className="featured-badge bg-gradient-to-r from-orange-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm"
+                      className="featured-badge bg-gradient-to-r from-orange-500 to-pink-500 text-white px-4 py-2 rounded-full text-xs font-semibold backdrop-blur-sm shadow-lg"
                     >
                       Most Popular
                     </motion.div>
