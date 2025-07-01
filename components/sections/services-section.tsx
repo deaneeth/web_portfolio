@@ -20,7 +20,10 @@ import {
   Zap,
   Target,
   Rocket,
-  Brain
+  Brain,
+  ChevronDown,
+  ChevronUp,
+  MessageCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -177,6 +180,39 @@ const whyWorkWithMeBenefits = [
   },
 ];
 
+const faqData = [
+  {
+    id: 1,
+    question: 'How fast is the turnaround time?',
+    answer: 'Most projects are completed within 24-48 hours for presentations, 24-72 hours for graphic design, and 48-96 hours for content writing. Rush orders can often be accommodated for an additional fee. I always communicate realistic timelines upfront and keep you updated throughout the process.'
+  },
+  {
+    id: 2,
+    question: 'What file formats do I receive?',
+    answer: 'You\'ll receive all source files plus multiple export formats. For presentations: PowerPoint/Keynote + PDF. For graphics: AI/PSD source files + PNG/JPG exports. For content: Word docs, Google Docs, or your preferred format. All files are yours to keep and modify as needed.'
+  },
+  {
+    id: 3,
+    question: 'How do payments work?',
+    answer: 'I accept PayPal, Stripe, and bank transfers. For smaller projects, payment is typically 100% upfront. For larger projects over $200, I offer 50% upfront and 50% on completion. All payments are secure and you\'ll receive detailed invoices for your records.'
+  },
+  {
+    id: 4,
+    question: 'Can I request revisions?',
+    answer: 'Absolutely! I offer unlimited revisions until you\'re completely satisfied. Most clients need 1-2 rounds of minor tweaks. I want you to love the final result, so I\'ll work with you to get it exactly right. Clear communication about changes helps ensure quick turnarounds.'
+  },
+  {
+    id: 5,
+    question: 'Do you work with my brand guidelines?',
+    answer: 'Yes! I can work with your existing brand guidelines, colors, fonts, and style preferences. If you don\'t have brand guidelines, I can help create a cohesive visual identity that aligns with your goals and target audience. Just share any brand assets you have during the order process.'
+  },
+  {
+    id: 6,
+    question: 'What if I need something custom or unique?',
+    answer: 'I love custom projects! If your needs don\'t fit the standard service packages, just reach out with your requirements. I can create custom quotes for unique projects, ongoing partnerships, or bulk work. Every project is tailored to your specific goals and requirements.'
+  }
+];
+
 export function ServicesSection() {
   const [selectedService, setSelectedService] = useState<typeof services[0] | null>(null);
   const [orderForm, setOrderForm] = useState({
@@ -186,6 +222,7 @@ export function ServicesSection() {
     file: null as File | null
   });
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [openFaqId, setOpenFaqId] = useState<number | null>(null);
 
   const openOrderModal = (service: typeof services[0]) => {
     setSelectedService(service);
@@ -209,6 +246,10 @@ export function ServicesSection() {
     if (file) {
       setOrderForm({ ...orderForm, file });
     }
+  };
+
+  const toggleFaq = (faqId: number) => {
+    setOpenFaqId(openFaqId === faqId ? null : faqId);
   };
 
   // Auto-rotate testimonials
@@ -547,7 +588,7 @@ export function ServicesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
           viewport={{ once: true }}
-          className="max-w-6xl mx-auto"
+          className="max-w-6xl mx-auto mb-24"
         >
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-white mb-4">Client Testimonials</h3>
@@ -590,6 +631,100 @@ export function ServicesSection() {
               </motion.div>
             ))}
           </div>
+        </motion.div>
+
+        {/* FAQ Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          viewport={{ once: true }}
+          className="max-w-4xl mx-auto mb-24"
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-white mb-4">Frequently Asked Questions</h3>
+            <p className="text-gray-400">Everything you need to know about our creative services</p>
+          </div>
+
+          <div className="space-y-4">
+            {faqData.map((faq, index) => (
+              <motion.div
+                key={faq.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-gray-900/80 border border-gray-800/50 rounded-2xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:shadow-lg"
+              >
+                <motion.button
+                  onClick={() => toggleFaq(faq.id)}
+                  className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:ring-inset"
+                  whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+                  aria-expanded={openFaqId === faq.id}
+                  aria-controls={`faq-answer-${faq.id}`}
+                >
+                  <h4 className="text-white font-semibold text-lg pr-4">
+                    {faq.question}
+                  </h4>
+                  <motion.div
+                    animate={{ rotate: openFaqId === faq.id ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex-shrink-0"
+                  >
+                    <ChevronDown className="h-5 w-5 text-gray-400" />
+                  </motion.div>
+                </motion.button>
+
+                <AnimatePresence>
+                  {openFaqId === faq.id && (
+                    <motion.div
+                      id={`faq-answer-${faq.id}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-6">
+                        <div className="border-t border-gray-800/50 pt-4">
+                          <p className="text-gray-300 leading-relaxed">
+                            {faq.answer}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Contact CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.0 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <div className="bg-gradient-to-r from-teal-500/10 via-purple-500/10 to-orange-500/10 border border-gray-800/50 rounded-2xl p-8 backdrop-blur-sm">
+              <div className="flex items-center justify-center mb-4">
+                <div className="p-3 bg-gradient-to-r from-teal-500 to-purple-500 rounded-xl mr-4">
+                  <MessageCircle className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-white">Still have questions?</h4>
+              </div>
+              <p className="text-gray-400 mb-6">
+                I'm here to help! Reach out directly and I'll get back to you within 24 hours.
+              </p>
+              <Button
+                className="bg-gradient-to-r from-teal-500 to-purple-500 text-white font-semibold px-8 py-3 rounded-xl hover:scale-105 transition-all duration-300"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Contact Me Directly
+              </Button>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Order Modal */}
