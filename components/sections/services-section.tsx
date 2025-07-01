@@ -290,9 +290,7 @@ export function ServicesSection() {
             <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-purple-500/5 to-orange-500/5 animate-gradient-x"></div>
             
             {/* Micro-glow effects */}
-            <div className="absolute top-4 left-4 w-32 h-32 bg-teal-500/20 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-4 right-4 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-orange-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+            
 
             <div className="relative z-10">
               {/* Header */}
