@@ -256,7 +256,7 @@ export function ServicesSection() {
                   y: -8,
                   transition: { duration: 0.3 }
                 }}
-                className="group relative bg-gray-900/80 border border-gray-800/50 rounded-2xl overflow-hidden backdrop-blur-sm transition-all duration-300 hover:shadow-2xl"
+                className="group relative bg-gray-900/80 border border-gray-800/50 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:shadow-2xl"
                 style={{
                   boxShadow: 'none',
                 }}
