@@ -654,7 +654,7 @@ export function ServicesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-gray-900/80 border border-gray-800/50 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:shadow-lg"
+                className="bg-gray-900/80 border border-gray-800/50 rounded-2xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:shadow-lg"
               >
                 <motion.button
                   onClick={() => toggleFaq(faq.id)}
