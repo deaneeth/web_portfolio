@@ -20,13 +20,18 @@ import {
   Zap,
   Target,
   Rocket,
-  Brain
+  Brain,
+  ChevronDown,
+  ChevronUp,
+  MessageCircle,
+  HelpCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 const services = [
@@ -177,6 +182,45 @@ const whyWorkWithMeBenefits = [
   },
 ];
 
+const faqData = [
+  {
+    id: 1,
+    question: 'How fast is the turnaround time?',
+    answer: 'Most projects are completed within 24-48 hours for presentations, 24-72 hours for graphic design, and 48-96 hours for content writing. Rush orders can often be accommodated for an additional fee. I always communicate realistic timelines upfront and keep you updated throughout the process.',
+    color: '#14b8a6'
+  },
+  {
+    id: 2,
+    question: 'What file formats do I receive?',
+    answer: 'You\'ll receive all source files plus multiple export formats. For presentations: PowerPoint/Keynote + PDF. For graphics: AI/PSD source files + PNG/JPG exports. For content: Word docs, Google Docs, or your preferred format. Everything is organized and clearly labeled for easy use.',
+    color: '#f97316'
+  },
+  {
+    id: 3,
+    question: 'How do payments work?',
+    answer: 'I accept PayPal, Stripe, and bank transfers for your convenience. For smaller projects, payment is typically upfront. Larger projects may be split 50% upfront, 50% on completion. All pricing is transparent with no hidden fees, and you\'ll receive a detailed invoice.',
+    color: '#a855f7'
+  },
+  {
+    id: 4,
+    question: 'Can I request revisions?',
+    answer: 'Absolutely! Unlimited revisions are included until you\'re 100% satisfied. I believe in getting it right, not just getting it done. Most clients are thrilled with the first draft, but I\'m always happy to refine and perfect based on your feedback.',
+    color: '#ec4899'
+  },
+  {
+    id: 5,
+    question: 'Do you work with tight deadlines?',
+    answer: 'Yes! My ADHD-powered efficiency means I thrive under pressure. Rush orders are often possible with 12-24 hour turnarounds available for an additional fee. Just let me know your deadline when ordering, and I\'ll let you know if it\'s feasible.',
+    color: '#22c55e'
+  },
+  {
+    id: 6,
+    question: 'What makes your work different?',
+    answer: 'I combine technical expertise with creative vision, backed by psychology and conversion principles. Every design decision has a purpose. Plus, you\'re not just getting a service—you\'re getting a strategic partner who genuinely cares about your success and always overdelivers.',
+    color: '#06b6d4'
+  }
+];
+
 export function ServicesSection() {
   const [selectedService, setSelectedService] = useState<typeof services[0] | null>(null);
   const [orderForm, setOrderForm] = useState({
@@ -186,6 +230,7 @@ export function ServicesSection() {
     file: null as File | null
   });
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
 
   const openOrderModal = (service: typeof services[0]) => {
     setSelectedService(service);
@@ -209,6 +254,10 @@ export function ServicesSection() {
     if (file) {
       setOrderForm({ ...orderForm, file });
     }
+  };
+
+  const toggleFAQ = (id: number) => {
+    setExpandedFAQ(expandedFAQ === id ? null : id);
   };
 
   // Auto-rotate testimonials
@@ -277,7 +326,7 @@ export function ServicesSection() {
           </motion.div>
         </motion.div>
 
-{/* Why Work With Me Section */}
+        {/* Why Work With Me Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -373,7 +422,6 @@ export function ServicesSection() {
             </div>
           </div>
         </motion.div>
-        
 
         {/* Services Grid */}
         <div className="max-w-7xl mx-auto mb-24">
@@ -510,8 +558,6 @@ export function ServicesSection() {
           </div>
         </div>
 
-        
-
         {/* Custom Orders Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -547,7 +593,7 @@ export function ServicesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
           viewport={{ once: true }}
-          className="max-w-6xl mx-auto"
+          className="max-w-6xl mx-auto mb-24"
         >
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-white mb-4">Client Testimonials</h3>
@@ -590,6 +636,130 @@ export function ServicesSection() {
               </motion.div>
             ))}
           </div>
+        </motion.div>
+
+        {/* FAQ Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          viewport={{ once: true }}
+          className="max-w-6xl mx-auto mb-24"
+        >
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <motion.h3 
+              className="text-3xl sm:text-4xl font-bold text-white mb-4 relative inline-block"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              Frequently Asked Questions
+              {/* Gradient underline */}
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 rounded-full"></div>
+            </motion.h3>
+            <p className="text-gray-400 text-lg">
+              Everything you need to know about working with me
+            </p>
+          </div>
+
+          {/* FAQ Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {faqData.map((faq, index) => (
+              <motion.div
+                key={faq.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-gray-900/80 border border-gray-800/50 rounded-2xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:shadow-lg"
+                style={{
+                  boxShadow: expandedFAQ === faq.id ? `0 8px 32px ${faq.color}40` : 'none',
+                }}
+              >
+                <motion.button
+                  onClick={() => toggleFAQ(faq.id)}
+                  className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors duration-200"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
+                >
+                  <div className="flex items-center space-x-4">
+                    <div 
+                      className="p-3 rounded-xl flex items-center justify-center"
+                      style={{ backgroundColor: `${faq.color}20` }}
+                    >
+                      <HelpCircle 
+                        className="h-5 w-5" 
+                        style={{ color: faq.color }}
+                      />
+                    </div>
+                    <h4 className="text-white font-semibold text-lg">
+                      {faq.question}
+                    </h4>
+                  </div>
+                  <motion.div
+                    animate={{ rotate: expandedFAQ === faq.id ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown 
+                      className="h-5 w-5 text-gray-400" 
+                      style={{ color: expandedFAQ === faq.id ? faq.color : undefined }}
+                    />
+                  </motion.div>
+                </motion.button>
+
+                <AnimatePresence>
+                  {expandedFAQ === faq.id && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-6">
+                        <div 
+                          className="h-px bg-gradient-to-r from-transparent via-current to-transparent mb-4 opacity-20"
+                          style={{ color: faq.color }}
+                        ></div>
+                        <p className="text-gray-300 leading-relaxed">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Contact CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <div className="bg-gray-900/80 border border-gray-800/50 rounded-2xl p-8 backdrop-blur-sm">
+              <div className="flex items-center justify-center mb-4">
+                <div className="p-3 bg-gradient-to-r from-teal-500 to-purple-500 rounded-xl mr-4">
+                  <MessageCircle className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-white">Still have questions?</h4>
+              </div>
+              <p className="text-gray-400 mb-6">
+                I'm here to help! Feel free to reach out with any specific questions about your project.
+              </p>
+              <Button
+                className="bg-gradient-to-r from-teal-500 to-purple-500 hover:from-teal-600 hover:to-purple-600 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 hover:scale-105"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Contact Me Directly
+              </Button>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Order Modal */}
