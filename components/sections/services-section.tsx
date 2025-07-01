@@ -277,6 +277,109 @@ export function ServicesSection() {
           </motion.div>
         </motion.div>
 
+{/* Why Work With Me Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="max-w-7xl mx-auto mb-24"
+        >
+          <div className="relative bg-gradient-to-br from-teal-500/10 via-purple-500/10 to-orange-500/10 border border-gray-800/50 rounded-3xl p-8 md:p-12 backdrop-blur-sm overflow-hidden animate-gradient-x">
+            {/* Animated background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-purple-500/5 to-orange-500/5 animate-gradient-x"></div>
+            
+            {/* Micro-glow effects */}
+            <div className="absolute top-4 left-4 w-32 h-32 bg-teal-500/20 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-4 right-4 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-orange-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+
+            <div className="relative z-10">
+              {/* Header */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="text-center mb-12"
+              >
+                <div className="flex items-center justify-center mb-4">
+                  <motion.div 
+                    className="p-4 bg-gradient-to-r from-teal-500 to-purple-500 rounded-2xl mr-4"
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Zap className="h-8 w-8 text-white" />
+                  </motion.div>
+                  <h3 className="text-3xl md:text-4xl font-bold text-white">
+                    Why Work With Me?
+                  </h3>
+                </div>
+                <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+                  More than just a service provider—I'm your strategic partner in success
+                </p>
+              </motion.div>
+
+              {/* Benefits Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {whyWorkWithMeBenefits.map((benefit, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 + (index * 0.1) }}
+                    viewport={{ once: true }}
+                    whileHover={{ 
+                      y: -4,
+                      transition: { duration: 0.2 }
+                    }}
+                    className="group text-center"
+                  >
+                    {/* Animated Icon */}
+                    <motion.div 
+                      className="mb-4 flex justify-center"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div 
+                        className="p-4 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 relative"
+                        style={{ 
+                          backgroundColor: `${benefit.color}20`,
+                          boxShadow: `0 0 20px ${benefit.glowColor}`,
+                        }}
+                      >
+                        <benefit.icon 
+                          className="h-8 w-8 transition-all duration-300" 
+                          style={{ color: benefit.color }}
+                        />
+                        
+                        {/* Glow effect on hover */}
+                        <div 
+                          className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          style={{ 
+                            boxShadow: `0 0 30px ${benefit.glowColor}`,
+                          }}
+                        ></div>
+                      </div>
+                    </motion.div>
+
+                    {/* Title */}
+                    <h4 className="text-xl font-bold text-white mb-3 group-hover:text-gray-100 transition-colors">
+                      {benefit.title}
+                    </h4>
+
+                    {/* Description */}
+                    <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
+                      {benefit.description}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+        
+
         {/* Services Grid */}
         <div className="max-w-7xl mx-auto mb-24">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -412,107 +515,7 @@ export function ServicesSection() {
           </div>
         </div>
 
-        {/* Why Work With Me Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-7xl mx-auto mb-24"
-        >
-          <div className="relative bg-gradient-to-br from-teal-500/10 via-purple-500/10 to-orange-500/10 border border-gray-800/50 rounded-3xl p-8 md:p-12 backdrop-blur-sm overflow-hidden animate-gradient-x">
-            {/* Animated background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-purple-500/5 to-orange-500/5 animate-gradient-x"></div>
-            
-            {/* Micro-glow effects */}
-            <div className="absolute top-4 left-4 w-32 h-32 bg-teal-500/20 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-4 right-4 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-orange-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-
-            <div className="relative z-10">
-              {/* Header */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="text-center mb-12"
-              >
-                <div className="flex items-center justify-center mb-4">
-                  <motion.div 
-                    className="p-4 bg-gradient-to-r from-teal-500 to-purple-500 rounded-2xl mr-4"
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Zap className="h-8 w-8 text-white" />
-                  </motion.div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-white">
-                    Why Work With Me?
-                  </h3>
-                </div>
-                <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-                  More than just a service provider—I'm your strategic partner in success
-                </p>
-              </motion.div>
-
-              {/* Benefits Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {whyWorkWithMeBenefits.map((benefit, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 + (index * 0.1) }}
-                    viewport={{ once: true }}
-                    whileHover={{ 
-                      y: -4,
-                      transition: { duration: 0.2 }
-                    }}
-                    className="group text-center"
-                  >
-                    {/* Animated Icon */}
-                    <motion.div 
-                      className="mb-4 flex justify-center"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div 
-                        className="p-4 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 relative"
-                        style={{ 
-                          backgroundColor: `${benefit.color}20`,
-                          boxShadow: `0 0 20px ${benefit.glowColor}`,
-                        }}
-                      >
-                        <benefit.icon 
-                          className="h-8 w-8 transition-all duration-300" 
-                          style={{ color: benefit.color }}
-                        />
-                        
-                        {/* Glow effect on hover */}
-                        <div 
-                          className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          style={{ 
-                            boxShadow: `0 0 30px ${benefit.glowColor}`,
-                          }}
-                        ></div>
-                      </div>
-                    </motion.div>
-
-                    {/* Title */}
-                    <h4 className="text-xl font-bold text-white mb-3 group-hover:text-gray-100 transition-colors">
-                      {benefit.title}
-                    </h4>
-
-                    {/* Description */}
-                    <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
-                      {benefit.description}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
+        
 
         {/* Custom Orders Section */}
         <motion.div
