@@ -288,9 +288,6 @@ export function ServicesSection() {
           <div className="relative bg-gradient-to-br from-teal-500/10 via-purple-500/10 to-orange-500/10 border border-gray-800/50 rounded-3xl p-8 md:p-12 backdrop-blur-sm overflow-hidden animate-gradient-x">
             {/* Animated background gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-purple-500/5 to-orange-500/5 animate-gradient-x"></div>
-            
-            {/* Micro-glow effects */}
-            
 
             <div className="relative z-10">
               {/* Header */}
