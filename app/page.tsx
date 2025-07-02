@@ -8,6 +8,7 @@ import { AboutSection } from '@/components/sections/about-section';
 import { ProjectsSection } from '@/components/sections/projects-section';
 import { ServicesSection } from '@/components/sections/services-section';
 import { ContentHubSection } from '@/components/sections/content-hub-section';
+import { AchievementsSection } from '@/components/sections/achievements-section';
 import { SkillsSection } from '@/components/sections/skills-section';
 import { ContactSection } from '@/components/sections/contact-section';
 import { Footer } from '@/components/footer';
@@ -23,6 +24,7 @@ export default function Home() {
         <ProjectsSection />
         <ServicesSection />
         <ContentHubSection />
+        <AchievementsSection />
         <SkillsSection />
         <ContactSection />
       </main>
