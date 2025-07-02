@@ -38,3 +38,23 @@ General Guidance
 
 Your goal:
 Every response and generated section must help deliver a portfolio that feels like a futuristic, premium, and personal “digital headquarters”, ready to impress, convert, and grow with Dineth’s evolving career.
+
+This project aims to create a world-class personal portfolio for Dineth, a 19-year-old Computer Science undergraduate, AI/ML explorer, and creative technologist. The portfolio is envisioned as a futuristic, premium, and multidimensional "digital headquarters" that balances technical depth, creativity, and business-ready clarity.
+
+Overall Tone & Design:
+The design must be premium, tech-forward, and visually impressive, akin to top creative agency and SaaS websites. It will reflect Dineth's authentic, ambitious, and energetic personal brand, balancing credibility with approachability and a future-thinking mindset. A dark, modern color palette with animated gradients (teal, purple, orange, blue) and strong, accessible contrast will be used. All sections are designed to be modular, scalable, and easily updatable.
+
+Technical Requirements:
+The frontend is built with React/Next.js and styled using Tailwind CSS with custom gradients. Framer Motion is extensively used for all animations, transitions, micro-interactions, and effects, including spring, parallax, scroll-triggered, accordion, tabs, iOS-style notifications, page wipes, and cursor effects. The project supports Markdown/MDX for dynamic content, particularly for blog and research hubs. Performance is a key focus, with optimizations for speed, image optimization, lazy loading, and minimal dependencies. It must be fully WCAG 2.1 accessible, responsive across all devices, and honor reduced motion preferences.
+
+Visual Style & Animation:
+Animations are inspired by leading-edge sites, featuring smooth, elegant, and non-intrusive effects such as section entrances, card lifts, hover glows, background particles, animated underlines, and reveal effects. A consistent application of gradient, glow, and soft-shadow motifs is crucial, avoiding harsh or generic transitions. Modern card/grid layouts are used throughout for sections like projects, services, skills, and testimonials.
+
+User Experience & Business Conversion:
+Call-to-action (CTA) elements are bold, clear, and conversion-optimized, incorporating animated feedback. Service and testimonial sections are built to support future scaling, including custom orders, carousels, and FAQs. Modal dialogs and notifications animate in with Framer Motion's spring/stack effects.
+
+Mobile-First & Responsive:
+The entire design, including animations and interactions, is developed with a mobile-first approach, ensuring full responsiveness and smooth performance on all mobile devices. Hover effects are replaced with tap/gesture equivalents where necessary for mobile.
+
+Content & Branding Consistency:
+The copy is clear, concise, and compelling, emphasizing impact, value, and personality. Every section is designed to feel like part of a unified, thoughtfully crafted product, maintaining a cohesive brand story.
