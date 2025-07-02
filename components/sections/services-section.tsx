@@ -131,6 +131,42 @@ const testimonials = [
     rating: 5,
     text: 'The graphic design work was exceptional. Helped establish our brand identity perfectly.',
     avatar: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  },
+  {
+    id: 5,
+    name: 'Lisa Wang',
+    role: 'CEO',
+    company: 'FinanceFlow',
+    rating: 5,
+    text: 'Outstanding content writing that perfectly captured our brand voice. Highly recommend!',
+    avatar: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  },
+  {
+    id: 6,
+    name: 'James Miller',
+    role: 'Marketing Lead',
+    company: 'GrowthTech',
+    rating: 5,
+    text: 'Fast turnaround, excellent communication, and results that exceeded our expectations.',
+    avatar: 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  },
+  {
+    id: 7,
+    name: 'Anna Thompson',
+    role: 'Design Director',
+    company: 'CreativeStudio',
+    rating: 5,
+    text: 'Dineth brings a unique blend of technical skill and creative vision to every project.',
+    avatar: 'https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  },
+  {
+    id: 8,
+    name: 'Robert Kim',
+    role: 'Founder',
+    company: 'TechVenture',
+    rating: 5,
+    text: 'Professional, reliable, and delivers quality work consistently. A true creative partner.',
+    avatar: 'https://images.pexels.com/photos/1043473/pexels-photo-1043473.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
   }
 ];
 
@@ -221,7 +257,6 @@ export function ServicesSection() {
     requirements: '',
     file: null as File | null
   });
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [openFaqId, setOpenFaqId] = useState<number | null>(null);
 
   const openOrderModal = (service: typeof services[0]) => {
@@ -252,14 +287,6 @@ export function ServicesSection() {
     setOpenFaqId(openFaqId === faqId ? null : faqId);
   };
 
-  // Auto-rotate testimonials
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
   // Handle ESC key for modal
   React.useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -270,6 +297,9 @@ export function ServicesSection() {
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
+
+  // Create duplicated testimonials for infinite scroll
+  const duplicatedTestimonials = [...testimonials, ...testimonials, ...testimonials];
 
   return (
     <section id="services" className="py-24 bg-black">
@@ -318,7 +348,7 @@ export function ServicesSection() {
           </motion.div>
         </motion.div>
 
-{/* Why Work With Me Section */}
+        {/* Why Work With Me Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -551,8 +581,6 @@ export function ServicesSection() {
           </div>
         </div>
 
-        
-
         {/* Custom Orders Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -582,54 +610,104 @@ export function ServicesSection() {
           </Card>
         </motion.div>
 
-        {/* Testimonials Section */}
+        {/* Testimonials Carousel Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
           viewport={{ once: true }}
-          className="max-w-6xl mx-auto mb-24"
+          className="max-w-full mx-auto mb-24 overflow-hidden"
         >
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-white mb-4">Client Testimonials</h3>
+            <h3 className="text-3xl font-bold text-white mb-4">
+              Client <span className="projects-gradient-text">Testimonials</span>
+            </h3>
+            <div className="w-24 h-1 bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 mx-auto mb-4 rounded-full"></div>
             <p className="text-gray-400">What our clients say about our work</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -4 }}
-                className="bg-gray-900/80 border border-gray-800/50 rounded-2xl p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-lg"
-              >
-                <div className="flex items-center mb-4">
-                  <img
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full mr-4 object-cover"
-                  />
-                  <div>
-                    <h4 className="text-white font-semibold text-sm">{testimonial.name}</h4>
-                    <p className="text-gray-400 text-xs">{testimonial.role}</p>
-                    <p className="text-gray-500 text-xs">{testimonial.company}</p>
+          {/* Carousel Container */}
+          <div className="relative">
+            {/* Fade edges */}
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
+            
+            {/* Scrolling testimonials */}
+            <motion.div
+              className="flex gap-6"
+              animate={{
+                x: [0, -100 * testimonials.length]
+              }}
+              transition={{
+                x: {
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: testimonials.length * 8, // 8 seconds per testimonial
+                  ease: "linear",
+                },
+              }}
+              style={{ width: `${duplicatedTestimonials.length * 320}px` }}
+            >
+              {duplicatedTestimonials.map((testimonial, index) => (
+                <motion.div
+                  key={`${testimonial.id}-${Math.floor(index / testimonials.length)}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: (index % testimonials.length) * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  className="bg-gray-900/80 border border-gray-800/50 rounded-2xl p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-lg flex-shrink-0"
+                  style={{ 
+                    width: '300px',
+                    boxShadow: 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = '0 20px 60px rgba(168, 85, 247, 0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  {/* Client Info */}
+                  <div className="flex items-center mb-4">
+                    <motion.img
+                      src={testimonial.avatar}
+                      alt={testimonial.name}
+                      className="w-12 h-12 rounded-full mr-4 object-cover border-2 border-gray-700"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                    <div className="flex-1">
+                      <h4 className="text-white font-semibold text-sm">{testimonial.name}</h4>
+                      <p className="text-gray-400 text-xs">{testimonial.role}</p>
+                      <p className="text-gray-500 text-xs">{testimonial.company}</p>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="flex mb-3">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  "{testimonial.text}"
-                </p>
-              </motion.div>
-            ))}
+                  
+                  {/* Star Rating */}
+                  <div className="flex mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.2, delay: i * 0.1 }}
+                      >
+                        <Star className="h-4 w-4 text-yellow-400 fill-current drop-shadow-sm" />
+                      </motion.div>
+                    ))}
+                  </div>
+                  
+                  {/* Testimonial Text */}
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    "{testimonial.text}"
+                  </p>
+
+                  {/* Gradient border effect */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-teal-500/20 via-purple-500/20 to-orange-500/20 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </motion.div>
 
