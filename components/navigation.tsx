@@ -11,6 +11,7 @@ const navItems = [
   { name: 'About', href: '#about' },
   { name: 'Projects', href: '#projects' },
   { name: 'Services', href: '#services' },
+  { name: 'Blog', href: '/blog' },
   { name: 'Skills', href: '#skills' },
   { name: 'Contact', href: '#contact' },
 ];
@@ -26,6 +27,20 @@ export function Navigation() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleNavClick = (href: string) => {
+    if (href.startsWith('#')) {
+      // Handle anchor links
+      const element = document.getElementById(href.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Handle regular navigation
+      window.location.href = href;
+    }
+    setIsOpen(false);
+  };
 
   return (
     <motion.header
@@ -47,19 +62,24 @@ export function Navigation() {
             <div className="avatar-gradient-bg w-10 h-10 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-lg">D</span>
             </div>
-            <a href="#home" className="text-xl font-bold navbar-gradient-text">
+            <button 
+              onClick={() => handleNavClick('#home')}
+              className="text-xl font-bold navbar-gradient-text"
+            >
               Deaneeth
-            </a>
+            </button>
           </motion.div>
 
           {/* Desktop Navigation - Centered */}
           <div className="hidden md:flex flex-grow justify-center">
             <div className="flex items-center space-x-8">
               {navItems.map((item, index) => (
-                <motion.a
+                <motion.button
                   key={item.name}
-                  href={item.href}
-                  className="text-foreground/80 hover:text-primary px-3 py-2 text-sm font-normal transition-colors duration-200"
+                  onClick={() => handleNavClick(item.href)}
+                  className={`text-foreground/80 hover:text-primary px-3 py-2 text-sm font-normal transition-colors duration-200 ${
+                    item.name === 'Blog' ? 'projects-gradient-text font-medium' : ''
+                  }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, y: -20 }}
@@ -67,7 +87,7 @@ export function Navigation() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   {item.name}
-                </motion.a>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -101,17 +121,18 @@ export function Navigation() {
           >
             <div className="px-2 pt-2 pb-3 space-y-1 bg-background/90 backdrop-blur-md rounded-lg mt-2">
               {navItems.map((item, index) => (
-                <motion.a
+                <motion.button
                   key={item.name}
-                  href={item.href}
-                  className="text-foreground/80 hover:text-primary block px-3 py-2 rounded-md text-base font-normal transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => handleNavClick(item.href)}
+                  className={`text-foreground/80 hover:text-primary block px-3 py-2 rounded-md text-base font-normal transition-colors duration-200 w-full text-left ${
+                    item.name === 'Blog' ? 'projects-gradient-text font-medium' : ''
+                  }`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
                   {item.name}
-                </motion.a>
+                </motion.button>
               ))}
             </div>
           </motion.div>
