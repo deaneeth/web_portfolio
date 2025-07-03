@@ -19,6 +19,7 @@ export function TimelineCarousel({ achievements, onAchievementClick }: TimelineC
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
 
   const x = useMotionValue(0);
   const springX = useSpring(x, { damping: 30, stiffness: 300 });
@@ -34,6 +35,11 @@ export function TimelineCarousel({ achievements, onAchievementClick }: TimelineC
     const maxScroll = scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
     return Math.abs(value) / maxScroll;
   });
+
+  // Set isClient to true after component mounts
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const updateScrollButtons = () => {
     if (!scrollRef.current) return;
@@ -189,7 +195,7 @@ export function TimelineCarousel({ achievements, onAchievementClick }: TimelineC
 
                 {/* Achievement Card */}
                 <AnimatePresence>
-                  {(hoveredId === achievement.id || window.innerWidth <= 768) && (
+                  {(hoveredId === achievement.id || (isClient && window.innerWidth <= 768)) && (
                     <motion.div
                       initial={{ opacity: 0, y: 20, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -308,61 +314,63 @@ export function TimelineCarousel({ achievements, onAchievementClick }: TimelineC
                 </AnimatePresence>
 
                 {/* Mobile Card (Always Visible) */}
-                <div className="md:hidden absolute top-12 left-1/2 -translate-x-1/2 w-72">
-                  <motion.div
-                    className="bg-gray-900/95 border border-gray-800/50 rounded-2xl p-4 backdrop-blur-md shadow-2xl cursor-pointer"
-                    style={{
-                      boxShadow: `0 20px 60px ${achievement.glowColor}`,
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => onAchievementClick(achievement)}
-                  >
-                    {/* Featured Badge */}
-                    {achievement.featured && (
-                      <div className="absolute -top-1 -right-1">
-                        <div className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                          <Star className="h-2 w-2 inline mr-1 fill-current" />
+                {isClient && (
+                  <div className="md:hidden absolute top-12 left-1/2 -translate-x-1/2 w-72">
+                    <motion.div
+                      className="bg-gray-900/95 border border-gray-800/50 rounded-2xl p-4 backdrop-blur-md shadow-2xl cursor-pointer"
+                      style={{
+                        boxShadow: `0 20px 60px ${achievement.glowColor}`,
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => onAchievementClick(achievement)}
+                    >
+                      {/* Featured Badge */}
+                      {achievement.featured && (
+                        <div className="absolute -top-1 -right-1">
+                          <div className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            <Star className="h-2 w-2 inline mr-1 fill-current" />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Header */}
+                      <div className="flex items-start space-x-3 mb-3">
+                        <img
+                          src={achievement.issuerLogo}
+                          alt={achievement.issuer}
+                          className="w-8 h-8 rounded-lg object-cover border border-gray-700"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-white font-bold text-sm line-clamp-1 mb-1">
+                            {achievement.title}
+                          </h4>
+                          <p className="text-gray-400 text-xs">{achievement.issuer}</p>
                         </div>
                       </div>
-                    )}
 
-                    {/* Header */}
-                    <div className="flex items-start space-x-3 mb-3">
-                      <img
-                        src={achievement.issuerLogo}
-                        alt={achievement.issuer}
-                        className="w-8 h-8 rounded-lg object-cover border border-gray-700"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-white font-bold text-sm line-clamp-1 mb-1">
-                          {achievement.title}
-                        </h4>
-                        <p className="text-gray-400 text-xs">{achievement.issuer}</p>
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-1">
+                        {achievement.skills.slice(0, 2).map((skill) => (
+                          <Badge
+                            key={skill}
+                            variant="secondary"
+                            className="bg-white/5 text-gray-300 border-white/10 text-xs px-2 py-1"
+                          >
+                            {skill}
+                          </Badge>
+                        ))}
+                        {achievement.skills.length > 2 && (
+                          <Badge
+                            variant="secondary"
+                            className="bg-white/5 text-gray-300 border-white/10 text-xs px-2 py-1"
+                          >
+                            +{achievement.skills.length - 2}
+                          </Badge>
+                        )}
                       </div>
-                    </div>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-1">
-                      {achievement.skills.slice(0, 2).map((skill) => (
-                        <Badge
-                          key={skill}
-                          variant="secondary"
-                          className="bg-white/5 text-gray-300 border-white/10 text-xs px-2 py-1"
-                        >
-                          {skill}
-                        </Badge>
-                      ))}
-                      {achievement.skills.length > 2 && (
-                        <Badge
-                          variant="secondary"
-                          className="bg-white/5 text-gray-300 border-white/10 text-xs px-2 py-1"
-                        >
-                          +{achievement.skills.length - 2}
-                        </Badge>
-                      )}
-                    </div>
-                  </motion.div>
-                </div>
+                    </motion.div>
+                  </div>
+                )}
               </motion.div>
             ))}
           </div>
