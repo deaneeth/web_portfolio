@@ -126,13 +126,27 @@ export const achievements: Achievement[] = [
     issuer: 'University of Plymouth',
     issuerLogo: 'https://images.pexels.com/photos/1249158/pexels-photo-1249158.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop',
     description: 'Academic merit scholarship for outstanding performance in Computer Science studies.',
-    dateAwarded: '2024-01-15',
+    dateAwarded: '2023-01-15',
     category: 'scholarship',
     badgeImage: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
     skills: ['Academic Excellence', 'Leadership', 'Merit'],
     featured: false,
     color: '#f59e0b',
     glowColor: 'rgba(245, 158, 11, 0.4)'
+  },
+  {
+    id: '9',
+    title: 'First Programming Competition',
+    issuer: 'University Programming Club',
+    issuerLogo: 'https://images.pexels.com/photos/1249158/pexels-photo-1249158.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop',
+    description: 'My first competitive programming achievement that sparked my passion for algorithms.',
+    dateAwarded: '2023-03-10',
+    category: 'competition',
+    badgeImage: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+    skills: ['Algorithms', 'Problem Solving', 'C++'],
+    featured: false,
+    color: '#8b5cf6',
+    glowColor: 'rgba(139, 92, 246, 0.4)'
   }
 ];
 
