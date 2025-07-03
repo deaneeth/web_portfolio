@@ -8,7 +8,7 @@ Overall Tone & Design
 
 Technical Requirements
 - Frontend: React/Next.js (preferred), styled with Tailwind CSS and custom gradients.
-- Animation: Use Framer Motion (or equivalent) for all transitions, micro-interactions, and effects (spring, parallax, scroll-triggered, accordion, tabs, iOS-style notifications, page wipe, cursor effects, etc.).
+- Animation: Use Framer Motion - GASP (or equivalent) for all transitions, micro-interactions, and effects (spring, parallax, scroll-triggered, accordion, tabs, iOS-style notifications, page wipe, cursor effects, etc.).
 - Content: Support for Markdown/MDX for dynamic content, with blog and research hubs.
 - Performance: All code must be optimized for speed, image optimization, lazy loading, and minimal dependencies.
 - Accessibility: Fully WCAG 2.1 accessible, responsive on all devices, and honours reduced motion/user accessibility preferences.
