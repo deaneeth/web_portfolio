@@ -17,12 +17,14 @@ import { Badge } from '@/components/ui/badge';
 import { Achievement, formatDate, categoryIcons } from '@/lib/achievements';
 
 interface AchievementModalProps {
-  achievement: Achievement;
+  achievement: Achievement | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export function AchievementModal({ achievement, isOpen, onClose }: AchievementModalProps) {
+  if (!achievement) return null;
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({

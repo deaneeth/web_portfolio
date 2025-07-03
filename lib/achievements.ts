@@ -147,34 +147,6 @@ export const achievements: Achievement[] = [
     featured: false,
     color: '#8b5cf6',
     glowColor: 'rgba(139, 92, 246, 0.4)'
-  },
-  {
-    id: '10',
-    title: 'Web Development Bootcamp',
-    issuer: 'FreeCodeCamp',
-    issuerLogo: 'https://images.pexels.com/photos/1181673/pexels-photo-1181673.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop',
-    description: 'Completed comprehensive full-stack web development curriculum.',
-    dateAwarded: '2023-06-20',
-    category: 'certificate',
-    badgeImage: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-    skills: ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js'],
-    featured: false,
-    color: '#10b981',
-    glowColor: 'rgba(16, 185, 129, 0.4)'
-  },
-  {
-    id: '11',
-    title: 'Data Science Fundamentals',
-    issuer: 'IBM',
-    issuerLogo: 'https://images.pexels.com/photos/1249158/pexels-photo-1249158.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop',
-    description: 'Foundation course in data science methodologies and tools.',
-    dateAwarded: '2023-09-15',
-    category: 'certificate',
-    badgeImage: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-    skills: ['Data Science', 'Python', 'Statistics', 'Visualization'],
-    featured: false,
-    color: '#6366f1',
-    glowColor: 'rgba(99, 102, 241, 0.4)'
   }
 ];
 

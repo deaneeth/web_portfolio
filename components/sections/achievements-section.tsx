@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
-import { Trophy, Filter, Award, Medal, BookOpen, GraduationCap, DollarSign, Grid, Map, Calendar, User } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { Trophy, Filter, Award, Medal, BookOpen, GraduationCap, DollarSign, Grid, Map } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AchievementCard } from '@/components/achievements/achievement-card';
 import { AchievementModal } from '@/components/achievements/achievement-modal';
@@ -43,17 +43,12 @@ export function AchievementsSection() {
   const [viewMode, setViewMode] = useState<ViewMode>('roadmap');
   const [hoveredAchievement, setHoveredAchievement] = useState<string | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
-  const [activeYear, setActiveYear] = useState<number | null>(null);
 
   const roadmapRef = useRef<HTMLDivElement>(null);
-  const roadmapContainerRef = useRef<HTMLDivElement>(null);
-  
   const { scrollYProgress } = useScroll({
     target: roadmapRef,
-    offset: ["start center", "end center"]
+    offset: ["start end", "end start"]
   });
-
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
   const allAchievements = getAllAchievements();
   const featuredAchievements = getFeaturedAchievements();
@@ -68,14 +63,8 @@ export function AchievementsSection() {
 
   const filteredAchievements = useMemo(() => {
     const achievements = viewMode === 'roadmap' ? chronologicalAchievements : allAchievements;
-    return selectedCategory === 'all' ? achievements : achievements.filter(a => a.category === selectedCategory);
+    return getAchievementsByCategory(selectedCategory);
   }, [selectedCategory, viewMode, chronologicalAchievements, allAchievements]);
-
-  // Get unique years for sidebar navigation
-  const years = useMemo(() => {
-    const yearSet = new Set(filteredAchievements.map(a => new Date(a.dateAwarded).getFullYear()));
-    return Array.from(yearSet).sort((a, b) => a - b);
-  }, [filteredAchievements]);
 
   const handleAchievementClick = (achievement: Achievement) => {
     setSelectedAchievement(achievement);
@@ -90,7 +79,6 @@ export function AchievementsSection() {
   };
 
   const handleMouseEnter = (achievement: Achievement, event: React.MouseEvent) => {
-    if (achievement.featured) return; // Don't show tooltip for featured achievements
     setHoveredAchievement(achievement.id);
     const rect = event.currentTarget.getBoundingClientRect();
     setTooltipPosition({
@@ -103,58 +91,27 @@ export function AchievementsSection() {
     setHoveredAchievement(null);
   };
 
-  const scrollToYear = (year: number) => {
-    const yearAchievements = filteredAchievements.filter(a => 
-      new Date(a.dateAwarded).getFullYear() === year
-    );
-    if (yearAchievements.length === 0) return;
-
-    const firstAchievementIndex = filteredAchievements.findIndex(a => 
-      new Date(a.dateAwarded).getFullYear() === year
-    );
-    
-    if (roadmapContainerRef.current) {
-      const targetY = firstAchievementIndex * 120; // Reduced spacing
-      roadmapContainerRef.current.scrollTo({
-        top: targetY,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  // Generate SVG path for winding road with reduced spacing
+  // Generate SVG path for winding road
   const generateRoadPath = (achievements: Achievement[]) => {
     if (achievements.length === 0) return '';
     
-    const spacing = 120; // Reduced from 200
-    const height = achievements.length * spacing;
+    const height = achievements.length * 200;
     const width = 400;
     const centerX = width / 2;
     
     let path = `M ${centerX} 0`;
     
     achievements.forEach((_, index) => {
-      const y = (index + 1) * spacing;
-      const amplitude = 60; // Reduced amplitude
-      const frequency = 0.03;
+      const y = (index + 1) * 200;
+      const amplitude = 80;
+      const frequency = 0.02;
       const offsetX = Math.sin(y * frequency) * amplitude;
       
-      if (index === 0) {
-        path += ` L ${centerX + offsetX * 0.5} ${y}`;
-      } else {
-        path += ` Q ${centerX + offsetX} ${y - spacing/2} ${centerX + offsetX * 0.5} ${y}`;
-      }
+      path += ` Q ${centerX + offsetX} ${y - 100} ${centerX + offsetX * 0.5} ${y}`;
     });
     
     return path;
   };
-
-  // Parallax effect for road
-  const roadY = useTransform(smoothProgress, [0, 1], [0, -50]);
-  const roadRotate = useTransform(smoothProgress, [0, 1], [0, 2]);
-
-  // Avatar position along the road
-  const avatarProgress = useTransform(smoothProgress, [0, 1], [0, filteredAchievements.length - 1]);
 
   // Handle ESC key
   useEffect(() => {
@@ -167,46 +124,9 @@ export function AchievementsSection() {
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
-  // Update active year based on scroll position
-  useEffect(() => {
-    const unsubscribe = smoothProgress.onChange((latest) => {
-      const currentIndex = Math.floor(latest * filteredAchievements.length);
-      if (currentIndex >= 0 && currentIndex < filteredAchievements.length) {
-        const currentYear = new Date(filteredAchievements[currentIndex].dateAwarded).getFullYear();
-        setActiveYear(currentYear);
-      }
-    });
-
-    return unsubscribe;
-  }, [smoothProgress, filteredAchievements]);
-
   return (
     <section id="achievements" className="py-24 bg-black relative overflow-hidden">
-      {/* Animated background particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-gradient-to-r from-teal-400 to-purple-400 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.3, 1, 0.3],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -224,11 +144,11 @@ export function AchievementsSection() {
               <Trophy className="h-8 w-8 text-white" />
             </motion.div>
             <h2 className="text-4xl sm:text-5xl font-bold text-white">
-              Achievement <span className="projects-gradient-text">Journey</span>
+              Achievement <span className="projects-gradient-text">Roadmap</span>
             </h2>
           </div>
           <p className="text-xl text-gray-400 max-w-4xl mx-auto leading-relaxed mb-8">
-            Follow my path through milestones, certifications, and recognitions
+            Follow my journey through milestones, certifications, and recognitions
           </p>
 
           {/* Stats Row */}
@@ -283,7 +203,7 @@ export function AchievementsSection() {
                 }`}
               >
                 <Map className="h-4 w-4" />
-                <span>Journey</span>
+                <span>Roadmap</span>
               </button>
               <button
                 onClick={() => setViewMode('grid')}
@@ -338,333 +258,172 @@ export function AchievementsSection() {
         {/* Main Content */}
         <div className="max-w-7xl mx-auto">
           {viewMode === 'roadmap' ? (
-            <div className="flex gap-8">
-              {/* Year Navigation Sidebar */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="hidden lg:block sticky top-24 h-fit"
-              >
-                <div className="bg-gray-900/50 border border-gray-800/50 rounded-2xl p-4 backdrop-blur-sm">
-                  <h3 className="text-white font-semibold mb-4 text-sm">Jump to Year</h3>
-                  <div className="space-y-2">
-                    {years.map((year) => (
-                      <motion.button
-                        key={year}
-                        onClick={() => scrollToYear(year)}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-300 ${
-                          activeYear === year
-                            ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                            : 'text-gray-400 hover:text-white hover:bg-white/10'
-                        }`}
-                      >
-                        <div className="flex items-center space-x-2">
-                          <Calendar className="h-4 w-4" />
-                          <span className="text-sm font-medium">{year}</span>
-                        </div>
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Roadmap View */}
-              <motion.div
-                ref={roadmapRef}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="flex-1 relative"
-              >
-                <div 
-                  ref={roadmapContainerRef}
-                  className="relative overflow-x-auto lg:overflow-x-visible"
-                  style={{ minHeight: `${filteredAchievements.length * 120 + 200}px` }}
+            /* Roadmap View */
+            <motion.div
+              ref={roadmapRef}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              {/* Road SVG */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-full max-w-2xl">
+                <svg
+                  width="100%"
+                  height={filteredAchievements.length * 200 + 100}
+                  viewBox={`0 0 400 ${filteredAchievements.length * 200 + 100}`}
+                  className="overflow-visible"
                 >
-                  {/* Road SVG with parallax */}
-                  <motion.div 
-                    className="absolute left-1/2 transform -translate-x-1/2 w-full max-w-2xl"
-                    style={{ y: roadY, rotateZ: roadRotate }}
-                  >
-                    <svg
-                      width="100%"
-                      height={filteredAchievements.length * 120 + 200}
-                      viewBox={`0 0 400 ${filteredAchievements.length * 120 + 200}`}
-                      className="overflow-visible"
-                    >
-                      <defs>
-                        <linearGradient id="roadGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.8" />
-                          <stop offset="25%" stopColor="#f97316" stopOpacity="0.8" />
-                          <stop offset="50%" stopColor="#a855f7" stopOpacity="0.8" />
-                          <stop offset="75%" stopColor="#3b82f6" stopOpacity="0.8" />
-                          <stop offset="100%" stopColor="#22c55e" stopOpacity="0.8" />
-                        </linearGradient>
-                        <filter id="roadGlow">
-                          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                          <feMerge> 
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                          </feMerge>
-                        </filter>
-                      </defs>
-                      
-                      <motion.path
-                        d={generateRoadPath(filteredAchievements)}
-                        stroke="url(#roadGradient)"
-                        strokeWidth="8"
-                        fill="none"
-                        filter="url(#roadGlow)"
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 2, ease: "easeInOut" }}
-                      />
+                  <defs>
+                    <linearGradient id="roadGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.8" />
+                      <stop offset="25%" stopColor="#f97316" stopOpacity="0.8" />
+                      <stop offset="50%" stopColor="#a855f7" stopOpacity="0.8" />
+                      <stop offset="75%" stopColor="#3b82f6" stopOpacity="0.8" />
+                      <stop offset="100%" stopColor="#22c55e" stopOpacity="0.8" />
+                    </linearGradient>
+                    <filter id="roadGlow">
+                      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                      <feMerge> 
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  
+                  <motion.path
+                    d={generateRoadPath(filteredAchievements)}
+                    stroke="url(#roadGradient)"
+                    strokeWidth="6"
+                    fill="none"
+                    filter="url(#roadGlow)"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                  />
+                </svg>
+              </div>
 
-                      {/* Year markers on the road */}
-                      {years.map((year, yearIndex) => {
-                        const yearAchievements = filteredAchievements.filter(a => 
-                          new Date(a.dateAwarded).getFullYear() === year
-                        );
-                        if (yearAchievements.length === 0) return null;
-
-                        const firstIndex = filteredAchievements.findIndex(a => 
-                          new Date(a.dateAwarded).getFullYear() === year
-                        );
-                        const y = firstIndex * 120 + 60;
-                        const amplitude = 60;
-                        const frequency = 0.03;
-                        const offsetX = Math.sin(y * frequency) * amplitude;
-
-                        return (
-                          <motion.g
-                            key={year}
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: yearIndex * 0.2 + 1 }}
-                          >
-                            <circle
-                              cx={200 + offsetX * 0.5}
-                              cy={y}
-                              r="20"
-                              fill="rgba(0, 0, 0, 0.8)"
-                              stroke="url(#roadGradient)"
-                              strokeWidth="2"
-                            />
-                            <text
-                              x={200 + offsetX * 0.5}
-                              y={y + 5}
-                              textAnchor="middle"
-                              fill="white"
-                              fontSize="12"
-                              fontWeight="bold"
-                            >
-                              {year}
-                            </text>
-                          </motion.g>
-                        );
-                      })}
-                    </svg>
-                  </motion.div>
-
-                  {/* Traveling Avatar */}
-                  <motion.div
-                    className="absolute left-1/2 transform -translate-x-1/2 z-30 pointer-events-none"
-                    style={{
-                      y: useTransform(avatarProgress, [0, filteredAchievements.length - 1], [60, filteredAchievements.length * 120 + 60])
-                    }}
-                  >
+              {/* Achievement Milestones */}
+              <div className="relative z-10 space-y-32 pt-16">
+                {filteredAchievements.map((achievement, index) => {
+                  const y = index * 200;
+                  const amplitude = 80;
+                  const frequency = 0.02;
+                  const offsetX = Math.sin(y * frequency) * amplitude;
+                  const isLeft = offsetX < 0;
+                  
+                  return (
                     <motion.div
-                      className="w-12 h-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg"
-                      animate={{
-                        scale: [1, 1.1, 1],
-                        boxShadow: [
-                          '0 0 20px rgba(249, 115, 22, 0.5)',
-                          '0 0 30px rgba(249, 115, 22, 0.8)',
-                          '0 0 20px rgba(249, 115, 22, 0.5)'
-                        ]
+                      key={achievement.id}
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ 
+                        duration: 0.6, 
+                        delay: index * 0.1,
+                        type: "spring",
+                        stiffness: 100
                       }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut"
+                      viewport={{ once: true }}
+                      className={`flex items-center ${isLeft ? 'flex-row-reverse' : 'flex-row'} relative`}
+                      style={{ 
+                        paddingLeft: isLeft ? '0' : `${200 + offsetX}px`,
+                        paddingRight: isLeft ? `${200 - offsetX}px` : '0'
                       }}
                     >
-                      <User className="h-6 w-6 text-white" />
-                    </motion.div>
-                  </motion.div>
+                      {/* Achievement Content Card */}
+                      <motion.div
+                        whileHover={{ scale: 1.02, y: -4 }}
+                        className={`bg-gray-900/80 border border-gray-800/50 rounded-2xl p-6 backdrop-blur-sm max-w-md ${
+                          isLeft ? 'mr-8' : 'ml-8'
+                        }`}
+                        style={{
+                          boxShadow: `0 8px 32px ${achievement.glowColor}`,
+                        }}
+                      >
+                        <div className="flex items-start space-x-4">
+                          <img
+                            src={achievement.issuerLogo}
+                            alt={achievement.issuer}
+                            className="w-12 h-12 rounded-lg object-cover border border-gray-700"
+                          />
+                          <div className="flex-1">
+                            <h3 className="text-lg font-bold text-white mb-2">
+                              {achievement.title}
+                            </h3>
+                            <p className="text-gray-400 text-sm mb-3">
+                              {achievement.issuer}
+                            </p>
+                            <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                              {achievement.description}
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              {achievement.skills.slice(0, 3).map((skill) => (
+                                <span
+                                  key={skill}
+                                  className="px-2 py-1 bg-white/5 text-gray-300 rounded text-xs"
+                                >
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
 
-                  {/* Achievement Milestones */}
-                  <div className="relative z-20 space-y-8 pt-16">
-                    {filteredAchievements.map((achievement, index) => {
-                      const y = index * 120;
-                      const amplitude = 60;
-                      const frequency = 0.03;
-                      const offsetX = Math.sin(y * frequency) * amplitude;
-                      const isLeft = offsetX < 0;
-                      const isFeatured = achievement.featured;
-                      
-                      return (
-                        <motion.div
-                          key={achievement.id}
-                          initial={{ opacity: 0, scale: 0.5 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ 
-                            duration: 0.6, 
-                            delay: index * 0.05,
-                            type: "spring",
-                            stiffness: 100
-                          }}
-                          viewport={{ once: true, margin: "-100px" }}
-                          className={`flex items-center ${isLeft ? 'flex-row-reverse' : 'flex-row'} relative`}
+                      {/* Milestone Marker */}
+                      <motion.div
+                        className="relative z-20 cursor-pointer"
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => handleAchievementClick(achievement)}
+                        onMouseEnter={(e) => handleMouseEnter(achievement, e)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <div
+                          className={`w-16 h-16 rounded-full border-4 border-white/20 flex items-center justify-center relative overflow-hidden ${
+                            achievement.featured ? 'animate-pulse' : ''
+                          }`}
                           style={{ 
-                            paddingLeft: isLeft ? '0' : `${Math.max(220 + offsetX, 50)}px`,
-                            paddingRight: isLeft ? `${Math.max(220 - offsetX, 50)}px` : '0'
+                            backgroundColor: categoryColors[achievement.category],
+                            boxShadow: `0 0 20px ${achievement.glowColor}`,
                           }}
                         >
-                          {/* Achievement Content Card */}
-                          {isFeatured ? (
-                            /* Full Card for Featured Achievements */
+                          <img
+                            src={achievement.badgeImage}
+                            alt={achievement.title}
+                            className="w-10 h-10 object-cover rounded-lg"
+                          />
+                          
+                          {achievement.featured && (
                             <motion.div
-                              whileHover={{ scale: 1.02, y: -4 }}
-                              className={`bg-gray-900/80 border border-gray-800/50 rounded-2xl p-6 backdrop-blur-sm max-w-md cursor-pointer ${
-                                isLeft ? 'mr-8' : 'ml-8'
-                              }`}
-                              style={{
-                                boxShadow: `0 8px 32px ${achievement.glowColor}`,
+                              className="absolute inset-0 rounded-full border-2 border-orange-500"
+                              animate={{
+                                scale: [1, 1.2, 1],
+                                opacity: [0.5, 1, 0.5]
                               }}
-                              onClick={() => handleAchievementClick(achievement)}
-                            >
-                              <div className="flex items-start space-x-4">
-                                <img
-                                  src={achievement.issuerLogo}
-                                  alt={achievement.issuer}
-                                  className="w-12 h-12 rounded-lg object-cover border border-gray-700"
-                                />
-                                <div className="flex-1">
-                                  <div className="flex items-center space-x-2 mb-2">
-                                    <h3 className="text-lg font-bold text-white">
-                                      {achievement.title}
-                                    </h3>
-                                    <motion.div
-                                      className="px-2 py-1 bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-full text-xs font-semibold"
-                                      animate={{
-                                        boxShadow: [
-                                          '0 0 10px rgba(249, 115, 22, 0.5)',
-                                          '0 0 20px rgba(249, 115, 22, 0.8)',
-                                          '0 0 10px rgba(249, 115, 22, 0.5)'
-                                        ]
-                                      }}
-                                      transition={{
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        ease: 'easeInOut'
-                                      }}
-                                    >
-                                      Featured
-                                    </motion.div>
-                                  </div>
-                                  <p className="text-gray-400 text-sm mb-3">
-                                    {achievement.issuer}
-                                  </p>
-                                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
-                                    {achievement.description}
-                                  </p>
-                                  <div className="flex flex-wrap gap-2">
-                                    {achievement.skills.slice(0, 3).map((skill) => (
-                                      <span
-                                        key={skill}
-                                        className="px-2 py-1 bg-white/5 text-gray-300 rounded text-xs"
-                                      >
-                                        {skill}
-                                      </span>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            </motion.div>
-                          ) : (
-                            /* Mini Card for Non-Featured Achievements */
-                            <motion.div
-                              whileHover={{ scale: 1.05, y: -2 }}
-                              className={`bg-gray-900/60 border border-gray-800/30 rounded-xl p-3 backdrop-blur-sm max-w-xs cursor-pointer ${
-                                isLeft ? 'mr-6' : 'ml-6'
-                              }`}
-                              style={{
-                                boxShadow: `0 4px 16px ${achievement.glowColor}`,
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut"
                               }}
-                              onClick={() => handleAchievementClick(achievement)}
-                              onMouseEnter={(e) => handleMouseEnter(achievement, e)}
-                              onMouseLeave={handleMouseLeave}
-                            >
-                              <div className="flex items-center space-x-3">
-                                <img
-                                  src={achievement.issuerLogo}
-                                  alt={achievement.issuer}
-                                  className="w-8 h-8 rounded-lg object-cover border border-gray-700"
-                                />
-                                <div className="flex-1 min-w-0">
-                                  <h4 className="text-sm font-semibold text-white truncate">
-                                    {achievement.title}
-                                  </h4>
-                                  <p className="text-xs text-gray-400 truncate">
-                                    {achievement.issuer}
-                                  </p>
-                                  <p className="text-xs text-gray-500">
-                                    {new Date(achievement.dateAwarded).getFullYear()}
-                                  </p>
-                                </div>
-                              </div>
-                            </motion.div>
+                            />
                           )}
-
-                          {/* Milestone Marker */}
-                          <motion.div
-                            className="relative z-30 cursor-pointer"
-                            whileHover={{ scale: 1.2 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => handleAchievementClick(achievement)}
-                          >
-                            <div
-                              className={`${isFeatured ? 'w-20 h-20' : 'w-12 h-12'} rounded-full border-4 border-white/20 flex items-center justify-center relative overflow-hidden`}
-                              style={{ 
-                                backgroundColor: categoryColors[achievement.category],
-                                boxShadow: `0 0 ${isFeatured ? '30' : '20'}px ${achievement.glowColor}`,
-                              }}
-                            >
-                              <img
-                                src={achievement.badgeImage}
-                                alt={achievement.title}
-                                className={`${isFeatured ? 'w-12 h-12' : 'w-8 h-8'} object-cover rounded-lg`}
-                              />
-                              
-                              {isFeatured && (
-                                <motion.div
-                                  className="absolute inset-0 rounded-full border-2 border-orange-500"
-                                  animate={{
-                                    scale: [1, 1.2, 1],
-                                    opacity: [0.5, 1, 0.5]
-                                  }}
-                                  transition={{
-                                    duration: 2,
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                  }}
-                                />
-                              )}
-                            </div>
-                          </motion.div>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </motion.div>
-            </div>
+                        </div>
+                        
+                        {/* Date Label */}
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                          <span className="text-xs text-gray-400 bg-black/50 px-2 py-1 rounded">
+                            {new Date(achievement.dateAwarded).getFullYear()}
+                          </span>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
           ) : (
             /* Grid View */
             <motion.div
@@ -716,16 +475,14 @@ export function AchievementsSection() {
           )}
         </div>
 
-        {/* Achievement Modal - Only render when selectedAchievement exists */}
-        {selectedAchievement && (
-          <AchievementModal
-            achievement={selectedAchievement}
-            isOpen={isModalOpen}
-            onClose={handleCloseModal}
-          />
-        )}
+        {/* Achievement Modal */}
+        <AchievementModal
+          achievement={selectedAchievement}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
 
-        {/* Tooltip for Mini Cards */}
+        {/* Tooltip */}
         <AchievementTooltip
           achievement={hoveredAchievement ? allAchievements.find(a => a.id === hoveredAchievement) : null}
           position={tooltipPosition}

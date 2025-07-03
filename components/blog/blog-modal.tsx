@@ -32,7 +32,9 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
   const [bookmarked, setBookmarked] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
 
-  const relatedPosts = post ? getRelatedPosts(post.id, 3) : [];
+  if (!post) return null;
+
+  const relatedPosts = getRelatedPosts(post.id, 3);
 
   const handleLike = () => {
     setLiked(!liked);
@@ -46,7 +48,7 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
 
   const handleShare = (platform: string) => {
     const url = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent(post?.title || '');
+    const title = encodeURIComponent(post.title);
     
     const shareUrls = {
       twitter: `https://twitter.com/intent/tweet?text=${title}&url=${url}`,
@@ -62,11 +64,6 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
     }
     setShowShareMenu(false);
   };
-
-  // Don't render if post is null
-  if (!post) {
-    return null;
-  }
 
   return (
     <AnimatePresence>
