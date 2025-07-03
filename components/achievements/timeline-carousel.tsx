@@ -20,6 +20,7 @@ export function TimelineCarousel({ achievements, onAchievementClick }: TimelineC
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isClient, setIsClient] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
 
   const x = useMotionValue(0);
   const springX = useSpring(x, { damping: 30, stiffness: 300 });
@@ -36,9 +37,18 @@ export function TimelineCarousel({ achievements, onAchievementClick }: TimelineC
     return Math.abs(value) / maxScroll;
   });
 
-  // Set isClient to true after component mounts
+  // Set isClient to true and check mobile view after component mounts
   useEffect(() => {
     setIsClient(true);
+    
+    const checkMobileView = () => {
+      setIsMobileView(window.innerWidth <= 768);
+    };
+    
+    checkMobileView();
+    window.addEventListener('resize', checkMobileView);
+    
+    return () => window.removeEventListener('resize', checkMobileView);
   }, []);
 
   const updateScrollButtons = () => {
@@ -193,9 +203,9 @@ export function TimelineCarousel({ achievements, onAchievementClick }: TimelineC
                   onClick={() => onAchievementClick(achievement)}
                 />
 
-                {/* Achievement Card */}
+                {/* Achievement Card - Desktop/Tablet */}
                 <AnimatePresence>
-                  {(hoveredId === achievement.id || (isClient && window.innerWidth <= 768)) && (
+                  {(isClient && !isMobileView && hoveredId === achievement.id) && (
                     <motion.div
                       initial={{ opacity: 0, y: 20, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -313,9 +323,9 @@ export function TimelineCarousel({ achievements, onAchievementClick }: TimelineC
                   )}
                 </AnimatePresence>
 
-                {/* Mobile Card (Always Visible) */}
-                {isClient && (
-                  <div className="md:hidden absolute top-12 left-1/2 -translate-x-1/2 w-72">
+                {/* Mobile Card */}
+                {isClient && isMobileView && (
+                  <div className="absolute top-12 left-1/2 -translate-x-1/2 w-72">
                     <motion.div
                       className="bg-gray-900/95 border border-gray-800/50 rounded-2xl p-4 backdrop-blur-md shadow-2xl cursor-pointer"
                       style={{
