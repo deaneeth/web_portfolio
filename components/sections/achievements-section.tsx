@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Filter, Award, Medal, BookOpen, GraduationCap, DollarSign, Grid, Timeline } from 'lucide-react';
+import { Trophy, Filter, Award, Medal, BookOpen, GraduationCap, DollarSign, Grid, Baseline as Timeline } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AchievementCard } from '@/components/achievements/achievement-card';
 import { AchievementModal } from '@/components/achievements/achievement-modal';
