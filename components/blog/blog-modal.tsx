@@ -21,7 +21,7 @@ import { BlogPost, formatDate, formatReadingTime, getRelatedPosts } from '@/lib/
 import { BlogCard } from './blog-card';
 
 interface BlogModalProps {
-  post: BlogPost | null;
+  post: BlogPost;
   isOpen: boolean;
   onClose: () => void;
   onPostSelect: (post: BlogPost) => void;
@@ -31,8 +31,6 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
-
-  if (!post) return null;
 
   const relatedPosts = getRelatedPosts(post.id, 3);
 

@@ -393,13 +393,15 @@ export default function BlogPage() {
 
       <Footer />
 
-      {/* Blog Modal */}
-      <BlogModal
-        post={selectedPost}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onPostSelect={handlePostSelect}
-      />
+      {/* Blog Modal - Only render when selectedPost exists */}
+      {selectedPost && (
+        <BlogModal
+          post={selectedPost}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onPostSelect={handlePostSelect}
+        />
+      )}
     </div>
   );
 }

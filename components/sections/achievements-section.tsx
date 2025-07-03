@@ -716,12 +716,14 @@ export function AchievementsSection() {
           )}
         </div>
 
-        {/* Achievement Modal */}
-        <AchievementModal
-          achievement={selectedAchievement}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-        />
+        {/* Achievement Modal - Only render when selectedAchievement exists */}
+        {selectedAchievement && (
+          <AchievementModal
+            achievement={selectedAchievement}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+          />
+        )}
 
         {/* Tooltip for Mini Cards */}
         <AchievementTooltip
