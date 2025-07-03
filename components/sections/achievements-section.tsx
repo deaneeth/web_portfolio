@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Filter, Award, Medal, BookOpen, GraduationCap, DollarSign, Grid, Baseline } from 'lucide-react';
+import { Trophy, Filter, Award, Medal, BookOpen, GraduationCap, DollarSign, Grid, Baseline as Timeline } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AchievementCard } from '@/components/achievements/achievement-card';
 import { AchievementModal } from '@/components/achievements/achievement-modal';
@@ -148,7 +148,7 @@ export function AchievementsSection() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Baseline className="h-4 w-4" />
+                <Timeline className="h-4 w-4" />
                 <span>Timeline View</span>
               </motion.button>
               <motion.button
