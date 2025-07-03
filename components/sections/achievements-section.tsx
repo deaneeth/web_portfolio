@@ -2,10 +2,11 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Filter, Award, Medal, BookOpen, GraduationCap, DollarSign } from 'lucide-react';
+import { Trophy, Filter, Award, Medal, BookOpen, GraduationCap, DollarSign, Grid, Timeline } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AchievementCard } from '@/components/achievements/achievement-card';
 import { AchievementModal } from '@/components/achievements/achievement-modal';
+import { TimelineCarousel } from '@/components/achievements/timeline-carousel';
 import { 
   getAllAchievements, 
   getFeaturedAchievements, 
@@ -16,6 +17,7 @@ import {
 } from '@/lib/achievements';
 
 type CategoryFilter = 'all' | 'certificate' | 'award' | 'competition' | 'publication' | 'scholarship';
+type ViewMode = 'timeline' | 'grid';
 
 const categoryIcons = {
   all: Award,
@@ -30,6 +32,7 @@ export function AchievementsSection() {
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('timeline');
 
   const allAchievements = getAllAchievements();
   const featuredAchievements = getFeaturedAchievements();
@@ -124,48 +127,48 @@ export function AchievementsSection() {
           </motion.div>
         </motion.div>
 
-        {/* Featured Achievements Carousel */}
-        {featuredAchievements.length > 0 && (
-          <div className="max-w-7xl mx-auto mb-24">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="mb-12"
-            >
-              <div className="flex items-center justify-between mb-8">
-                <h3 className="text-2xl font-bold text-white">Featured Achievements</h3>
-                <div className="flex items-center space-x-2 text-sm text-gray-400">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                  <span>Top accomplishments</span>
-                </div>
-              </div>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredAchievements.map((achievement, index) => (
-                <AchievementCard
-                  key={achievement.id}
-                  achievement={achievement}
-                  featured={true}
-                  onClick={() => handleAchievementClick(achievement)}
-                />
-              ))}
+        {/* View Mode Toggle & Category Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="max-w-7xl mx-auto mb-16"
+        >
+          {/* View Mode Toggle */}
+          <div className="flex justify-center mb-8">
+            <div className="flex bg-gray-900/50 border border-gray-800/50 rounded-2xl p-2 backdrop-blur-sm">
+              <motion.button
+                onClick={() => setViewMode('timeline')}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                  viewMode === 'timeline'
+                    ? 'bg-gradient-to-r from-teal-500 to-purple-500 text-white shadow-lg'
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Timeline className="h-4 w-4" />
+                <span>Timeline View</span>
+              </motion.button>
+              <motion.button
+                onClick={() => setViewMode('grid')}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                  viewMode === 'grid'
+                    ? 'bg-gradient-to-r from-teal-500 to-purple-500 text-white shadow-lg'
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Grid className="h-4 w-4" />
+                <span>Grid View</span>
+              </motion.button>
             </div>
           </div>
-        )}
 
-        {/* All Achievements Section */}
-        <div className="max-w-7xl mx-auto">
           {/* Category Filters */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="flex flex-wrap justify-center gap-3 mb-16"
-          >
+          <div className="flex flex-wrap justify-center gap-3">
             {Object.entries(categoryLabels).map(([key, label], index) => {
               const IconComponent = categoryIcons[key as CategoryFilter];
               return (
@@ -191,55 +194,125 @@ export function AchievementsSection() {
                 </motion.button>
               );
             })}
-          </motion.div>
+          </div>
+        </motion.div>
 
-          {/* Achievements Grid */}
-          <motion.div
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            <AnimatePresence mode="wait">
-              {filteredAchievements.map((achievement, index) => (
-                <motion.div
-                  key={achievement.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                >
-                  <AchievementCard
-                    achievement={achievement}
-                    onClick={() => handleAchievementClick(achievement)}
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-
-          {/* No Results State */}
-          {filteredAchievements.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center py-16"
-            >
-              <div className="p-4 bg-gray-800/50 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Filter className="h-8 w-8 text-gray-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">No achievements found</h3>
-              <p className="text-gray-400 mb-6">
-                Try selecting a different category
-              </p>
-              <Button
-                variant="outline"
-                onClick={() => setSelectedCategory('all')}
-                className="border-gray-600 text-gray-300 hover:bg-white/10"
+        {/* Main Content Area */}
+        <div className="max-w-7xl mx-auto">
+          <AnimatePresence mode="wait">
+            {viewMode === 'timeline' ? (
+              <motion.div
+                key="timeline"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
               >
-                Show All Achievements
-              </Button>
-            </motion.div>
-          )}
+                <TimelineCarousel
+                  achievements={filteredAchievements}
+                  onAchievementClick={handleAchievementClick}
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="grid"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Featured Achievements */}
+                {selectedCategory === 'all' && featuredAchievements.length > 0 && (
+                  <div className="mb-24">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.2 }}
+                      viewport={{ once: true }}
+                      className="mb-12"
+                    >
+                      <div className="flex items-center justify-between mb-8">
+                        <h3 className="text-2xl font-bold text-white">Featured Achievements</h3>
+                        <div className="flex items-center space-x-2 text-sm text-gray-400">
+                          <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                          <span>Top accomplishments</span>
+                        </div>
+                      </div>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                      {featuredAchievements.map((achievement, index) => (
+                        <AchievementCard
+                          key={achievement.id}
+                          achievement={achievement}
+                          featured={true}
+                          onClick={() => handleAchievementClick(achievement)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* All Achievements Grid */}
+                <div>
+                  <div className="flex items-center justify-between mb-8">
+                    <h3 className="text-2xl font-bold text-white">
+                      {selectedCategory === 'all' ? 'All Achievements' : `${categoryLabels[selectedCategory]}`}
+                      <span className="text-gray-400 text-lg ml-2">
+                        ({filteredAchievements.length})
+                      </span>
+                    </h3>
+                  </div>
+
+                  {filteredAchievements.length > 0 ? (
+                    <motion.div
+                      layout
+                      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    >
+                      <AnimatePresence mode="wait">
+                        {filteredAchievements.map((achievement, index) => (
+                          <motion.div
+                            key={achievement.id}
+                            layout
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            transition={{ duration: 0.4, delay: index * 0.05 }}
+                          >
+                            <AchievementCard
+                              achievement={achievement}
+                              onClick={() => handleAchievementClick(achievement)}
+                            />
+                          </motion.div>
+                        ))}
+                      </AnimatePresence>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-center py-16"
+                    >
+                      <div className="p-4 bg-gray-800/50 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <Filter className="h-8 w-8 text-gray-400" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-white mb-2">No achievements found</h3>
+                      <p className="text-gray-400 mb-6">
+                        Try selecting a different category
+                      </p>
+                      <Button
+                        variant="outline"
+                        onClick={() => setSelectedCategory('all')}
+                        className="border-gray-600 text-gray-300 hover:bg-white/10"
+                      >
+                        Show All Achievements
+                      </Button>
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Achievement Modal */}
