@@ -21,7 +21,7 @@ import { BlogPost, formatDate, formatReadingTime, getRelatedPosts } from '@/lib/
 import { BlogCard } from './blog-card';
 
 interface BlogModalProps {
-  post: BlogPost;
+  post: BlogPost | null;
   isOpen: boolean;
   onClose: () => void;
   onPostSelect: (post: BlogPost) => void;
@@ -32,7 +32,7 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
   const [bookmarked, setBookmarked] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
 
-  const relatedPosts = getRelatedPosts(post.id, 3);
+  const relatedPosts = post ? getRelatedPosts(post.id, 3) : [];
 
   const handleLike = () => {
     setLiked(!liked);
@@ -46,7 +46,7 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
 
   const handleShare = (platform: string) => {
     const url = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent(post.title);
+    const title = encodeURIComponent(post?.title || '');
     
     const shareUrls = {
       twitter: `https://twitter.com/intent/tweet?text=${title}&url=${url}`,
@@ -62,6 +62,11 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
     }
     setShowShareMenu(false);
   };
+
+  // Don't render if post is null
+  if (!post) {
+    return null;
+  }
 
   return (
     <AnimatePresence>
