@@ -372,7 +372,7 @@ export function Footer() {
       {/* Large Background Text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={isInView ? { opacity: 0.03, scale: 1 } : { opacity: 0, scale: 0.8 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="text-[20vw] md:text-[15vw] lg:text-[12vw] font-black text-white leading-none tracking-tighter"
