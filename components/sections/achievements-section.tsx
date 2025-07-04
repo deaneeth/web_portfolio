@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Filter, Award, Medal, BookOpen, GraduationCap, DollarSign } from 'lucide-react';
+import { Trophy, Filter, Award, Medal, BookOpen, GraduationCap, DollarSign, Grid, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AchievementCard } from '@/components/achievements/achievement-card';
 import { AchievementModal } from '@/components/achievements/achievement-modal';
@@ -16,6 +16,7 @@ import {
 } from '@/lib/achievements';
 
 type CategoryFilter = 'all' | 'certificate' | 'award' | 'competition' | 'publication' | 'scholarship';
+type ViewMode = 'compact' | 'detailed';
 
 const categoryIcons = {
   all: Award,
@@ -30,6 +31,7 @@ export function AchievementsSection() {
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('compact');
 
   const allAchievements = getAllAchievements();
   const featuredAchievements = getFeaturedAchievements();
@@ -61,6 +63,14 @@ export function AchievementsSection() {
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
+
+  // Grid classes based on view mode
+  const getGridClasses = () => {
+    if (viewMode === 'compact') {
+      return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4';
+    }
+    return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8';
+  };
 
   return (
     <section id="achievements" className="py-24 bg-black">
@@ -124,7 +134,7 @@ export function AchievementsSection() {
           </motion.div>
         </motion.div>
 
-        {/* Featured Achievements Carousel */}
+        {/* Featured Achievements */}
         {featuredAchievements.length > 0 && (
           <div className="max-w-7xl mx-auto mb-24">
             <motion.div
@@ -143,12 +153,13 @@ export function AchievementsSection() {
               </div>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className={`grid ${getGridClasses()}`}>
               {featuredAchievements.map((achievement, index) => (
                 <AchievementCard
                   key={achievement.id}
                   achievement={achievement}
                   featured={true}
+                  viewMode={viewMode}
                   onClick={() => handleAchievementClick(achievement)}
                 />
               ))}
@@ -158,45 +169,80 @@ export function AchievementsSection() {
 
         {/* All Achievements Section */}
         <div className="max-w-7xl mx-auto">
-          {/* Category Filters */}
+          {/* Controls Row: Category Filters + View Toggle */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
-            className="flex flex-wrap justify-center gap-3 mb-16"
+            className="mb-16"
           >
-            {Object.entries(categoryLabels).map(([key, label], index) => {
-              const IconComponent = categoryIcons[key as CategoryFilter];
-              return (
+            {/* Category Filters */}
+            <div className="flex flex-wrap justify-center gap-3 mb-6">
+              {Object.entries(categoryLabels).map(([key, label], index) => {
+                const IconComponent = categoryIcons[key as CategoryFilter];
+                return (
+                  <motion.button
+                    key={key}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setSelectedCategory(key as CategoryFilter)}
+                    className={`px-6 py-3 rounded-full font-medium transition-all duration-300 backdrop-blur-sm border ${
+                      selectedCategory === key
+                        ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white border-transparent shadow-lg'
+                        : 'bg-white/5 text-gray-300 border-white/10 hover:bg-white/10 hover:border-white/20'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <IconComponent className="h-4 w-4" />
+                      <span>{label}</span>
+                    </div>
+                  </motion.button>
+                );
+              })}
+            </div>
+
+            {/* View Mode Toggle */}
+            <div className="flex justify-center">
+              <div className="flex bg-white/5 border border-white/10 rounded-lg p-1">
                 <motion.button
-                  key={key}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  viewport={{ once: true }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedCategory(key as CategoryFilter)}
-                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 backdrop-blur-sm border ${
-                    selectedCategory === key
-                      ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white border-transparent shadow-lg'
-                      : 'bg-white/5 text-gray-300 border-white/10 hover:bg-white/10 hover:border-white/20'
+                  onClick={() => setViewMode('compact')}
+                  className={`px-4 py-2 rounded transition-all duration-200 flex items-center space-x-2 ${
+                    viewMode === 'compact' 
+                      ? 'bg-teal-500 text-white shadow-lg' 
+                      : 'text-gray-400 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <div className="flex items-center space-x-2">
-                    <IconComponent className="h-4 w-4" />
-                    <span>{label}</span>
-                  </div>
+                  <Grid className="h-4 w-4" />
+                  <span className="text-sm font-medium">Compact</span>
                 </motion.button>
-              );
-            })}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setViewMode('detailed')}
+                  className={`px-4 py-2 rounded transition-all duration-200 flex items-center space-x-2 ${
+                    viewMode === 'detailed' 
+                      ? 'bg-teal-500 text-white shadow-lg' 
+                      : 'text-gray-400 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  <List className="h-4 w-4" />
+                  <span className="text-sm font-medium">Detailed</span>
+                </motion.button>
+              </div>
+            </div>
           </motion.div>
 
           {/* Achievements Grid */}
           <motion.div
             layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className={`grid ${getGridClasses()}`}
           >
             <AnimatePresence mode="wait">
               {filteredAchievements.map((achievement, index) => (
@@ -206,10 +252,11 @@ export function AchievementsSection() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  transition={{ duration: 0.4, delay: index * 0.02 }}
                 >
                   <AchievementCard
                     achievement={achievement}
+                    viewMode={viewMode}
                     onClick={() => handleAchievementClick(achievement)}
                   />
                 </motion.div>
