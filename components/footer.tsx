@@ -84,6 +84,55 @@ export function Footer() {
     setMounted(true);
   }, []);
 
+  // Function to play subtle notification sound
+  const playNotificationSound = () => {
+    try {
+      // Create a subtle, pleasant notification sound using Web Audio API
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Create oscillators for a pleasant chord
+      const oscillator1 = audioContext.createOscillator();
+      const oscillator2 = audioContext.createOscillator();
+      const oscillator3 = audioContext.createOscillator();
+      
+      const gainNode = audioContext.createGain();
+      
+      // Set frequencies for a pleasant C major chord
+      oscillator1.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+      oscillator2.frequency.setValueAtTime(659.25, audioContext.currentTime); // E5
+      oscillator3.frequency.setValueAtTime(783.99, audioContext.currentTime); // G5
+      
+      // Use sine waves for a soft sound
+      oscillator1.type = 'sine';
+      oscillator2.type = 'sine';
+      oscillator3.type = 'sine';
+      
+      // Connect oscillators to gain node
+      oscillator1.connect(gainNode);
+      oscillator2.connect(gainNode);
+      oscillator3.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Set volume (very subtle)
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.1);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
+      
+      // Start and stop the sound
+      oscillator1.start(audioContext.currentTime);
+      oscillator2.start(audioContext.currentTime);
+      oscillator3.start(audioContext.currentTime);
+      
+      oscillator1.stop(audioContext.currentTime + 0.8);
+      oscillator2.stop(audioContext.currentTime + 0.8);
+      oscillator3.stop(audioContext.currentTime + 0.8);
+      
+    } catch (error) {
+      // Fallback: try to use a simple beep if Web Audio API fails
+      console.log('🎵 Easter egg sound would play here!');
+    }
+  };
+
   const handleQuickContact = (e: React.FormEvent) => {
     e.preventDefault();
     if (email.trim()) {
@@ -121,7 +170,7 @@ export function Footer() {
     
     if (newCount === 5) {
       setShowEasterEgg(true);
-      toast.success('🎉 You found the easter egg! ADHD-powered curiosity strikes again!');
+      playNotificationSound(); // Play sound when easter egg appears
       setTimeout(() => setShowEasterEgg(false), 5000);
     }
   };
@@ -425,17 +474,78 @@ export function Footer() {
           </div>
         </motion.div>
 
-        {/* Easter Egg */}
+        {/* Easter Egg - Custom Motion Popup (Black Theme) */}
         <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={showEasterEgg ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-          transition={{ duration: 0.5, type: "spring" }}
-          className="fixed bottom-4 right-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white p-4 rounded-xl shadow-2xl z-50"
+          initial={{ opacity: 0, scale: 0, y: 50 }}
+          animate={showEasterEgg ? { 
+            opacity: 1, 
+            scale: 1, 
+            y: 0,
+            transition: {
+              type: "spring",
+              damping: 15,
+              stiffness: 300
+            }
+          } : { 
+            opacity: 0, 
+            scale: 0, 
+            y: 50 
+          }}
+          className="fixed bottom-4 right-4 bg-gray-900/95 border border-gray-800/50 backdrop-blur-md text-white p-4 rounded-xl shadow-2xl z-50 max-w-sm"
+          style={{
+            boxShadow: '0 20px 60px rgba(20, 184, 166, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+          }}
         >
-          <div className="flex items-center space-x-2">
-            <Zap className="h-5 w-5" />
-            <span className="font-medium">ADHD-powered curiosity detected! 🧠⚡</span>
-          </div>
+          <motion.div 
+            className="flex items-center space-x-3"
+            initial={{ x: -20, opacity: 0 }}
+            animate={showEasterEgg ? { x: 0, opacity: 1 } : { x: -20, opacity: 0 }}
+            transition={{ delay: 0.2, duration: 0.4 }}
+          >
+            <motion.div
+              animate={showEasterEgg ? { 
+                rotate: [0, 10, -10, 0],
+                scale: [1, 1.1, 1]
+              } : {}}
+              transition={{ 
+                duration: 0.6,
+                repeat: 2,
+                delay: 0.3
+              }}
+            >
+              🎉
+            </motion.div>
+            <div>
+              <div className="font-semibold text-sm text-white">You found the easter egg!</div>
+              <div className="text-xs text-gray-400">ADHD-powered curiosity strikes again!</div>
+            </div>
+            <motion.div
+              animate={showEasterEgg ? { 
+                scale: [1, 1.2, 1],
+                rotate: [0, 180, 360]
+              } : {}}
+              transition={{ 
+                duration: 1,
+                repeat: 1,
+                delay: 0.5
+              }}
+            >
+              <Zap className="h-5 w-5 text-teal-400" />
+            </motion.div>
+          </motion.div>
+          
+          {/* Subtle animated border */}
+          <motion.div
+            className="absolute inset-0 rounded-xl border border-teal-500/30"
+            animate={showEasterEgg ? {
+              opacity: [0.3, 0.8, 0.3],
+            } : { opacity: 0 }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
         </motion.div>
       </motion.div>
     </footer>
