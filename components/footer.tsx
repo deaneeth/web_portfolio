@@ -428,7 +428,7 @@ export function Footer() {
                   transition={{ duration: 0.3 }}
                   onClick={() => handleNavClick('#contact')}
                 >
-                  <Zap className="h-4 w-4" />
+                  <Zap className="h-10 w-4" />
                   <span className="font-medium">Get in touch</span>
                   <motion.div
                     className="w-0 h-0.5 bg-teal-400 group-hover:w-full transition-all duration-300"
