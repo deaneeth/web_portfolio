@@ -37,7 +37,7 @@ export function AchievementCard({
           scale: 1.02,
           transition: { duration: 0.2 }
         }}
-        className="group relative bg-white/[0.03] border border-white/[0.1] rounded-xl overflow-hidden backdrop-blur-sm cursor-pointer transition-all duration-300 h-32 hover:shadow-lg"
+        className="group relative bg-white/[0.05] border border-white/[0.12] rounded-xl overflow-hidden backdrop-blur-sm cursor-pointer transition-all duration-300 h-36 hover:shadow-lg"
         style={{ boxShadow: 'none' }}
         onMouseEnter={(e) => {
           e.currentTarget.style.boxShadow = `0 8px 32px ${achievement.glowColor}`;
@@ -45,14 +45,22 @@ export function AchievementCard({
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.boxShadow = 'none';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
         }}
         onClick={onClick}
-        title={achievement.title} // Tooltip for full title
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClick();
+          }
+        }}
+        aria-label={`View details for ${achievement.title}`}
       >
         {/* Featured indicator */}
         {achievement.featured && (
-          <div className="absolute top-2 right-2 z-10">
+          <div className="absolute top-3 right-3 z-10">
             <div 
               className="w-2.5 h-2.5 rounded-full animate-pulse"
               style={{ backgroundColor: achievement.color }}
@@ -63,7 +71,7 @@ export function AchievementCard({
         <div className="p-4 h-full flex flex-col">
           {/* Header: Logo + Verification */}
           <div className="flex items-start justify-between mb-3">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3 min-w-0 flex-1">
               <img
                 src={achievement.issuerLogo}
                 alt={achievement.issuer}
@@ -71,7 +79,7 @@ export function AchievementCard({
                 loading="lazy"
               />
               <div className="min-w-0 flex-1">
-                <p className="text-gray-400 text-xs font-medium truncate">
+                <p className="text-gray-300 text-xs font-medium truncate">
                   {achievement.issuer}
                 </p>
                 <p className="text-gray-500 text-xs">
@@ -80,14 +88,14 @@ export function AchievementCard({
               </div>
             </div>
             
-            {/* Verification badge next to issuer */}
+            {/* Verification badge */}
             {achievement.verificationUrl && (
-              <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
+              <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0 ml-2" />
             )}
           </div>
 
           {/* Title - allow 2 lines with ellipsis */}
-          <h3 className="font-semibold text-white text-sm leading-tight mb-2 group-hover:text-gray-100 transition-colors line-clamp-2 flex-1">
+          <h3 className="font-semibold text-white text-sm leading-tight mb-3 group-hover:text-gray-100 transition-colors line-clamp-2 flex-1">
             {achievement.title}
           </h3>
 
@@ -97,25 +105,25 @@ export function AchievementCard({
           </p>
 
           {/* Tags + Category */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-1.5">
+          <div className="flex items-center justify-between mt-auto">
+            <div className="flex items-center space-x-1.5 min-w-0 flex-1">
               {achievement.skills.slice(0, 2).map((skill) => (
                 <span
                   key={skill}
-                  className="text-xs text-gray-300 bg-white/[0.05] px-2 py-1 rounded-md border border-white/[0.08] hover:bg-white/[0.08] transition-colors"
+                  className="text-xs text-gray-300 bg-white/[0.08] px-2 py-1 rounded-md border border-white/[0.1] hover:bg-white/[0.12] transition-colors truncate"
                 >
                   {skill}
                 </span>
               ))}
               {achievement.skills.length > 2 && (
-                <span className="text-xs text-gray-500 font-medium">
+                <span className="text-xs text-gray-500 font-medium flex-shrink-0">
                   +{achievement.skills.length - 2}
                 </span>
               )}
             </div>
             
             {/* Category icon */}
-            <div className="text-sm opacity-60 flex-shrink-0">
+            <div className="text-sm opacity-60 flex-shrink-0 ml-2">
               {categoryIcons[achievement.category]}
             </div>
           </div>
@@ -136,7 +144,7 @@ export function AchievementCard({
     );
   }
 
-  // Detailed view (original layout)
+  // Detailed view - optimized for 4-column layout
   return (
     <motion.article
       variants={cardVariants}
@@ -145,12 +153,10 @@ export function AchievementCard({
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
       whileHover={{ 
-        y: -8,
+        y: -6,
         transition: { duration: 0.3 }
       }}
-      className={`group relative bg-gray-900/80 border border-gray-800/50 rounded-2xl overflow-hidden backdrop-blur-sm cursor-pointer transition-all duration-300 hover:shadow-2xl ${
-        featured ? 'lg:col-span-1' : ''
-      }`}
+      className="group relative bg-gray-900/80 border border-gray-800/50 rounded-2xl overflow-hidden backdrop-blur-sm cursor-pointer transition-all duration-300 hover:shadow-2xl"
       style={{ boxShadow: 'none' }}
       onMouseEnter={(e) => {
         e.currentTarget.style.boxShadow = `0 20px 60px ${achievement.glowColor}`;
@@ -159,6 +165,15 @@ export function AchievementCard({
         e.currentTarget.style.boxShadow = 'none';
       }}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      aria-label={`View details for ${achievement.title}`}
     >
       {/* Featured Badge */}
       {achievement.featured && (
@@ -184,7 +199,7 @@ export function AchievementCard({
       )}
 
       {/* Achievement Badge/Image */}
-      <div className={`relative overflow-hidden ${featured ? 'h-48' : 'h-40'}`}>
+      <div className="relative overflow-hidden h-36">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
           <motion.div
             className="relative"
@@ -194,7 +209,7 @@ export function AchievementCard({
             <img
               src={achievement.badgeImage}
               alt={achievement.title}
-              className="w-24 h-24 object-cover rounded-xl border-2 border-white/20 shadow-lg"
+              className="w-20 h-20 object-cover rounded-xl border-2 border-white/20 shadow-lg"
               loading="lazy"
             />
             <div 
@@ -207,15 +222,15 @@ export function AchievementCard({
         </div>
         
         {/* Category Icon */}
-        <div className="absolute top-4 left-4">
-          <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center text-lg">
+        <div className="absolute top-3 left-3">
+          <div className="w-7 h-7 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center text-sm">
             {categoryIcons[achievement.category]}
           </div>
         </div>
 
         {/* Verification Badge */}
         {achievement.verificationUrl && (
-          <div className="absolute bottom-4 left-4">
+          <div className="absolute bottom-3 left-3">
             <motion.div
               className="flex items-center space-x-1 bg-green-500/20 text-green-400 px-2 py-1 rounded-lg text-xs backdrop-blur-sm"
               whileHover={{ scale: 1.05 }}
@@ -227,7 +242,7 @@ export function AchievementCard({
         )}
 
         {/* Hover Actions */}
-        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300">
           {achievement.verificationUrl && (
             <motion.a
               href={achievement.verificationUrl}
@@ -245,16 +260,16 @@ export function AchievementCard({
       </div>
 
       {/* Achievement Content */}
-      <div className="p-6">
+      <div className="p-5">
         {/* Issuer Info */}
         <div className="flex items-center space-x-3 mb-4">
           <img
             src={achievement.issuerLogo}
             alt={achievement.issuer}
-            className="w-8 h-8 rounded-lg object-cover border border-gray-700"
+            className="w-7 h-7 rounded-lg object-cover border border-gray-700"
           />
-          <div className="flex-1">
-            <p className="text-gray-400 text-sm font-medium">{achievement.issuer}</p>
+          <div className="flex-1 min-w-0">
+            <p className="text-gray-400 text-sm font-medium truncate">{achievement.issuer}</p>
             <div className="flex items-center space-x-2 text-xs text-gray-500">
               <Calendar className="h-3 w-3" />
               <span>{formatDate(achievement.dateAwarded)}</span>
@@ -263,22 +278,18 @@ export function AchievementCard({
         </div>
 
         {/* Title */}
-        <h3 className={`font-bold text-white mb-3 group-hover:text-gray-100 transition-colors duration-200 line-clamp-2 ${
-          featured ? 'text-xl' : 'text-lg'
-        }`}>
+        <h3 className="font-bold text-white mb-3 group-hover:text-gray-100 transition-colors duration-200 line-clamp-2 text-lg">
           {achievement.title}
         </h3>
 
         {/* Description */}
-        <p className={`text-gray-400 mb-4 leading-relaxed group-hover:text-gray-300 transition-colors duration-200 ${
-          featured ? 'text-sm line-clamp-3' : 'text-sm line-clamp-2'
-        }`}>
+        <p className="text-gray-400 mb-4 leading-relaxed group-hover:text-gray-300 transition-colors duration-200 text-sm line-clamp-2">
           {achievement.description}
         </p>
 
         {/* Skills */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {achievement.skills.slice(0, featured ? 4 : 3).map((skill) => (
+          {achievement.skills.slice(0, 3).map((skill) => (
             <motion.div
               key={skill}
               whileHover={{ scale: 1.05 }}
@@ -292,12 +303,12 @@ export function AchievementCard({
               </Badge>
             </motion.div>
           ))}
-          {achievement.skills.length > (featured ? 4 : 3) && (
+          {achievement.skills.length > 3 && (
             <Badge
               variant="secondary"
               className="bg-white/5 text-gray-300 border-white/10 text-xs"
             >
-              +{achievement.skills.length - (featured ? 4 : 3)}
+              +{achievement.skills.length - 3}
             </Badge>
           )}
         </div>
