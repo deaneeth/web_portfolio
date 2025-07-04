@@ -207,7 +207,7 @@ const easterEggMessages = [
     emoji: '🚦'
   },
   {
-    title: 'Unlocked: Deaneeth/s secret zone!',
+    title: 'Unlocked: The secret zone!',
     subtitle: 'You belong to the explorer’s club.',
     emoji: '🔓'
   },
