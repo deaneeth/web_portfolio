@@ -145,6 +145,76 @@ const easterEggMessages = [
     title: 'Exploration complete!',
     subtitle: 'Your curiosity paid off.',
     emoji: '🎯'
+  },
+  {
+    title: 'Puzzle solved!',
+    subtitle: 'Curiosity is your superpower.',
+    emoji: '🧩'
+  },
+  {
+    title: 'Hidden layer accessed!',
+    subtitle: 'Bonus points for being curious.',
+    emoji: '🎇'
+  },
+  {
+    title: 'Secret unlocked!',
+    subtitle: 'You’re now in dev mode.',
+    emoji: '👾'
+  },
+  {
+    title: 'Explorer protocol engaged!',
+    subtitle: 'New achievement discovered.',
+    emoji: '🦾'
+  },
+  {
+    title: 'Signal found!',
+    subtitle: 'You tuned into the secret frequency.',
+    emoji: '🛰️'
+  },
+  {
+    title: 'DNA of curiosity detected!',
+    subtitle: 'You’ve gone deeper than most.',
+    emoji: '🧬'
+  },
+  {
+    title: 'Secret key accepted!',
+    subtitle: 'You just unlocked a new dimension.',
+    emoji: '🗝️'
+  },
+  {
+    title: 'Wise move!',
+    subtitle: 'You noticed what others miss.',
+    emoji: '🦉'
+  },
+  {
+    title: 'Bright idea!',
+    subtitle: 'Easter egg spotted by an innovator.',
+    emoji: '💡'
+  },
+  {
+    title: 'Unicorn detected!',
+    subtitle: 'You’re one of a kind, seriously.',
+    emoji: '🦄'
+  },
+  {
+    title: 'Easter egg mode: Retro activated!',
+    subtitle: 'You’re playing at the next level.',
+    emoji: '🕹️'
+  },
+  {
+    title: 'Green light for curiosity!',
+    subtitle: 'All systems go for discovery.',
+    emoji: '🚦'
+  },
+  {
+    title: 'Unlocked: Deaneeth/s secret zone!',
+    subtitle: 'You belong to the explorer’s club.',
+    emoji: '🔓'
+  },
+  {
+    title: 'True North found!',
+    subtitle: 'Navigator mode unlocked.',
+    emoji: '🧭'
   }
 ];
 
