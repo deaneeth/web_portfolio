@@ -474,7 +474,7 @@ export function Footer() {
           </div>
         </motion.div>
 
-        {/* Easter Egg - Custom Motion Popup (Black Theme) */}
+        {/* Easter Egg - Premium Animated Gradient Popup */}
         <motion.div
           initial={{ opacity: 0, scale: 0, y: 50 }}
           animate={showEasterEgg ? { 
@@ -491,61 +491,131 @@ export function Footer() {
             scale: 0, 
             y: 50 
           }}
-          className="fixed bottom-4 right-4 bg-gray-900/95 border border-gray-800/50 backdrop-blur-md text-white p-4 rounded-xl shadow-2xl z-50 max-w-sm"
-          style={{
-            boxShadow: '0 20px 60px rgba(20, 184, 166, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)'
-          }}
+          className="fixed bottom-4 right-4 z-50 max-w-sm"
         >
-          <motion.div 
-            className="flex items-center space-x-3"
-            initial={{ x: -20, opacity: 0 }}
-            animate={showEasterEgg ? { x: 0, opacity: 1 } : { x: -20, opacity: 0 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
-          >
-            <motion.div
-              animate={showEasterEgg ? { 
-                rotate: [0, 10, -10, 0],
-                scale: [1, 1.1, 1]
-              } : {}}
-              transition={{ 
-                duration: 0.6,
-                repeat: 2,
-                delay: 0.3
-              }}
-            >
-              🎉
-            </motion.div>
-            <div>
-              <div className="font-semibold text-sm text-white">You found the easter egg!</div>
-              <div className="text-xs text-gray-400">ADHD-powered curiosity strikes again!</div>
-            </div>
-            <motion.div
-              animate={showEasterEgg ? { 
-                scale: [1, 1.2, 1],
-                rotate: [0, 180, 360]
-              } : {}}
-              transition={{ 
-                duration: 1,
-                repeat: 1,
-                delay: 0.5
-              }}
-            >
-              <Zap className="h-5 w-5 text-teal-400" />
-            </motion.div>
-          </motion.div>
-          
-          {/* Subtle animated border */}
+          {/* Animated Gradient Glow Background */}
           <motion.div
-            className="absolute inset-0 rounded-xl border border-teal-500/30"
+            className="absolute inset-0 rounded-xl blur-xl opacity-75"
             animate={showEasterEgg ? {
-              opacity: [0.3, 0.8, 0.3],
-            } : { opacity: 0 }}
+              background: [
+                'linear-gradient(45deg, #14b8a6, #a855f7, #f97316, #ec4899, #14b8a6)',
+                'linear-gradient(90deg, #a855f7, #f97316, #ec4899, #14b8a6, #a855f7)',
+                'linear-gradient(135deg, #f97316, #ec4899, #14b8a6, #a855f7, #f97316)',
+                'linear-gradient(180deg, #ec4899, #14b8a6, #a855f7, #f97316, #ec4899)',
+                'linear-gradient(225deg, #14b8a6, #a855f7, #f97316, #ec4899, #14b8a6)'
+              ]
+            } : {}}
             transition={{
-              duration: 2,
+              duration: 4,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "linear"
+            }}
+            style={{
+              background: 'linear-gradient(45deg, #14b8a6, #a855f7, #f97316, #ec4899, #14b8a6)',
+              backgroundSize: '400% 400%'
             }}
           />
+
+          {/* Main Popup Container */}
+          <motion.div
+            className="relative bg-gray-900/95 backdrop-blur-md text-white p-4 rounded-xl overflow-hidden"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Animated Gradient Border */}
+            <motion.div
+              className="absolute inset-0 rounded-xl p-[3px]"
+              animate={showEasterEgg ? {
+                background: [
+                  'linear-gradient(45deg, #14b8a6, #a855f7, #f97316, #ec4899, #14b8a6)',
+                  'linear-gradient(90deg, #a855f7, #f97316, #ec4899, #14b8a6, #a855f7)',
+                  'linear-gradient(135deg, #f97316, #ec4899, #14b8a6, #a855f7, #f97316)',
+                  'linear-gradient(180deg, #ec4899, #14b8a6, #a855f7, #f97316, #ec4899)',
+                  'linear-gradient(225deg, #14b8a6, #a855f7, #f97316, #ec4899, #14b8a6)'
+                ]
+              } : {}}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              style={{
+                background: 'linear-gradient(45deg, #14b8a6, #a855f7, #f97316, #ec4899, #14b8a6)',
+                backgroundSize: '400% 400%'
+              }}
+            >
+              <div className="w-full h-full bg-gray-900/95 rounded-xl" />
+            </motion.div>
+
+            {/* Content */}
+            <motion.div 
+              className="relative z-10 flex items-center space-x-3"
+              initial={{ x: -20, opacity: 0 }}
+              animate={showEasterEgg ? { x: 0, opacity: 1 } : { x: -20, opacity: 0 }}
+              transition={{ delay: 0.2, duration: 0.4 }}
+            >
+              {/* Animated Emoji with Parallax */}
+              <motion.div
+                animate={showEasterEgg ? { 
+                  rotate: [0, 10, -10, 0],
+                  scale: [1, 1.1, 1],
+                  y: [0, -2, 0]
+                } : {}}
+                transition={{ 
+                  duration: 0.6,
+                  repeat: 2,
+                  delay: 0.3
+                }}
+              >
+                🎉
+              </motion.div>
+              
+              <div>
+                <div className="font-semibold text-sm text-white">You found the easter egg!</div>
+                <div className="text-xs text-gray-400">ADHD-powered curiosity strikes again!</div>
+              </div>
+              
+              {/* Animated Zap Icon with Shimmer */}
+              <motion.div
+                animate={showEasterEgg ? { 
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 180, 360],
+                  filter: [
+                    'brightness(1) saturate(1)',
+                    'brightness(1.3) saturate(1.2)',
+                    'brightness(1) saturate(1)'
+                  ]
+                } : {}}
+                transition={{ 
+                  duration: 1,
+                  repeat: 1,
+                  delay: 0.5
+                }}
+              >
+                <Zap className="h-5 w-5 text-teal-400" />
+              </motion.div>
+            </motion.div>
+
+            {/* Pulse Effect on Border */}
+            <motion.div
+              className="absolute inset-0 rounded-xl border-2 border-transparent"
+              animate={showEasterEgg ? {
+                borderColor: [
+                  'rgba(20, 184, 166, 0.5)',
+                  'rgba(168, 85, 247, 0.5)',
+                  'rgba(249, 115, 22, 0.5)',
+                  'rgba(236, 72, 153, 0.5)',
+                  'rgba(20, 184, 166, 0.5)'
+                ],
+                scale: [1, 1.02, 1]
+              } : {}}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+          </motion.div>
         </motion.div>
       </motion.div>
     </footer>
