@@ -33,85 +33,89 @@ export function AchievementCard({
         transition={{ duration: 0.3 }}
         viewport={{ once: true }}
         whileHover={{ 
-          y: -2,
+          y: -4,
           scale: 1.02,
           transition: { duration: 0.2 }
         }}
-        className="group relative bg-white/[0.02] border border-white/[0.08] rounded-lg overflow-hidden backdrop-blur-sm cursor-pointer transition-all duration-300 h-20"
+        className="group relative bg-white/[0.03] border border-white/[0.1] rounded-xl overflow-hidden backdrop-blur-sm cursor-pointer transition-all duration-300 h-32 hover:shadow-lg"
         style={{ boxShadow: 'none' }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = `0 4px 20px ${achievement.glowColor}`;
-          e.currentTarget.style.borderColor = achievement.color + '40';
+          e.currentTarget.style.boxShadow = `0 8px 32px ${achievement.glowColor}`;
+          e.currentTarget.style.borderColor = achievement.color + '60';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.boxShadow = 'none';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
         }}
         onClick={onClick}
+        title={achievement.title} // Tooltip for full title
       >
-        {/* Featured indicator - tiny star */}
+        {/* Featured indicator */}
         {achievement.featured && (
-          <div className="absolute top-1 right-1">
+          <div className="absolute top-2 right-2 z-10">
             <div 
-              className="w-2 h-2 rounded-full"
+              className="w-2.5 h-2.5 rounded-full animate-pulse"
               style={{ backgroundColor: achievement.color }}
             />
           </div>
         )}
 
-        <div className="p-2 h-full flex items-center space-x-2">
-          {/* Issuer logo - tiny circular */}
-          <img
-            src={achievement.issuerLogo}
-            alt={achievement.issuer}
-            className="w-4 h-4 rounded-full object-cover border border-white/10 flex-shrink-0"
-            loading="lazy"
-          />
-
-          {/* Main content */}
-          <div className="flex-1 min-w-0">
-            {/* Title - single line */}
-            <h3 className="font-medium text-white text-xs leading-tight truncate group-hover:text-gray-100 transition-colors">
-              {achievement.title}
-            </h3>
-            
-            {/* Issuer + Date */}
-            <div className="flex items-center space-x-1 mt-0.5">
-              <span className="text-gray-400 text-xs truncate flex-1">
-                {achievement.issuer}
-              </span>
-              <span className="text-gray-500 text-xs flex-shrink-0">
-                {formatDate(achievement.dateAwarded)}
-              </span>
+        <div className="p-4 h-full flex flex-col">
+          {/* Header: Logo + Verification */}
+          <div className="flex items-start justify-between mb-3">
+            <div className="flex items-center space-x-2">
+              <img
+                src={achievement.issuerLogo}
+                alt={achievement.issuer}
+                className="w-8 h-8 rounded-lg object-cover border border-white/20 flex-shrink-0"
+                loading="lazy"
+              />
+              <div className="min-w-0 flex-1">
+                <p className="text-gray-400 text-xs font-medium truncate">
+                  {achievement.issuer}
+                </p>
+                <p className="text-gray-500 text-xs">
+                  {formatDate(achievement.dateAwarded)}
+                </p>
+              </div>
             </div>
+            
+            {/* Verification badge next to issuer */}
+            {achievement.verificationUrl && (
+              <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
+            )}
+          </div>
 
-            {/* Tags - minimal */}
-            <div className="flex items-center space-x-1 mt-1">
-              {achievement.skills.slice(0, 1).map((skill) => (
+          {/* Title - allow 2 lines with ellipsis */}
+          <h3 className="font-semibold text-white text-sm leading-tight mb-2 group-hover:text-gray-100 transition-colors line-clamp-2 flex-1">
+            {achievement.title}
+          </h3>
+
+          {/* Short description - one line */}
+          <p className="text-gray-400 text-xs leading-relaxed mb-3 truncate group-hover:text-gray-300 transition-colors">
+            {achievement.description}
+          </p>
+
+          {/* Tags + Category */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-1.5">
+              {achievement.skills.slice(0, 2).map((skill) => (
                 <span
                   key={skill}
-                  className="text-xs text-gray-400 bg-white/[0.03] px-1.5 py-0.5 rounded border border-white/[0.05]"
+                  className="text-xs text-gray-300 bg-white/[0.05] px-2 py-1 rounded-md border border-white/[0.08] hover:bg-white/[0.08] transition-colors"
                 >
                   {skill}
                 </span>
               ))}
-              {achievement.skills.length > 1 && (
-                <span className="text-xs text-gray-500">
-                  +{achievement.skills.length - 1}
+              {achievement.skills.length > 2 && (
+                <span className="text-xs text-gray-500 font-medium">
+                  +{achievement.skills.length - 2}
                 </span>
               )}
             </div>
-          </div>
-
-          {/* Right side indicators */}
-          <div className="flex flex-col items-center space-y-1 flex-shrink-0">
-            {/* Verification check */}
-            {achievement.verificationUrl && (
-              <CheckCircle className="h-3 w-3 text-green-400" />
-            )}
             
             {/* Category icon */}
-            <div className="text-xs opacity-60">
+            <div className="text-sm opacity-60 flex-shrink-0">
               {categoryIcons[achievement.category]}
             </div>
           </div>
@@ -119,7 +123,13 @@ export function AchievementCard({
 
         {/* Bottom accent line */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-px transition-opacity duration-200 opacity-0 group-hover:opacity-100"
+          className="absolute bottom-0 left-0 right-0 h-0.5 transition-opacity duration-200 opacity-0 group-hover:opacity-100"
+          style={{ backgroundColor: achievement.color }}
+        />
+
+        {/* Subtle glow overlay on hover */}
+        <div 
+          className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-5 transition-opacity duration-300 pointer-events-none"
           style={{ backgroundColor: achievement.color }}
         />
       </motion.article>

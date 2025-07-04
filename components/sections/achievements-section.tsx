@@ -67,7 +67,7 @@ export function AchievementsSection() {
   // Grid classes based on view mode
   const getGridClasses = () => {
     if (viewMode === 'compact') {
-      return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2';
+      return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4';
     }
     return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8';
   };
@@ -145,7 +145,7 @@ export function AchievementsSection() {
             className="mb-12"
           >
             {/* Category Filters */}
-            <div className="flex flex-wrap justify-center gap-2 mb-6">
+            <div className="flex flex-wrap justify-center gap-3 mb-6">
               {Object.entries(categoryLabels).map(([key, label], index) => {
                 const IconComponent = categoryIcons[key as CategoryFilter];
                 return (
@@ -158,14 +158,14 @@ export function AchievementsSection() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setSelectedCategory(key as CategoryFilter)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-sm border ${
+                    className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-sm border ${
                       selectedCategory === key
                         ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white border-transparent shadow-lg'
-                        : 'bg-white/[0.02] text-gray-300 border-white/[0.08] hover:bg-white/[0.05] hover:border-white/[0.15]'
+                        : 'bg-white/[0.03] text-gray-300 border-white/[0.1] hover:bg-white/[0.06] hover:border-white/[0.2]'
                     }`}
                   >
-                    <div className="flex items-center space-x-1.5">
-                      <IconComponent className="h-3 w-3" />
+                    <div className="flex items-center space-x-2">
+                      <IconComponent className="h-4 w-4" />
                       <span>{label}</span>
                     </div>
                   </motion.button>
@@ -175,32 +175,32 @@ export function AchievementsSection() {
 
             {/* View Mode Toggle */}
             <div className="flex justify-center">
-              <div className="flex bg-white/[0.02] border border-white/[0.08] rounded-lg p-0.5">
+              <div className="flex bg-white/[0.03] border border-white/[0.1] rounded-xl p-1">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setViewMode('compact')}
-                  className={`px-3 py-1.5 rounded transition-all duration-200 flex items-center space-x-1.5 ${
+                  className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 ${
                     viewMode === 'compact' 
                       ? 'bg-teal-500 text-white shadow-lg' 
                       : 'text-gray-400 hover:text-white hover:bg-white/[0.05]'
                   }`}
                 >
-                  <Grid className="h-3 w-3" />
-                  <span className="text-xs font-medium">Compact</span>
+                  <Grid className="h-4 w-4" />
+                  <span className="text-sm font-medium">Compact</span>
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setViewMode('detailed')}
-                  className={`px-3 py-1.5 rounded transition-all duration-200 flex items-center space-x-1.5 ${
+                  className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 ${
                     viewMode === 'detailed' 
                       ? 'bg-teal-500 text-white shadow-lg' 
                       : 'text-gray-400 hover:text-white hover:bg-white/[0.05]'
                   }`}
                 >
-                  <List className="h-3 w-3" />
-                  <span className="text-xs font-medium">Detailed</span>
+                  <List className="h-4 w-4" />
+                  <span className="text-sm font-medium">Detailed</span>
                 </motion.button>
               </div>
             </div>
@@ -219,7 +219,7 @@ export function AchievementsSection() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3, delay: index * 0.01 }}
+                  transition={{ duration: 0.3, delay: index * 0.02 }}
                 >
                   <AchievementCard
                     achievement={achievement}
