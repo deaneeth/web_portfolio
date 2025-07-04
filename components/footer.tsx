@@ -69,11 +69,91 @@ const legalLinks = [
   { name: 'Terms of Use', href: '/terms' }
 ];
 
+// Random easter egg messages
+const easterEggMessages = [
+  {
+    title: 'Curiosity unlocked!',
+    subtitle: 'You just discovered an easter egg.',
+    emoji: '🎉'
+  },
+  {
+    title: 'You cracked the code!',
+    subtitle: 'ADHD-fueled curiosity wins again.',
+    emoji: '✨'
+  },
+  {
+    title: 'Hidden gem found!',
+    subtitle: 'Curiosity points +1.',
+    emoji: '🧠'
+  },
+  {
+    title: 'You\'re in!',
+    subtitle: 'Easter egg mode: activated.',
+    emoji: '🥳'
+  },
+  {
+    title: 'That\'s some next-level curiosity.',
+    subtitle: 'Easter egg revealed!',
+    emoji: '⚡️'
+  },
+  {
+    title: 'Surprise!',
+    subtitle: 'You uncovered a secret powered by curiosity.',
+    emoji: '🌈'
+  },
+  {
+    title: 'Secret unlocked.',
+    subtitle: 'Your curiosity is out of this world!',
+    emoji: '🚀'
+  },
+  {
+    title: 'You have the explorer\'s spirit',
+    subtitle: 'Easter egg achieved!',
+    emoji: '🤩'
+  },
+  {
+    title: 'Deaneeth\'s hidden magic:',
+    subtitle: 'Revealed by your curiosity!',
+    emoji: '🕵️‍♂️'
+  },
+  {
+    title: 'Nice! Curiosity always finds a way.',
+    subtitle: 'Easter egg unlocked.',
+    emoji: '🪄'
+  },
+  {
+    title: 'AI-powered curiosity:',
+    subtitle: 'Achievement unlocked!',
+    emoji: '🤖'
+  },
+  {
+    title: 'Curiosity level: Maximum!',
+    subtitle: 'You found the secret.',
+    emoji: '🔥'
+  },
+  {
+    title: 'Detective mode: ON',
+    subtitle: 'Mystery solved by curiosity!',
+    emoji: '🔍'
+  },
+  {
+    title: 'Curiosity overflow detected!',
+    subtitle: 'Easter egg successfully triggered.',
+    emoji: '💫'
+  },
+  {
+    title: 'Exploration complete!',
+    subtitle: 'Your curiosity paid off.',
+    emoji: '🎯'
+  }
+];
+
 export function Footer() {
   const [email, setEmail] = useState('');
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [easterEggClicks, setEasterEggClicks] = useState(0);
   const [showEasterEgg, setShowEasterEgg] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState(easterEggMessages[0]);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   
@@ -83,6 +163,12 @@ export function Footer() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Function to get a random easter egg message
+  const getRandomMessage = () => {
+    const randomIndex = Math.floor(Math.random() * easterEggMessages.length);
+    return easterEggMessages[randomIndex];
+  };
 
   // Function to play subtle notification sound
   const playNotificationSound = () => {
@@ -169,6 +255,10 @@ export function Footer() {
     setEasterEggClicks(newCount);
     
     if (newCount === 5) {
+      // Get a random message each time the easter egg is triggered
+      const randomMessage = getRandomMessage();
+      setCurrentMessage(randomMessage);
+      
       setShowEasterEgg(true);
       playNotificationSound(); // Play sound when easter egg appears
       setTimeout(() => setShowEasterEgg(false), 5000);
@@ -474,7 +564,7 @@ export function Footer() {
           </div>
         </motion.div>
 
-        {/* Easter Egg - Premium Animated Gradient Popup */}
+        {/* Easter Egg - Premium Animated Gradient Popup with Random Messages */}
         <motion.div
           initial={{ opacity: 0, scale: 0, y: 50 }}
           animate={showEasterEgg ? { 
@@ -547,7 +637,7 @@ export function Footer() {
               <div className="w-full h-full bg-gray-900/95 rounded-xl" />
             </motion.div>
 
-            {/* Content */}
+            {/* Content with Random Message */}
             <motion.div 
               className="relative z-10 flex items-center space-x-3"
               initial={{ x: -20, opacity: 0 }}
@@ -566,13 +656,14 @@ export function Footer() {
                   repeat: 2,
                   delay: 0.3
                 }}
+                className="text-lg"
               >
-                🎉
+                {currentMessage.emoji}
               </motion.div>
               
               <div>
-                <div className="font-semibold text-sm text-white">You found the easter egg!</div>
-                <div className="text-xs text-gray-400">ADHD-powered curiosity strikes again!</div>
+                <div className="font-semibold text-sm text-white">{currentMessage.title}</div>
+                <div className="text-xs text-gray-400">{currentMessage.subtitle}</div>
               </div>
               
               {/* Animated Zap Icon with Shimmer */}
