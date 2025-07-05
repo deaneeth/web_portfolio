@@ -33,21 +33,55 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Check if API key is configured
-  if (!GROQ_API_KEY) {
-    console.error('GROQ_API_KEY environment variable is not set');
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ 
-        error: 'API configuration error',
-        fallback: "🤖 ARIA is taking a quick nap! Here's a fun fact: Dineth has served over 5,000 clients on Fiverr while studying Computer Science!"
-      }),
-    };
-  }
-
   try {
     const { userQuestion, previousFacts, discoveryProgress, allSecretsFound } = JSON.parse(event.body || '{}');
+
+    // Enhanced fallback facts with discovery-aware responses
+    const getDiscoveryFallbacks = (progress) => {
+      const baseFacts = [
+        "🎯 Dineth has an 'overdelivery mindset' - he always gives more value than expected!",
+        "⚡ His ADHD-powered creativity turns challenges into innovative solutions!",
+        "🎨 He's served 5,000+ clients on Fiverr while studying Computer Science!",
+        "🚀 Dineth believes 'The future belongs to those who code it' - and he's coding it!",
+        "🧠 He combines strategic empathy with technical precision - a rare combo!",
+        "💫 As a 'Poet with a Keyboard', he blends creativity with code!",
+        "🎓 He's graduating in December 2026 from University of Plymouth, Sri Lanka!",
+        "🌟 Dineth specializes in AI/ML while being a creative technologist!"
+      ];
+
+      if (progress >= 2) {
+        return [
+          ...baseFacts,
+          "🎵 Music, tech, and innovation create the perfect symphony in his mind!",
+          "🔮 He's not just building apps - he's architecting the future, one line of code at a time!",
+          "🎭 The intersection of AI and creativity is where Dineth feels most at home!",
+          "🌈 His neurodivergent perspective is his secret weapon for innovation!"
+        ];
+      }
+
+      return baseFacts;
+    };
+
+    // If API key is not configured, use fallback immediately
+    if (!GROQ_API_KEY) {
+      console.log('GROQ_API_KEY not configured, using fallback facts');
+      
+      const fallbackFacts = getDiscoveryFallbacks(discoveryProgress || 0);
+      const availableFacts = fallbackFacts.filter(fact => !previousFacts?.includes(fact));
+      const factsToUse = availableFacts.length > 0 ? availableFacts : fallbackFacts;
+      const randomFact = factsToUse[Math.floor(Math.random() * factsToUse.length)];
+
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          funFact: randomFact,
+          source: 'fallback',
+          note: 'ARIA is running on local knowledge right now!',
+          discoveryProgress: discoveryProgress || 0
+        }),
+      };
+    }
 
     // Enhanced system prompt with personality and discovery context
     const getPersonalityPrompt = (progress) => {
@@ -173,6 +207,7 @@ ${userQuestion ? `User asked: "${userQuestion}"` : 'Generate a random fun fact a
       return baseFacts;
     };
 
+    const { userQuestion, previousFacts, discoveryProgress } = JSON.parse(event.body || '{}');
     const fallbackFacts = getDiscoveryFallbacks(discoveryProgress || 0);
     const availableFacts = fallbackFacts.filter(fact => !previousFacts?.includes(fact));
     const factsToUse = availableFacts.length > 0 ? availableFacts : fallbackFacts;
