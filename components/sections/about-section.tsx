@@ -144,9 +144,9 @@ I'm passionate about the intersection of artificial intelligence, creative expre
                 }}
                 className="bg-gray-900/50 border border-gray-800/50 rounded-2xl p-8 backdrop-blur-sm transition-all duration-300 relative"
               >
-                {/* Easter Egg Trigger - positioned in top right */}
+                {/* Main Easter Egg Trigger - positioned in top right */}
                 <div className="absolute top-6 right-6">
-                  <CuriosityTrigger />
+                  <CuriosityTrigger triggerType="main" />
                 </div>
 
                 <div className="flex items-center mb-6">
@@ -191,8 +191,13 @@ I'm passionate about the intersection of artificial intelligence, creative expre
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative"
               >
+                {/* Skills Easter Egg Trigger - positioned in top right of skills grid */}
+                <div className="absolute -top-4 -right-4 z-10">
+                  <CuriosityTrigger triggerType="skills" />
+                </div>
+
                 {coreSkills.map((skill, index) => (
                   <motion.div
                     key={index}
@@ -257,8 +262,13 @@ I'm passionate about the intersection of artificial intelligence, creative expre
                 boxShadow: '0 8px 32px rgba(168, 85, 247, 0.15)',
                 transition: { duration: 0.3 }
               }}
-              className="bg-gray-900/50 border border-gray-800/50 rounded-2xl p-8 backdrop-blur-sm transition-all duration-300 h-fit"
+              className="bg-gray-900/50 border border-gray-800/50 rounded-2xl p-8 backdrop-blur-sm transition-all duration-300 h-fit relative"
             >
+              {/* Journey Easter Egg Trigger - positioned in top right */}
+              <div className="absolute top-6 right-6">
+                <CuriosityTrigger triggerType="journey" />
+              </div>
+
               <div className="flex items-center mb-8">
                 <div className="p-3 bg-purple-500/10 rounded-xl mr-4">
                   <Calendar className="h-6 w-6 text-purple-400" />

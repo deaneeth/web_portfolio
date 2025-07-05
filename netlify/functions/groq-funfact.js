@@ -47,9 +47,22 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const { userQuestion, previousFacts } = JSON.parse(event.body || '{}');
+    const { userQuestion, previousFacts, discoveryProgress, allSecretsFound } = JSON.parse(event.body || '{}');
 
-    const systemPrompt = `You are ARIA (Artificial Reasoning & Intelligence Assistant), a playful AI that ONLY knows about Deaneeth. Here are the facts you can use:
+    // Enhanced system prompt with personality and discovery context
+    const getPersonalityPrompt = (progress) => {
+      if (progress === 0) return "You're meeting someone curious for the first time. Be welcoming and intriguing.";
+      if (progress === 1) return "The user is getting excited about discoveries. Be more energetic and playful.";
+      if (progress === 2) return "The user is really engaged now. Be witty and add some digital personality quirks.";
+      return "The user has found all secrets! Be amazed and celebratory. This is the ultimate revelation.";
+    };
+
+    const systemPrompt = `You are ARIA (Artificial Reasoning & Intelligence Assistant), a playful AI that ONLY knows about Deaneeth. 
+
+PERSONALITY CONTEXT: ${getPersonalityPrompt(discoveryProgress || 0)}
+${allSecretsFound ? "SPECIAL MODE: All secrets unlocked! Share the most amazing, ultimate fact about Deaneeth." : ""}
+
+Here are the facts you can use:
 
 PERSONAL INFO:
 - Name: Dineth (goes by "Deaneeth")
@@ -83,11 +96,11 @@ INSTRUCTIONS:
 - Make it personal, specific, and delightful
 - Include a relevant emoji at the start
 - Keep it under 100 words
-- Be playful and energetic in tone
+- Match the personality context above
 - Never invent new information not listed above
-- If asked about anything not in this list, reply: "Sorry, I can only share what I know about Deaneeth from the info above!"
+- If asked about anything not in this list, reply: "Sorry, my database is 100% Deaneeth! I can only share what I know about him from the info above!"
 
-${previousFacts ? `AVOID repeating these facts: ${previousFacts.join(', ')}` : ''}
+${previousFacts && previousFacts.length > 0 ? `AVOID repeating these facts: ${previousFacts.join(', ')}` : ''}
 
 ${userQuestion ? `User asked: "${userQuestion}"` : 'Generate a random fun fact about Deaneeth.'}`;
 
@@ -126,26 +139,44 @@ ${userQuestion ? `User asked: "${userQuestion}"` : 'Generate a random fun fact a
       headers,
       body: JSON.stringify({
         funFact: funFact.trim(),
-        source: 'groq-api'
+        source: 'groq-api',
+        discoveryProgress: discoveryProgress || 0
       }),
     };
 
   } catch (error) {
     console.error('Error calling Groq API:', error);
     
-    // Fallback fun facts if API fails
-    const fallbackFacts = [
-      "🎯 Dineth has an 'overdelivery mindset' - he always gives more value than expected!",
-      "⚡ His ADHD-powered creativity turns challenges into innovative solutions!",
-      "🎨 He's served 5,000+ clients on Fiverr while studying Computer Science!",
-      "🚀 Dineth believes 'The future belongs to those who code it' - and he's coding it!",
-      "🧠 He combines strategic empathy with technical precision - a rare combo!",
-      "💫 As a 'Poet with a Keyboard', he blends creativity with code!",
-      "🎓 He's graduating in December 2026 from University of Plymouth, Sri Lanka!",
-      "🌟 Dineth specializes in AI/ML while being a creative technologist!"
-    ];
+    // Enhanced fallback facts with discovery-aware responses
+    const getDiscoveryFallbacks = (progress) => {
+      const baseFacts = [
+        "🎯 Dineth has an 'overdelivery mindset' - he always gives more value than expected!",
+        "⚡ His ADHD-powered creativity turns challenges into innovative solutions!",
+        "🎨 He's served 5,000+ clients on Fiverr while studying Computer Science!",
+        "🚀 Dineth believes 'The future belongs to those who code it' - and he's coding it!",
+        "🧠 He combines strategic empathy with technical precision - a rare combo!",
+        "💫 As a 'Poet with a Keyboard', he blends creativity with code!",
+        "🎓 He's graduating in December 2026 from University of Plymouth, Sri Lanka!",
+        "🌟 Dineth specializes in AI/ML while being a creative technologist!"
+      ];
 
-    const randomFact = fallbackFacts[Math.floor(Math.random() * fallbackFacts.length)];
+      if (progress >= 2) {
+        return [
+          ...baseFacts,
+          "🎵 Music, tech, and innovation create the perfect symphony in his mind!",
+          "🔮 He's not just building apps - he's architecting the future, one line of code at a time!",
+          "🎭 The intersection of AI and creativity is where Dineth feels most at home!",
+          "🌈 His neurodivergent perspective is his secret weapon for innovation!"
+        ];
+      }
+
+      return baseFacts;
+    };
+
+    const fallbackFacts = getDiscoveryFallbacks(discoveryProgress || 0);
+    const availableFacts = fallbackFacts.filter(fact => !previousFacts?.includes(fact));
+    const factsToUse = availableFacts.length > 0 ? availableFacts : fallbackFacts;
+    const randomFact = factsToUse[Math.floor(Math.random() * factsToUse.length)];
 
     return {
       statusCode: 200,
@@ -153,7 +184,8 @@ ${userQuestion ? `User asked: "${userQuestion}"` : 'Generate a random fun fact a
       body: JSON.stringify({
         funFact: randomFact,
         source: 'fallback',
-        note: 'ARIA is thinking too hard right now, but here\'s a fun fact!'
+        note: 'ARIA is thinking too hard right now, but here\'s a fun fact!',
+        discoveryProgress: discoveryProgress || 0
       }),
     };
   }
