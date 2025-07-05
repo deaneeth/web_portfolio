@@ -18,6 +18,7 @@ import {
   Rocket
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { CuriosityTrigger } from '@/components/easter-egg/curiosity-trigger';
 
 const coreSkills = [
   {
@@ -141,8 +142,13 @@ I'm passionate about the intersection of artificial intelligence, creative expre
                   boxShadow: '0 8px 32px rgba(20, 184, 166, 0.15)',
                   transition: { duration: 0.3 }
                 }}
-                className="bg-gray-900/50 border border-gray-800/50 rounded-2xl p-8 backdrop-blur-sm transition-all duration-300"
+                className="bg-gray-900/50 border border-gray-800/50 rounded-2xl p-8 backdrop-blur-sm transition-all duration-300 relative"
               >
+                {/* Easter Egg Trigger - positioned in top right */}
+                <div className="absolute top-6 right-6">
+                  <CuriosityTrigger />
+                </div>
+
                 <div className="flex items-center mb-6">
                   <div className="p-3 bg-teal-500/10 rounded-xl mr-4">
                     <User className="h-6 w-6 text-teal-400" />
