@@ -67,20 +67,20 @@ export function ProjectsSection() {
     : projects.filter(project => project.category === selectedCategory);
 
   return (
-    <section id="projects" className="py-24 bg-[#1D1D21]">
-      <div className="container mx-auto px-6">
+    <section id="projects" className="section-spacing">
+      <div className="container-grid">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">
-            FEATURED PROJECTS
+          <h2 className="text-display text-white mb-8">
+            FEATURED WORK
           </h2>
-          <p className="text-xl text-white/60 max-w-3xl mx-auto">
+          <p className="text-body max-w-3xl mx-auto">
             Transforming ideas into intelligent solutions that push the boundaries of what's possible
           </p>
         </motion.div>
@@ -89,18 +89,18 @@ export function ProjectsSection() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
           viewport={{ once: true }}
-          className="flex justify-center gap-4 mb-16"
+          className="flex justify-center gap-4 mb-20"
         >
           {categories.map((category) => (
             <Button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
+              className={`px-8 py-3 rounded-full font-medium transition-all duration-300 magnetic text-caption ${
                 selectedCategory === category
                   ? 'bg-[#7D27F5] text-white'
-                  : 'bg-transparent text-white/60 border border-white/20 hover:text-white hover:border-[#7D27F5]'
+                  : 'bg-transparent text-white/60 border border-white/15 hover:text-white hover:border-[#7D27F5]/50'
               }`}
             >
               {category.toUpperCase()}
@@ -115,47 +115,47 @@ export function ProjectsSection() {
               <motion.div
                 key={project.id}
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.5, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className={`bento-card group ${
                   project.featured && index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''
                 }`}
               >
                 {/* Project Image */}
-                <div className="relative overflow-hidden rounded-lg mb-6">
+                <div className="relative overflow-hidden rounded-xl mb-8">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
                   
                   {/* Hover Actions */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 flex space-x-2">
+                  <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 flex space-x-3">
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-white/20 transition-colors"
+                      className="p-3 glass rounded-xl hover:bg-white/20 transition-colors magnetic"
                     >
-                      <Github className="h-4 w-4 text-white" />
+                      <Github className="h-5 w-5 text-white" />
                     </a>
                     <a
                       href={project.demo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-white/20 transition-colors"
+                      className="p-3 glass rounded-xl hover:bg-white/20 transition-colors magnetic"
                     >
-                      <ExternalLink className="h-4 w-4 text-white" />
+                      <ExternalLink className="h-5 w-5 text-white" />
                     </a>
                   </div>
 
                   {/* Featured Badge */}
                   {project.featured && (
-                    <div className="absolute top-4 left-4">
-                      <Badge className="bg-[#7D27F5] text-white">
+                    <div className="absolute top-6 left-6">
+                      <Badge className="bg-[#7D27F5] text-white text-caption px-4 py-2">
                         FEATURED
                       </Badge>
                     </div>
@@ -164,27 +164,27 @@ export function ProjectsSection() {
 
                 {/* Project Content */}
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <Badge variant="outline" className="border-[#7D27F5] text-[#7D27F5]">
+                  <div className="flex items-center justify-between mb-6">
+                    <Badge variant="outline" className="border-[#7D27F5]/30 text-[#7D27F5] text-caption px-4 py-2">
                       {project.category}
                     </Badge>
-                    <ArrowUpRight className="h-5 w-5 text-white/40 group-hover:text-[#7D27F5] transition-colors" />
+                    <ArrowUpRight className="h-6 w-6 text-white/40 group-hover:text-[#7D27F5] transition-colors" />
                   </div>
 
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#B794F4] transition-colors">
+                  <h3 className="text-heading text-white mb-4 group-hover:text-[#B794F4] transition-colors">
                     {project.title}
                   </h3>
 
-                  <p className="text-white/60 mb-4 leading-relaxed">
+                  <p className="text-body mb-6">
                     {project.description}
                   </p>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-3 mb-6">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 bg-white/5 text-white/70 rounded-full text-sm border border-white/10"
+                        className="px-4 py-2 glass text-white/70 rounded-full text-sm border border-white/10"
                       >
                         {tag}
                       </span>
@@ -203,14 +203,14 @@ export function ProjectsSection() {
 
         {/* View All Projects CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           viewport={{ once: true }}
-          className="text-center mt-16"
+          className="text-center mt-20"
         >
-          <Button className="btn-primary">
-            VIEW ALL PROJECTS
+          <Button className="btn-primary magnetic">
+            View All Projects
           </Button>
         </motion.div>
       </div>

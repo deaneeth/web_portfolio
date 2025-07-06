@@ -16,12 +16,12 @@ import { Footer } from '@/components/footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#1D1D21]">
+    <div className="min-h-screen bg-[#0A0A0A]">
       <ScrollProgress />
       <Navigation />
       
       <main>
-        {/* Hero Section - No Grid Background */}
+        {/* Hero Section - Pure Black Background */}
         <HeroSection />
         
         {/* All Other Sections - With Grid Background */}

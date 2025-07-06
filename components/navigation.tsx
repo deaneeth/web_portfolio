@@ -6,11 +6,9 @@ import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
-  { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Services', href: '#services' },
-  { name: 'Blog', href: '/blog' },
+  { name: 'Work', href: '#projects' },
+  { name: 'Writing', href: '/blog' },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -20,7 +18,7 @@ export function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 100);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -40,19 +38,19 @@ export function Navigation() {
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled ? 'bg-[#1D1D21]/80 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+        scrolled ? 'bg-[#0A0A0A]/80 backdrop-blur-md border-b border-white/5' : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      <nav className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
+      <nav className="container-grid">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <motion.button
             onClick={() => handleNavClick('#home')}
-            className="text-xl font-bold text-white hover:text-[#7D27F5] transition-colors"
+            className="text-2xl font-black text-white hover:text-[#7D27F5] transition-colors duration-300 focus-ring rounded-lg p-2 -m-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -60,17 +58,17 @@ export function Navigation() {
           </motion.button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-12">
             {navItems.map((item, index) => (
               <motion.button
                 key={item.name}
                 onClick={() => handleNavClick(item.href)}
-                className="text-white/80 hover:text-white transition-colors text-sm font-medium"
-                whileHover={{ scale: 1.05 }}
+                className="text-white/70 hover:text-white transition-colors duration-300 text-sm font-medium uppercase tracking-wider focus-ring rounded-lg p-2 -m-2"
+                whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
                 {item.name}
               </motion.button>
@@ -83,7 +81,7 @@ export function Navigation() {
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white"
+              className="text-white hover:bg-white/10 focus-ring"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
@@ -99,12 +97,12 @@ export function Navigation() {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-[#1D1D21]/95 backdrop-blur-md rounded-lg mt-2">
+            <div className="px-2 pt-2 pb-6 space-y-2 glass rounded-2xl mt-4">
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.name}
                   onClick={() => handleNavClick(item.href)}
-                  className="text-white/80 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors w-full text-left"
+                  className="text-white/70 hover:text-white block px-4 py-3 rounded-xl text-base font-medium transition-colors w-full text-left uppercase tracking-wider"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}

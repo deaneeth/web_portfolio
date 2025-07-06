@@ -26,25 +26,21 @@ const coreSkills = [
     title: 'Strategic Empath',
     description: 'Combining analytical thinking with deep human understanding',
     icon: Heart,
-    color: '#7D27F5',
   },
   {
     title: 'ADHD-Powered Creativity',
     description: 'Turning neurodivergent thinking into innovative solutions',
     icon: Zap,
-    color: '#B794F4',
   },
   {
     title: 'Overdelivery Mindset',
     description: 'Always exceeding expectations and going the extra mile',
     icon: Target,
-    color: '#7D27F5',
   },
   {
     title: 'Future-Focused Vision',
     description: 'Building technology that shapes tomorrow',
     icon: Globe,
-    color: '#B794F4',
   },
 ];
 
@@ -95,188 +91,180 @@ I'm passionate about the intersection of artificial intelligence, creative expre
   const truncatedBio = `I'm Dineth, a 19-year-old Computer Science undergraduate at the University of Plymouth, Sri Lanka, graduating in December 2026. I'm not just a student—I'm a builder, thinker, and poet with a keyboard, passionate about AI/ML and creating technology that matters.`;
 
   return (
-    <section id="about" className="py-24 bg-[#1D1D21]">
-      <div className="container mx-auto px-6">
+    <section id="about" className="section-spacing">
+      <div className="container-grid">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">
+          <h2 className="text-display text-white mb-8">
             ABOUT DEANEETH
           </h2>
-          <p className="text-xl text-white/60 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-body max-w-3xl mx-auto">
             A 19-year-old builder of futures, blending technical expertise with creative vision
           </p>
         </motion.div>
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
+          
+          {/* Left Column - Who I Am & Core Skills */}
+          <div className="space-y-12">
             
-            {/* Left Column - Who I Am & Core Skills */}
-            <div className="space-y-12">
+            {/* Who I Am Card */}
+            <motion.div
+              initial={{ opacity: 0, x: -60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              viewport={{ once: true }}
+              className="bento-card relative"
+            >
+              {/* Easter Egg Trigger */}
+              <div className="absolute top-8 right-8">
+                <CuriosityTrigger triggerType="main" />
+              </div>
+
+              <div className="flex items-center mb-8">
+                <div className="p-4 bg-[#7D27F5]/10 rounded-2xl mr-6">
+                  <User className="h-8 w-8 text-[#7D27F5]" />
+                </div>
+                <h3 className="text-heading text-white">Who I Am</h3>
+              </div>
               
-              {/* Who I Am Card */}
               <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="bento-card relative"
+                initial={false}
+                animate={{ height: 'auto' }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
               >
-                {/* Easter Egg Trigger */}
-                <div className="absolute top-6 right-6">
-                  <CuriosityTrigger triggerType="main" />
-                </div>
-
-                <div className="flex items-center mb-6">
-                  <div className="p-3 bg-[#7D27F5]/20 rounded-xl mr-4">
-                    <User className="h-6 w-6 text-[#7D27F5]" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white">Who I Am</h3>
-                </div>
-                
-                <motion.div
-                  initial={false}
-                  animate={{ height: 'auto' }}
-                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                <p className="text-body mb-8">
+                  {isExpanded ? fullBio : truncatedBio}
+                </p>
+                <Button
+                  variant="ghost"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="text-[#7D27F5] hover:text-[#B794F4] p-0 h-auto font-medium hover:bg-transparent transition-colors duration-300 mb-8"
                 >
-                  <p className="text-white/70 leading-relaxed mb-6 text-base">
-                    {isExpanded ? fullBio : truncatedBio}
-                  </p>
-                  <Button
-                    variant="ghost"
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className="text-[#7D27F5] hover:text-[#B794F4] p-0 h-auto font-medium hover:bg-transparent transition-colors duration-200"
-                  >
-                    {isExpanded ? (
-                      <>
-                        Show less <ChevronUp className="ml-2 h-4 w-4" />
-                      </>
-                    ) : (
-                      <>
-                        Read more <ChevronDown className="ml-2 h-4 w-4" />
-                      </>
-                    )}
-                  </Button>
-                </motion.div>
-
-                {/* Download CV Button */}
-                <div className="mt-8 pt-6 border-t border-white/10">
-                  <Button 
-                    className="btn-primary w-full sm:w-auto"
-                    onClick={() => window.open('#', '_blank')}
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Download CV
-                  </Button>
-                </div>
+                  {isExpanded ? (
+                    <>
+                      Show less <ChevronUp className="ml-2 h-4 w-4" />
+                    </>
+                  ) : (
+                    <>
+                      Read more <ChevronDown className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
               </motion.div>
 
-              {/* Core Skills Grid */}
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-6"
-              >
-                {coreSkills.map((skill, index) => (
+              {/* Download CV Button */}
+              <div className="pt-8 border-t border-white/10">
+                <Button 
+                  className="btn-primary magnetic"
+                  onClick={() => window.open('#', '_blank')}
+                >
+                  <Download className="mr-2 h-5 w-5" />
+                  Download CV
+                </Button>
+              </div>
+            </motion.div>
+
+            {/* Core Skills Grid */}
+            <motion.div
+              initial={{ opacity: 0, x: -60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+              viewport={{ once: true }}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+            >
+              {coreSkills.map((skill, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  viewport={{ once: true }}
+                  className="bento-card group text-center"
+                >
+                  <div className="flex flex-col items-center">
+                    <div className="p-4 bg-[#7D27F5]/10 rounded-2xl mb-6 group-hover:bg-[#7D27F5]/20 transition-colors duration-300">
+                      <skill.icon className="h-8 w-8 text-[#7D27F5] group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                    <h4 className="text-heading text-white mb-4 group-hover:text-[#B794F4] transition-colors duration-300">
+                      {skill.title}
+                    </h4>
+                    <p className="text-body text-center">
+                      {skill.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right Column - My Journey Timeline */}
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            viewport={{ once: true }}
+            className="bento-card h-fit"
+          >
+            <div className="flex items-center mb-12">
+              <div className="p-4 bg-[#7D27F5]/10 rounded-2xl mr-6">
+                <Calendar className="h-8 w-8 text-[#7D27F5]" />
+              </div>
+              <h3 className="text-heading text-white">My Journey</h3>
+            </div>
+            
+            <div className="relative">
+              {/* Timeline Line */}
+              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#7D27F5] via-[#B794F4] to-[#7D27F5] opacity-40"></div>
+              
+              <div className="space-y-12">
+                {journeyEvents.map((event, index) => (
                   <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    key={`${event.year}-${index}`}
+                    initial={{ opacity: 0, x: 40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
                     viewport={{ once: true }}
-                    className="bento-card group text-center"
+                    className="relative flex items-start group"
                   >
-                    <div className="flex flex-col items-center">
-                      <div 
-                        className="p-4 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200"
-                        style={{ backgroundColor: `${skill.color}20` }}
+                    {/* Timeline Dot */}
+                    <div className="relative z-10 flex-shrink-0">
+                      <motion.div 
+                        className="w-16 h-16 rounded-full bg-gradient-to-br from-[#7D27F5] to-[#B794F4] flex items-center justify-center text-white font-bold shadow-lg group-hover:scale-110 transition-transform duration-300"
+                        whileHover={{ scale: 1.15 }}
                       >
-                        <skill.icon 
-                          className="h-8 w-8 transition-colors duration-200" 
-                          style={{ color: skill.color }}
-                        />
-                      </div>
-                      <h4 className="font-bold text-white text-lg mb-2 group-hover:text-[#B794F4] transition-colors duration-200">
-                        {skill.title}
-                      </h4>
-                      <p className="text-white/60 text-sm leading-relaxed group-hover:text-white/80 transition-colors duration-200">
-                        {skill.description}
-                      </p>
+                        {event.year}
+                      </motion.div>
+                    </div>
+                    
+                    {/* Event Content */}
+                    <div className="ml-8 pb-4 flex-1">
+                      <motion.div 
+                        className="group-hover:translate-y-[-4px] transition-all duration-300 p-6 rounded-2xl hover:bg-white/5"
+                      >
+                        <div className="flex items-center mb-3">
+                          <event.icon className="h-6 w-6 text-white/60 mr-3" />
+                          <h4 className="text-heading text-white group-hover:text-[#B794F4] transition-colors duration-300">
+                            {event.title}
+                          </h4>
+                        </div>
+                        <p className="text-body">
+                          {event.description}
+                        </p>
+                      </motion.div>
                     </div>
                   </motion.div>
                 ))}
-              </motion.div>
+              </div>
             </div>
-
-            {/* Right Column - My Journey Timeline */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="bento-card h-fit"
-            >
-              <div className="flex items-center mb-8">
-                <div className="p-3 bg-[#7D27F5]/20 rounded-xl mr-4">
-                  <Calendar className="h-6 w-6 text-[#7D27F5]" />
-                </div>
-                <h3 className="text-2xl font-bold text-white">My Journey</h3>
-              </div>
-              
-              <div className="relative">
-                {/* Timeline Line */}
-                <div className="absolute left-7 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#7D27F5] via-[#B794F4] to-[#7D27F5] opacity-60"></div>
-                
-                <div className="space-y-8">
-                  {journeyEvents.map((event, index) => (
-                    <motion.div
-                      key={`${event.year}-${index}`}
-                      initial={{ opacity: 0, x: 30 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.15 }}
-                      viewport={{ once: true }}
-                      className="relative flex items-start group"
-                    >
-                      {/* Timeline Dot */}
-                      <div className="relative z-10 flex-shrink-0">
-                        <motion.div 
-                          className="w-14 h-14 rounded-full bg-gradient-to-br from-[#7D27F5] to-[#B794F4] flex items-center justify-center text-white font-bold text-sm shadow-lg group-hover:scale-110 transition-transform duration-200"
-                          whileHover={{ scale: 1.15 }}
-                        >
-                          {event.year}
-                        </motion.div>
-                      </div>
-                      
-                      {/* Event Content */}
-                      <div className="ml-8 pb-2 flex-1">
-                        <motion.div 
-                          className="group-hover:translate-y-[-3px] transition-all duration-300 p-4 rounded-xl hover:bg-white/5"
-                        >
-                          <div className="flex items-center mb-2">
-                            <event.icon className="h-5 w-5 text-white/60 mr-2" />
-                            <h4 className="font-bold text-white text-lg group-hover:text-[#B794F4] transition-colors duration-200">
-                              {event.title}
-                            </h4>
-                          </div>
-                          <p className="text-white/60 text-sm leading-relaxed group-hover:text-white/80 transition-colors duration-200">
-                            {event.description}
-                          </p>
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

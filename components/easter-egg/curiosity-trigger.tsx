@@ -7,14 +7,6 @@ import {
   X, 
   RefreshCw, 
   MessageCircle, 
-  Trophy,
-  Star,
-  Zap,
-  Heart,
-  Music,
-  Code,
-  Briefcase,
-  GraduationCap,
   Volume2,
   VolumeX,
   Send
@@ -28,18 +20,6 @@ interface FunFactResponse {
   source: 'groq-api' | 'fallback';
   note?: string;
 }
-
-const iconMap: Record<string, React.ComponentType<any>> = {
-  music: Music,
-  code: Code,
-  work: Briefcase,
-  education: GraduationCap,
-  creativity: Sparkles,
-  energy: Zap,
-  heart: Heart,
-  trophy: Trophy,
-  star: Star,
-};
 
 export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main' | 'skills' | 'journey' }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -112,21 +92,6 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
 
     return () => clearInterval(interval);
   }, [playSound]);
-
-  // Get contextual icon
-  const getContextualIcon = (fact: string) => {
-    const lowerFact = fact.toLowerCase();
-    
-    if (lowerFact.includes('music')) return { icon: Music, color: '#7D27F5' };
-    if (lowerFact.includes('code') || lowerFact.includes('programming')) return { icon: Code, color: '#B794F4' };
-    if (lowerFact.includes('fiverr') || lowerFact.includes('client')) return { icon: Briefcase, color: '#7D27F5' };
-    if (lowerFact.includes('university') || lowerFact.includes('student')) return { icon: GraduationCap, color: '#B794F4' };
-    if (lowerFact.includes('creative') || lowerFact.includes('art')) return { icon: Sparkles, color: '#7D27F5' };
-    if (lowerFact.includes('energy') || lowerFact.includes('adhd')) return { icon: Zap, color: '#B794F4' };
-    if (lowerFact.includes('heart') || lowerFact.includes('empathy')) return { icon: Heart, color: '#7D27F5' };
-    
-    return { icon: Star, color: '#7D27F5' };
-  };
 
   const fetchFunFact = async (question?: string) => {
     setIsLoading(true);
@@ -225,41 +190,45 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
 
   return (
     <>
-      {/* Curiosity Trigger Button */}
+      {/* Ask ARIA Button - Prominent but Minimal */}
       <motion.button
         onClick={openModal}
-        className="group relative p-3 bg-[#7D27F5]/20 border border-[#7D27F5]/30 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#7D27F5]/50 focus:ring-offset-2 focus:ring-offset-[#1D1D21]"
+        className="group relative px-8 py-4 bg-[#7D27F5]/10 border border-[#7D27F5]/30 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#7D27F5]/50 focus:ring-offset-2 focus:ring-offset-[#0A0A0A] magnetic"
         whileHover={{ 
-          scale: 1.1,
-          rotate: [0, -10, 10, -10, 0],
-          transition: { duration: 0.5 }
+          scale: 1.05,
+          transition: { duration: 0.3 }
         }}
         whileTap={{ scale: 0.95 }}
         aria-label="Ask ARIA about Deaneeth"
       >
-        <motion.div
-          animate={{
-            rotate: [0, 180, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <Sparkles className="h-5 w-5 text-[#7D27F5] group-hover:text-[#B794F4] transition-colors duration-200" />
-        </motion.div>
+        <div className="flex items-center space-x-3">
+          <motion.div
+            animate={{
+              rotate: [0, 180, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <Sparkles className="h-5 w-5 text-[#7D27F5] group-hover:text-[#B794F4] transition-colors duration-200" />
+          </motion.div>
+          <span className="text-caption text-[#7D27F5] group-hover:text-[#B794F4] transition-colors duration-200">
+            Ask ARIA
+          </span>
+        </div>
         
         {/* Pulsing glow effect */}
         <motion.div
-          className="absolute inset-0 rounded-full bg-[#7D27F5]/30"
+          className="absolute inset-0 rounded-full bg-[#7D27F5]/20"
           animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.5, 0.8, 0.5],
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.6, 0.3],
           }}
           transition={{
-            duration: 2,
+            duration: 3,
             repeat: Infinity,
             ease: "easeInOut"
           }}
@@ -273,19 +242,19 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-md"
             onClick={closeModal}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 50 }}
+              initial={{ opacity: 0, scale: 0.8, y: 60 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: 50 }}
+              exit={{ opacity: 0, scale: 0.8, y: 60 }}
               transition={{ 
                 type: "spring", 
                 damping: 25, 
                 stiffness: 300 
               }}
-              className="relative bg-[#1D1D21]/95 border border-[#7D27F5]/30 rounded-2xl max-w-md w-full backdrop-blur-md shadow-2xl overflow-hidden"
+              className="relative glass rounded-3xl max-w-lg w-full shadow-elevated overflow-hidden"
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-labelledby="modal-title"
@@ -293,7 +262,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
             >
               {/* Animated gradient border */}
               <motion.div
-                className="absolute inset-0 rounded-2xl p-[2px]"
+                className="absolute inset-0 rounded-3xl p-[2px]"
                 animate={{
                   background: [
                     'linear-gradient(45deg, #7D27F5, #B794F4, #7D27F5)',
@@ -307,50 +276,50 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                   ease: "linear"
                 }}
               >
-                <div className="w-full h-full bg-[#1D1D21]/95 rounded-2xl" />
+                <div className="w-full h-full bg-[#0A0A0A]/95 rounded-3xl" />
               </motion.div>
 
               {/* Modal Content */}
-              <div className="relative z-10 p-6">
+              <div className="relative z-10 p-8">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center space-x-3">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center space-x-4">
                     <motion.div
                       animate={{ rotate: [0, 360] }}
                       transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      className="p-2 bg-[#7D27F5] rounded-lg"
+                      className="p-3 bg-[#7D27F5] rounded-2xl"
                     >
-                      <Sparkles className="h-5 w-5 text-white" />
+                      <Sparkles className="h-6 w-6 text-white" />
                     </motion.div>
                     <div>
-                      <h2 id="modal-title" className="text-lg font-bold text-white">
+                      <h2 id="modal-title" className="text-heading text-white">
                         Ask ARIA
                       </h2>
-                      <p className="text-xs text-white/60">
+                      <p className="text-caption text-white/60">
                         AI Assistant about Deaneeth
                       </p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-3">
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => setSoundEnabled(!soundEnabled)}
-                      className="text-white/60 hover:text-white hover:bg-white/10 rounded-lg"
+                      className="text-white/60 hover:text-white hover:bg-white/10 rounded-xl magnetic"
                       aria-label={soundEnabled ? "Mute sounds" : "Enable sounds"}
                     >
-                      {soundEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+                      {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
                     </Button>
                     
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={closeModal}
-                      className="text-white/60 hover:text-white hover:bg-white/10 rounded-lg"
+                      className="text-white/60 hover:text-white hover:bg-white/10 rounded-xl magnetic"
                       aria-label="Close modal"
                     >
-                      <X className="h-5 w-5" />
+                      <X className="h-6 w-6" />
                     </Button>
                   </div>
                 </div>
@@ -361,64 +330,33 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="mb-6 p-4 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm"
+                  className="mb-8 p-6 glass rounded-2xl"
                   id="modal-description"
                 >
                   {isLoading ? (
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-4">
                       <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       >
-                        <RefreshCw className="h-5 w-5 text-[#7D27F5]" />
+                        <RefreshCw className="h-6 w-6 text-[#7D27F5]" />
                       </motion.div>
-                      <span className="text-white/80">ARIA is thinking...</span>
+                      <span className="text-body">ARIA is thinking...</span>
                     </div>
                   ) : (
-                    <div className="flex items-start space-x-3">
-                      {currentFact && (
-                        <motion.div
-                          initial={{ scale: 0, rotate: -180 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          transition={{ duration: 0.5, delay: 0.2 }}
-                          className="flex-shrink-0 mt-1"
-                        >
-                          {(() => {
-                            const { icon: ContextIcon, color } = getContextualIcon(currentFact);
-                            return (
-                              <motion.div
-                                animate={{ 
-                                  scale: [1, 1.1, 1],
-                                  rotate: [0, 5, -5, 0]
-                                }}
-                                transition={{ 
-                                  duration: 2, 
-                                  repeat: Infinity,
-                                  ease: "easeInOut"
-                                }}
-                                style={{ color }}
-                              >
-                                <ContextIcon className="h-6 w-6" />
-                              </motion.div>
-                            );
-                          })()}
-                        </motion.div>
-                      )}
-                      
-                      <div className="flex-1">
-                        <p className="text-white/80 leading-relaxed">
-                          {isTyping ? typedText : (currentFact || "🤖 Ready to discover something amazing about Deaneeth?")}
-                          {isTyping && (
-                            <motion.span
-                              animate={{ opacity: [1, 0] }}
-                              transition={{ duration: 0.5, repeat: Infinity }}
-                              className="ml-1 text-[#7D27F5]"
-                            >
-                              |
-                            </motion.span>
-                          )}
-                        </p>
-                      </div>
+                    <div>
+                      <p className="text-body">
+                        {isTyping ? typedText : (currentFact || "🤖 Ready to discover something amazing about Deaneeth?")}
+                        {isTyping && (
+                          <motion.span
+                            animate={{ opacity: [1, 0] }}
+                            transition={{ duration: 0.5, repeat: Infinity }}
+                            className="ml-1 text-[#7D27F5]"
+                          >
+                            |
+                          </motion.span>
+                        )}
+                      </p>
                     </div>
                   )}
                 </motion.div>
@@ -432,22 +370,22 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.3 }}
                       onSubmit={handleQuestionSubmit}
-                      className="mb-4 overflow-hidden"
+                      className="mb-6 overflow-hidden"
                     >
-                      <div className="flex gap-2">
+                      <div className="flex gap-3">
                         <Input
                           type="text"
                           value={userQuestion}
                           onChange={(e) => setUserQuestion(e.target.value)}
                           placeholder="Ask ARIA about Deaneeth..."
-                          className="flex-1 bg-white/5 border-white/10 text-white placeholder-white/40 focus:border-[#7D27F5] focus:ring-[#7D27F5]/20"
+                          className="flex-1 glass border-white/10 text-white placeholder-white/40 focus:border-[#7D27F5] focus:ring-[#7D27F5]/20 rounded-xl"
                           autoFocus
                         />
                         <Button
                           type="submit"
                           size="sm"
                           disabled={!userQuestion.trim() || isLoading}
-                          className="bg-[#7D27F5] text-white hover:bg-[#B794F4] transition-all duration-200"
+                          className="bg-[#7D27F5] text-white hover:bg-[#B794F4] transition-all duration-200 magnetic rounded-xl"
                         >
                           <Send className="h-4 w-4" />
                         </Button>
@@ -457,12 +395,12 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                 </AnimatePresence>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col gap-3">
-                  <div className="flex gap-3">
+                <div className="flex flex-col gap-4">
+                  <div className="flex gap-4">
                     <Button
                       onClick={() => fetchFunFact()}
                       disabled={isLoading}
-                      className="flex-1 bg-[#7D27F5] text-white font-semibold hover:bg-[#B794F4] transition-all duration-300"
+                      className="flex-1 btn-primary magnetic"
                     >
                       {isLoading ? (
                         <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
@@ -474,15 +412,14 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                     
                     <Button
                       onClick={() => setShowQuestionInput(!showQuestionInput)}
-                      variant="outline"
-                      className="border-[#7D27F5]/30 text-white/80 hover:bg-white/10 hover:border-[#7D27F5]"
+                      className="btn-outline magnetic"
                       aria-label="Ask a question"
                     >
                       <MessageCircle className="h-4 w-4" />
                     </Button>
                   </div>
                   
-                  <div className="text-center text-xs text-white/40">
+                  <div className="text-center text-caption text-white/40">
                     {previousFacts.length} facts discovered this session
                   </div>
                 </div>
