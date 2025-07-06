@@ -2,8 +2,9 @@
 
 import { motion } from 'framer-motion';
 import { Navigation } from '@/components/navigation';
+import { GridBackground } from '@/components/grid-background';
+import { ScrollProgress } from '@/components/scroll-progress';
 import { HeroSection } from '@/components/sections/hero-section';
-import { TrustedSection } from '@/components/sections/trusted-section';
 import { AboutSection } from '@/components/sections/about-section';
 import { ProjectsSection } from '@/components/sections/projects-section';
 import { ServicesSection } from '@/components/sections/services-section';
@@ -15,20 +16,29 @@ import { Footer } from '@/components/footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#1D1D21]">
+      <ScrollProgress />
       <Navigation />
+      
       <main>
+        {/* Hero Section - No Grid Background */}
         <HeroSection />
-        <TrustedSection />
-        <AboutSection />
-        <ProjectsSection />
-        <ServicesSection />
-        <ContentHubSection />
-        <AchievementsSection />
-        <SkillsSection />
-        <ContactSection />
+        
+        {/* All Other Sections - With Grid Background */}
+        <GridBackground>
+          <AboutSection />
+          <ProjectsSection />
+          <ServicesSection />
+          <ContentHubSection />
+          <AchievementsSection />
+          <SkillsSection />
+          <ContactSection />
+        </GridBackground>
       </main>
-      <Footer />
+      
+      <GridBackground>
+        <Footer />
+      </GridBackground>
     </div>
   );
 }
