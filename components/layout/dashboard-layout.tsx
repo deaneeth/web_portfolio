@@ -30,7 +30,7 @@ const navigationItems = [
   {
     section: 'Main',
     items: [
-      { name: 'Dashboard', href: '/', icon: Home },
+      { name: 'Homepage', href: '/', icon: Home },
       { name: 'Featured Work', href: '/work', icon: FolderOpen },
       { name: 'Creative Services', href: '/services', icon: Briefcase },
       { name: 'Content Hub', href: '/content', icon: BookOpen },
