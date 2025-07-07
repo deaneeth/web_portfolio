@@ -3,17 +3,18 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
+import { DashboardLayout } from '@/components/layout/dashboard-layout';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Dineth - AI/ML Explorer & Creative Technologist',
-  description: 'Portfolio of Dineth - Builder of Futures, Poet with a Keyboard, AI/ML enthusiast and Computer Science undergraduate at University of Plymouth, Sri Lanka.',
-  keywords: ['Dineth', 'AI', 'Machine Learning', 'Computer Science', 'Portfolio', 'Sri Lanka', 'Plymouth'],
-  authors: [{ name: 'Dineth' }],
+  title: 'Deaneeth - AI/ML Explorer & Creative Technologist',
+  description: 'Portfolio of Deaneeth - Builder of Futures, AI/ML Explorer, and Computer Science undergraduate at University of Plymouth, Sri Lanka.',
+  keywords: ['Deaneeth', 'AI', 'Machine Learning', 'Computer Science', 'Portfolio', 'Sri Lanka', 'Plymouth'],
+  authors: [{ name: 'Deaneeth' }],
   openGraph: {
-    title: 'Dineth - AI/ML Explorer & Creative Technologist',
-    description: 'Builder of Futures. Poet with a Keyboard. AI/ML Explorer.',
+    title: 'Deaneeth - AI/ML Explorer & Creative Technologist',
+    description: 'Builder of Futures. AI/ML Explorer.',
     type: 'website',
   },
 };
@@ -32,7 +33,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <DashboardLayout>
+            {children}
+          </DashboardLayout>
           <Toaster />
         </ThemeProvider>
       </body>

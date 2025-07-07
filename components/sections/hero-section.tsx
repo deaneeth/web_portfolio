@@ -1,162 +1,253 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Mail, Download } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { ParticleBackground } from '@/components/particle-background';
+import { CuriosityTrigger } from '@/components/easter-egg/curiosity-trigger';
 
 export function HeroSection() {
-  const scrollToAbout = () => {
-    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+  const [time, setTime] = useState('');
+  const heroImageRef = useRef<HTMLDivElement>(null);
+
+  // Update clock
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      setTime(`LOCAL/${timeString}`);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Handle hero image 3D effect
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!heroImageRef.current) return;
+
+    const rect = heroImageRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 8;
+    const rotateY = (centerX - x) / 8;
+
+    heroImageRef.current.style.setProperty('--rotate-x', `${rotateX}deg`);
+    heroImageRef.current.style.setProperty('--rotate-y', `${rotateY}deg`);
+  };
+
+  const handleMouseLeave = () => {
+    if (!heroImageRef.current) return;
+    heroImageRef.current.style.setProperty('--rotate-x', '0deg');
+    heroImageRef.current.style.setProperty('--rotate-y', '0deg');
+  };
+
+  const scrollToContact = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-hero-dark-bg">
-      <ParticleBackground />
-      
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center">
-          {/* Main Headline with Mixed Gradient and White Text */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-6"
-          >
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4 leading-tight">
-              <span className="hero-gradient-text">
-                Builder of Futures.
-              </span>
-              <br />
-              <span className="text-white">
-                AI/ML Explorer.
-              </span>
-            </h1>
-          </motion.div>
+    <section id="home" className="relative min-h-screen flex items-center justify-center bg-[#0A0A0A] overflow-hidden">
+      {/* Local Clock - Budhvin Style */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        className="fixed top-8 left-8 z-50 local-clock"
+      >
+        {time}
+      </motion.div>
 
-          {/* Quote */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mb-4"
-          >
-            <p className="text-lg sm:text-xl text-foreground/80 font-medium italic">
-              "The future belongs to those who code it."
-            </p>
-          </motion.div>
+      {/* Contact Button - Top Right */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className="fixed top-8 right-8 z-50"
+      >
+        <Button
+          onClick={scrollToContact}
+          className="btn-outline magnetic"
+        >
+          Contact Now
+        </Button>
+      </motion.div>
 
-          {/* Sub headline/tagline */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-lg sm:text-xl text-foreground/80 mb-8 max-w-3xl mx-auto"
-          >
-            19-year-old Computer Science undergraduate turning ideas into intelligent reality.
-          </motion.p>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto mb-8"
-          >
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold stats-gradient-text mb-2">5,000+</div>
-              <div className="text-muted-foreground text-sm">Clients Served</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold stats-gradient-text mb-2">50+</div>
-              <div className="text-muted-foreground text-sm">Projects Built</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold stats-gradient-text mb-2">2026</div>
-              <div className="text-muted-foreground text-sm">Graduation</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold stats-gradient-text mb-2">∞</div>
-              <div className="text-muted-foreground text-sm">Possibilities</div>
-            </div>
-          </motion.div>
-
-          {/* CV Button and Social Icons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8"
-          >
-            <Button 
-              size="lg" 
-              className="cv-button text-white font-semibold px-8 py-3 rounded-full border-0 hover:scale-105 transition-transform duration-300"
-              onClick={() => window.open('#', '_blank')}
-            >
-              <Download className="mr-2 h-5 w-5" />
-              Download CV
-            </Button>
+      <div className="container-grid relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-screen py-20">
+          
+          {/* Left Side - Text Content */}
+          <div className="lg:col-span-7 space-y-12">
             
-            <div className="flex items-center gap-4">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="social-icon rounded-full w-12 h-12 hover:scale-110 transition-all duration-300" 
-                asChild
-              >
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                  <Github className="h-5 w-5 text-foreground" />
-                </a>
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="social-icon rounded-full w-12 h-12 hover:scale-110 transition-all duration-300" 
-                asChild
-              >
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                  <Linkedin className="h-5 w-5 text-foreground" />
-                </a>
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="social-icon rounded-full w-12 h-12 hover:scale-110 transition-all duration-300" 
-                asChild
-              >
-                <a href="mailto:dineth@example.com">
-                  <Mail className="h-5 w-5 text-foreground" />
-                </a>
-              </Button>
-            </div>
-          </motion.div>
+            {/* Main Hero Text with Breathing Animation */}
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 1.2, 
+                type: "spring", 
+                stiffness: 80, 
+                damping: 20 
+              }}
+              className="relative"
+            >
+              <div className="hero-text animate-breathe">
+                DEANEETH
+              </div>
+            </motion.div>
 
-          {/* University Information */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="max-w-md mx-auto border-t border-border/10 pt-4 mt-8"
-          >
-            <p className="text-muted-foreground text-sm">Computer Science @ University of Plymouth, Sri Lanka</p>
-          </motion.div>
+            {/* Scrolling Text Carousel - Norris Style */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="space-y-6"
+            >
+              {/* Main scrolling text */}
+              <div className="scrolling-text">
+                <div className="scrolling-content">
+                  <span className="hero-text">DEANEETH</span>
+                  <span className="hero-text">DEANEETH</span>
+                  <span className="hero-text">DEANEETH</span>
+                  <span className="hero-text">DEANEETH</span>
+                </div>
+              </div>
+
+              {/* Counter-scrolling subtitle */}
+              <div className="scrolling-text">
+                <div className="scrolling-content-reverse">
+                  <span className="subtitle-text">PORTFOLIO</span>
+                  <span className="subtitle-text">—</span>
+                  <span className="subtitle-text">©2025</span>
+                  <span className="subtitle-text">—</span>
+                  <span className="subtitle-text">AI/ML EXPLORER</span>
+                  <span className="subtitle-text">—</span>
+                  <span className="subtitle-text">WELCOME</span>
+                  <span className="subtitle-text">—</span>
+                  <span className="subtitle-text">V.01</span>
+                  <span className="subtitle-text">—</span>
+                  <span className="subtitle-text">PORTFOLIO</span>
+                  <span className="subtitle-text">—</span>
+                  <span className="subtitle-text">©2025</span>
+                  <span className="subtitle-text">—</span>
+                  <span className="subtitle-text">AI/ML EXPLORER</span>
+                  <span className="subtitle-text">—</span>
+                  <span className="subtitle-text">WELCOME</span>
+                  <span className="subtitle-text">—</span>
+                  <span className="subtitle-text">V.01</span>
+                  <span className="subtitle-text">—</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Description */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="max-w-lg space-y-6"
+            >
+              <p className="text-body">
+                19-year-old Computer Science undergraduate turning ideas into intelligent reality. 
+                Building the future, one line of code at a time.
+              </p>
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+              className="flex flex-col sm:flex-row gap-6 items-start"
+            >
+              <CuriosityTrigger triggerType="main" />
+              
+              <Button
+                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                className="btn-outline magnetic"
+              >
+                View Projects
+              </Button>
+            </motion.div>
+          </div>
+
+          {/* Right Side - Hero Image Overlapping Text */}
+          <div className="lg:col-span-5 relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, x: 100 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ 
+                duration: 1.2, 
+                delay: 0.4,
+                type: "spring", 
+                stiffness: 80,
+                damping: 20
+              }}
+              className="relative"
+            >
+              <div
+                ref={heroImageRef}
+                className="hero-image relative w-full max-w-md mx-auto lg:max-w-lg"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+              >
+                <img
+                  src="https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+                  alt="Deaneeth - AI/ML Explorer & Creative Technologist"
+                  className="w-full h-auto object-cover"
+                  style={{ aspectRatio: '3/4' }}
+                />
+                
+                {/* Floating elements around image */}
+                <motion.div
+                  className="floating-element absolute -top-6 -right-6 w-20 h-20 bg-[#7D27F5] rounded-full flex items-center justify-center text-white font-bold text-lg glass"
+                >
+                  AI
+                </motion.div>
+                
+                <motion.div
+                  className="floating-element absolute -bottom-6 -left-6 w-16 h-16 bg-[#B794F4] rounded-full flex items-center justify-center text-white text-sm font-bold glass"
+                >
+                  ML
+                </motion.div>
+
+                <motion.div
+                  className="floating-element absolute top-1/4 -left-8 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white text-xs font-bold glass"
+                >
+                  CS
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
 
-      {/* Scroll Down Indicator */}
+      {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 1.8 }}
+        className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
       >
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          onClick={scrollToAbout}
-          className="text-muted-foreground hover:text-foreground transition-colors"
+        <motion.div
+          animate={{ y: [0, 12, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          className="w-6 h-12 border-2 border-white/20 rounded-full flex justify-center"
         >
-          <ArrowDown className="h-6 w-6" />
-        </Button>
+          <motion.div
+            animate={{ y: [0, 16, 0] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            className="w-1 h-4 bg-[#7D27F5] rounded-full mt-2"
+          />
+        </motion.div>
       </motion.div>
     </section>
   );
