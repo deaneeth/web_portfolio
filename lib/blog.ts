@@ -31,7 +31,7 @@ export interface BlogPost {
 }
 
 // Mock data for demonstration - replace with your actual data source
-export const blogPosts: BlogPost[] = [
+const blogPosts: BlogPost[] = [
   {
     id: '1',
     title: 'The Future of AI in Creative Industries: A Sri Lankan Perspective',
@@ -226,7 +226,7 @@ export function getAllPosts(): BlogPost[] {
   );
 }
 
-export function getPostById(id: string): BlogPost | undefined {
+function getPostById(id: string): BlogPost | undefined {
   return blogPosts.find(post => post.id === id && post.published);
 }
 
