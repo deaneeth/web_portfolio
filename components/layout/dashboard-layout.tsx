@@ -28,7 +28,7 @@ interface DashboardLayoutProps {
 
 const navigationItems = [
   {
-    section: 'Main',
+    section:,
     items: [
       { name: 'Homepage', href: '/', icon: Home },
       { name: 'Featured Work', href: '/work', icon: FolderOpen },
