@@ -294,7 +294,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn btn-primary w-full"
+                  className="btn btn-primary w-full magnetic"
                 >
                   {isSubmitting ? (
                     <>
