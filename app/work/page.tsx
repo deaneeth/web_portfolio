@@ -258,7 +258,7 @@ export default function WorkPage() {
             placeholder="Search projects..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="form-input pl-10 w-64"
+            className="search-input w-64"
           />
         </div>
       </motion.div>
