@@ -1,6 +1,6 @@
 # Dineth's Portfolio - Enhanced AI Easter Egg Experience
 
-A world-class personal portfolio featuring an advanced AI-powered easter egg system with gamification, curiosity trails, and interactive discovery mechanics.
+A personal portfolio featuring an advanced AI-powered easter egg and personalized AI Agent system with gamification, curiosity trails, and interactive discovery mechanics.
 
 ## 🎮 Enhanced Easter Egg Features
 
