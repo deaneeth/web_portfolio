@@ -33,7 +33,7 @@ const navigationItems = [
       { name: 'Homepage', href: '/', icon: Home }, 
       { name: 'Featured Work', href: '/work', icon: FolderOpen },
       { name: 'Creative Services', href: '/services', icon: Briefcase },
-      { name: 'Content Hub', href: '/content', icon: BookOpen },
+      { name: 'Content Hub', href: '/blog', icon: BookOpen },
     ]
   },
   {

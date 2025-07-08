@@ -45,7 +45,7 @@ const featuredSections = [
   {
     title: 'Content Hub',
     description: 'Technical writing, tutorials, and insights on AI/ML and technology',
-    href: '/content',
+    href: '/blog',
     icon: BookOpen,
     color: 'from-orange-500 to-red-500',
     stats: '24 Articles'
@@ -235,7 +235,7 @@ export default function HomePage() {
           className="flex items-center justify-between mb-6"
         >
           <h2 className="text-2xl font-semibold">Recent Activity</h2>
-          <Link href="/content" className="text-sm text-primary hover:underline">
+          <Link href="/blog" className="text-sm text-primary hover:underline">
             View all
           </Link>
         </motion.div>
