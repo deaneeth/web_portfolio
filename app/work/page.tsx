@@ -155,71 +155,80 @@ export default function WorkPage() {
             <h2 className="text-xl font-semibold">Featured Projects</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-            {featuredProjects.map((project, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {featuredProjects.slice(0, 3).map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
-                className="project-card card cursor-pointer"
+                className="group relative bg-card border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary/50 h-full flex flex-col"
                 onClick={() => setSelectedProject(project)}
               >
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="project-image"
-                />
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                </div>
                 
-                <div className="flex items-start justify-between mb-3">
-                  <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                    {project.category}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      project.status === 'Completed' ? 'bg-green-500/10 text-green-500' :
-                      project.status === 'In Progress' ? 'bg-blue-500/10 text-blue-500' :
-                      'bg-yellow-500/10 text-yellow-500'
-                    }`}>
-                      {project.status}
+                <div className="p-6 flex-1 flex flex-col">
+                  <div className="flex items-start justify-between mb-3">
+                    <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                      {project.category}
                     </span>
-                    <ArrowUpRight className="w-4 h-4 text-muted-foreground" />
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        project.status === 'Completed' ? 'bg-green-500/10 text-green-500' :
+                        project.status === 'In Progress' ? 'bg-blue-500/10 text-blue-500' :
+                        'bg-yellow-500/10 text-yellow-500'
+                      }`}>
+                        {project.status}
+                      </span>
+                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                    </div>
                   </div>
-                </div>
 
-                <h3 className="card-title">{project.title}</h3>
-                <p className="card-description mb-4">{project.description}</p>
+                  <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
+                    {project.description}
+                  </p>
 
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.slice(0, 3).map(tag => (
-                    <span key={tag} className="text-xs bg-muted/50 text-muted-foreground px-2 py-1 rounded">
-                      {tag}
-                    </span>
-                  ))}
-                  {project.tags.length > 3 && (
-                    <span className="text-xs text-muted-foreground">
-                      +{project.tags.length - 3} more
-                    </span>
-                  )}
-                </div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.slice(0, 3).map(tag => (
+                      <span key={tag} className="text-xs bg-muted/50 text-muted-foreground px-2 py-1 rounded">
+                        {tag}
+                      </span>
+                    ))}
+                    {project.tags.length > 3 && (
+                      <span className="text-xs text-muted-foreground">
+                        +{project.tags.length - 3} more
+                      </span>
+                    )}
+                  </div>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-primary">{project.impact}</span>
-                  <div className="flex gap-2">
-                    <a
-                      href={project.github}
-                      className="p-2 hover:bg-muted rounded-lg transition-colors"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Github className="w-4 h-4" />
-                    </a>
-                    <a
-                      href={project.demo}
-                      className="p-2 hover:bg-muted rounded-lg transition-colors"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="text-sm font-medium text-primary">{project.impact}</span>
+                    <div className="flex gap-2">
+                      <a
+                        href={project.github}
+                        className="p-2 hover:bg-muted rounded-lg transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Github className="w-4 h-4" />
+                      </a>
+                      <a
+                        href={project.demo}
+                        className="p-2 hover:bg-muted rounded-lg transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -279,51 +288,58 @@ export default function WorkPage() {
 
         {filteredProjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProjects.map((project, index) => (
+            {filteredProjects.slice(0, 9).map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
-                className="project-card card cursor-pointer"
+                className="group relative bg-card border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary/50 h-full flex flex-col"
                 onClick={() => setSelectedProject(project)}
               >
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="project-image"
-                />
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                </div>
                 
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                    {project.category}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(project.date).toLocaleDateString()}
-                  </span>
-                </div>
-
-                <h3 className="font-semibold mb-2">{project.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {project.tags.slice(0, 2).map(tag => (
-                    <span key={tag} className="text-xs bg-muted/50 text-muted-foreground px-2 py-1 rounded">
-                      {tag}
+                <div className="p-6 flex-1 flex flex-col">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                      {project.category}
                     </span>
-                  ))}
-                  {project.tags.length > 2 && (
                     <span className="text-xs text-muted-foreground">
-                      +{project.tags.length - 2}
+                      {new Date(project.date).toLocaleDateString()}
                     </span>
-                  )}
-                </div>
+                  </div>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-primary">{project.impact}</span>
-                  <ArrowUpRight className="w-4 h-4 text-muted-foreground" />
+                  <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.slice(0, 3).map(tag => (
+                      <span key={tag} className="text-xs bg-muted/50 text-muted-foreground px-2 py-1 rounded">
+                        {tag}
+                      </span>
+                    ))}
+                    {project.tags.length > 3 && (
+                      <span className="text-xs text-muted-foreground">
+                        +{project.tags.length - 3}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="text-sm font-medium text-primary">{project.impact}</span>
+                    <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -359,7 +375,7 @@ export default function WorkPage() {
             className="bg-card border border-border rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6">
+            <div className="p-8">
               <div className="flex items-start justify-between mb-6">
                 <div>
                   <h2 className="text-2xl font-bold mb-2">{selectedProject.title}</h2>
@@ -379,7 +395,7 @@ export default function WorkPage() {
                 </div>
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="p-2 hover:bg-muted rounded-lg transition-colors"
+                  className="p-2 hover:bg-muted rounded-lg transition-colors text-muted-foreground hover:text-foreground"
                 >
                   <X className="w-5 h-5" />
                 </button>
