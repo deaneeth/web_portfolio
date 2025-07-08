@@ -551,6 +551,9 @@ select.form-input option {
   color: hsl(var(--foreground));
 }
 
+/* Service Cards */
+.service-card {
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .dashboard-layout {
