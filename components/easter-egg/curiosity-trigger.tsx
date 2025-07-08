@@ -254,7 +254,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                 damping: 25, 
                 stiffness: 300 
               }}
-              className="relative glass rounded-3xl max-w-lg w-full shadow-elevated overflow-hidden"
+              className="relative aria-modal glass rounded-3xl max-w-lg w-full shadow-elevated overflow-hidden"
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-labelledby="modal-title"
@@ -276,7 +276,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                   ease: "linear"
                 }}
               >
-                <div className="w-full h-full bg-[#0A0A0A]/95 rounded-3xl" />
+                <div className="w-full h-full bg-card/95 rounded-3xl" />
               </motion.div>
 
               {/* Modal Content */}
@@ -292,10 +292,10 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       <Sparkles className="h-6 w-6 text-white" />
                     </motion.div>
                     <div>
-                      <h2 id="modal-title" className="text-heading text-white">
+                      <h2 id="modal-title" className="text-heading text-foreground">
                         Ask ARIA
                       </h2>
-                      <p className="text-caption text-white/60">
+                      <p className="text-caption text-muted-foreground">
                         AI Assistant about Deaneeth
                       </p>
                     </div>
@@ -306,7 +306,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       variant="ghost"
                       size="icon"
                       onClick={() => setSoundEnabled(!soundEnabled)}
-                      className="text-white/60 hover:text-white hover:bg-white/10 rounded-xl magnetic"
+                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl magnetic"
                       aria-label={soundEnabled ? "Mute sounds" : "Enable sounds"}
                     >
                       {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
@@ -316,7 +316,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       variant="ghost"
                       size="icon"
                       onClick={closeModal}
-                      className="text-white/60 hover:text-white hover:bg-white/10 rounded-xl magnetic"
+                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl magnetic"
                       aria-label="Close modal"
                     >
                       <X className="h-6 w-6" />
@@ -378,14 +378,14 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                           value={userQuestion}
                           onChange={(e) => setUserQuestion(e.target.value)}
                           placeholder="Ask ARIA about Deaneeth..."
-                          className="flex-1 glass border-white/10 text-white placeholder-white/40 focus:border-[#7D27F5] focus:ring-[#7D27F5]/20 rounded-xl"
+                          className="flex-1 glass border-border text-foreground placeholder-muted-foreground focus:border-[#7D27F5] focus:ring-[#7D27F5]/20 rounded-xl"
                           autoFocus
                         />
                         <Button
                           type="submit"
                           size="sm"
                           disabled={!userQuestion.trim() || isLoading}
-                          className="bg-[#7D27F5] text-white hover:bg-[#B794F4] transition-all duration-200 magnetic rounded-xl"
+                          className="bg-[#7D27F5] text-primary-foreground hover:bg-[#B794F4] transition-all duration-200 magnetic rounded-xl"
                         >
                           <Send className="h-4 w-4" />
                         </Button>
@@ -419,7 +419,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                     </Button>
                   </div>
                   
-                  <div className="text-center text-caption text-white/40">
+                  <div className="text-center text-caption text-muted-foreground">
                     {previousFacts.length} facts discovered this session
                   </div>
                 </div>
