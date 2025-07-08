@@ -198,7 +198,7 @@ export default function BlogPage() {
                     placeholder="Search articles..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-400"
+                    className="pl-10 form-input"
                   />
                 </div>
 
@@ -207,7 +207,7 @@ export default function BlogPage() {
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as SortOption)}
-                    className="bg-white/5 border border-white/10 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/50"
+                    className="form-input text-sm px-4 py-2"
                   >
                     <option value="latest">Latest</option>
                     <option value="oldest">Oldest</option>
