@@ -9,9 +9,7 @@ import {
   Home,
   FolderOpen,
   Briefcase,
-  BookOpen,
   Trophy,
-  Code,
   Mail,
   ChevronLeft,
   ChevronRight,
@@ -33,14 +31,12 @@ const navigationItems = [
       { name: 'Homepage', href: '/', icon: Home }, 
       { name: 'Featured Work', href: '/work', icon: FolderOpen },
       { name: 'Creative Services', href: '/services', icon: Briefcase },
-      { name: 'Content Hub', href: '/blog', icon: BookOpen },
     ]
   },
   {
     section: 'Profile',
     items: [
       { name: 'Achievement Wall', href: '/achievements', icon: Trophy },
-      { name: 'Technical Skills', href: '/skills', icon: Code },
       { name: 'Get in Touch', href: '/contact', icon: Mail },
     ]
   }
@@ -69,8 +65,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     };
 
     updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    // Remove auto-refresh - only update on mount
   }, []);
 
   const toggleSidebar = () => {
@@ -144,18 +139,46 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         ))}
       </nav>
 
-      {/* Local Time */}
+      {/* Static Local Time */}
       {!isCollapsed && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="local-time"
+          className="mt-auto p-4 bg-muted/30 rounded-lg text-center"
         >
-          <div>Local Time</div>
-          <div>{currentTime}</div>
+          <div className="text-xs text-muted-foreground mb-1">Local Time</div>
+          <div className="text-sm font-mono text-foreground">{currentTime}</div>
         </motion.div>
       )}
+
+      {/* Theme Toggle in Sidebar */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.9 }}
+        className="mt-4"
+      >
+        {mounted && (
+          <button
+            onClick={toggleTheme}
+            className="w-full p-3 bg-muted/30 hover:bg-muted/50 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+            aria-label="Toggle theme"
+          >
+            {theme === 'light' ? (
+              <>
+                <Moon className="h-4 w-4" />
+                {!isCollapsed && <span className="text-sm">Dark Mode</span>}
+              </>
+            ) : (
+              <>
+                <Sun className="h-4 w-4" />
+                {!isCollapsed && <span className="text-sm">Light Mode</span>}
+              </>
+            )}
+          </button>
+        )}
+      </motion.div>
     </div>
   );
 
@@ -231,19 +254,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {children}
         </motion.div>
       </main>
-
-      {/* Theme Toggle */}
-      <button
-        onClick={toggleTheme}
-        className="theme-toggle focus-ring"
-        aria-label="Toggle theme"
-      >
-        {theme === 'light' ? (
-          <Moon className="w-5 h-5" />
-        ) : (
-          <Sun className="w-5 h-5" />
-        )}
-      </button>
     </div>
   );
 }
