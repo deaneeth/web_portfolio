@@ -17,6 +17,8 @@ import {
   MapPin
 } from 'lucide-react';
 import { CuriosityTrigger } from '@/components/easter-egg/curiosity-trigger';
+import { PersonalStory } from '@/components/sections/personal-story';
+import { SocialButtons } from '@/components/ui/social-buttons';
 
 const quickStats = [
   { label: 'Projects Completed', value: '25+' },
@@ -43,28 +45,12 @@ const featuredSections = [
     stats: '5 Services'
   },
   {
-    title: 'Content Hub',
-    description: 'Technical writing, tutorials, and insights on AI/ML and technology',
-    href: '/blog',
-    icon: BookOpen,
-    color: 'from-orange-500 to-red-500',
-    stats: '24 Articles'
-  },
-  {
     title: 'Achievement Wall',
     description: 'Certifications, awards, and milestones throughout my journey',
     href: '/achievements',
     icon: Trophy,
     color: 'from-yellow-500 to-orange-500',
     stats: '15 Achievements'
-  },
-  {
-    title: 'Technical Skills',
-    description: 'My technical toolkit: languages, frameworks, platforms, and tools',
-    href: '/skills',
-    icon: Code,
-    color: 'from-purple-500 to-pink-500',
-    stats: '30+ Skills'
   },
   {
     title: 'Get in Touch',
@@ -102,7 +88,7 @@ const recentActivity = [
 
 export default function HomePage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* Page Header */}
       <div className="page-header">
         <motion.div
@@ -150,15 +136,25 @@ export default function HomePage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="flex flex-wrap gap-4 mt-8"
         >
-          <Link href="/work" className="btn btn-primary">
+          <Link href="/work" className="btn btn-primary magnetic" data-cursor-text="View Work">
             <FolderOpen className="w-4 h-4" />
             View Projects
           </Link>
-          <Link href="/contact" className="btn btn-outline">
+          <Link href="/contact" className="btn btn-outline magnetic" data-cursor-text="Contact">
             <Mail className="w-4 h-4" />
             Get in Touch
           </Link>
           <CuriosityTrigger triggerType="main" />
+        </motion.div>
+
+        {/* Social Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-6"
+        >
+          <SocialButtons variant="horizontal" size="md" />
         </motion.div>
       </div>
 
@@ -166,39 +162,53 @@ export default function HomePage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
         className="grid grid-cols-2 lg:grid-cols-4 gap-4"
       >
         {quickStats.map((stat, index) => (
-          <div key={stat.label} className="card text-center">
+          <motion.div 
+            key={stat.label} 
+            className="card text-center magnetic"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+            data-cursor-text={stat.value}
+          >
             <div className="text-2xl font-bold text-primary mb-1">{stat.value}</div>
             <div className="text-sm text-muted-foreground">{stat.label}</div>
-          </div>
+          </motion.div>
         ))}
       </motion.div>
+
+      {/* Personal Story Section */}
+      <PersonalStory />
 
       {/* Featured Sections */}
       <div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           className="flex items-center justify-between mb-6"
         >
           <h2 className="text-2xl font-semibold">Explore My Work</h2>
-          <span className="text-sm text-muted-foreground">6 sections</span>
+          <span className="text-sm text-muted-foreground">{featuredSections.length} sections</span>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {featuredSections.map((section, index) => (
             <motion.div
               key={section.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
+              transition={{ duration: 0.5, delay: 0.6 + (index * 0.1) }}
             >
               <Link href={section.href} className="block group">
-                <div className="card hover:border-primary/50 transition-all duration-300 group-hover:shadow-lg">
+                <motion.div 
+                  className="card hover:border-primary/50 transition-all duration-300 group-hover:shadow-lg magnetic"
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.3 }}
+                  data-cursor-text="Explore"
+                >
                   <div className="flex items-start justify-between mb-4">
                     <div className={`p-3 rounded-lg bg-gradient-to-r ${section.color} bg-opacity-10`}>
                       <section.icon className="w-6 h-6 text-white" />
@@ -219,7 +229,7 @@ export default function HomePage() {
                     <span>Explore</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>
-                </div>
+                </motion.div>
               </Link>
             </motion.div>
           ))}
@@ -235,7 +245,7 @@ export default function HomePage() {
           className="flex items-center justify-between mb-6"
         >
           <h2 className="text-2xl font-semibold">Recent Activity</h2>
-          <Link href="/blog" className="text-sm text-primary hover:underline">
+          <Link href="/blog" className="text-sm text-primary hover:underline magnetic" data-cursor-text="View All">
             View all
           </Link>
         </motion.div>
@@ -247,7 +257,9 @@ export default function HomePage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.9 + (index * 0.1) }}
-              className="card"
+              className="card magnetic"
+              whileHover={{ x: 4 }}
+              data-cursor-text="View"
             >
               <div className="flex items-start gap-4">
                 <div className={`p-2 rounded-lg ${
@@ -288,7 +300,9 @@ export default function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 1.2 }}
-        className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20"
+        className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 magnetic"
+        whileHover={{ y: -4 }}
+        data-cursor-text="Let's Build"
       >
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
@@ -298,10 +312,10 @@ export default function HomePage() {
             </p>
           </div>
           <div className="flex gap-3">
-            <Link href="/services" className="btn btn-outline">
+            <Link href="/services" className="btn btn-outline magnetic" data-cursor-text="Services">
               View Services
             </Link>
-            <Link href="/contact" className="btn btn-primary">
+            <Link href="/contact" className="btn btn-primary magnetic" data-cursor-text="Start">
               Start Project
             </Link>
           </div>
