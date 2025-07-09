@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, 
@@ -31,13 +31,49 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
   const [userQuestion, setUserQuestion] = useState('');
   const [showQuestionInput, setShowQuestionInput] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  
+  // Audio context and cleanup refs
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const activeOscillatorsRef = useRef<OscillatorNode[]>([]);
+  const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Play sound function
+  // Cleanup function to stop all audio
+  const stopAllAudio = useCallback(() => {
+    // Stop all active oscillators
+    activeOscillatorsRef.current.forEach(oscillator => {
+      try {
+        oscillator.stop();
+        oscillator.disconnect();
+      } catch (error) {
+        // Oscillator might already be stopped
+      }
+    });
+    activeOscillatorsRef.current = [];
+
+    // Clear typing interval
+    if (typingIntervalRef.current) {
+      clearInterval(typingIntervalRef.current);
+      typingIntervalRef.current = null;
+    }
+
+    // Close audio context
+    if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+      audioContextRef.current.close();
+      audioContextRef.current = null;
+    }
+  }, []);
+
+  // Play sound function with proper cleanup tracking
   const playSound = useCallback((type: 'open' | 'discover' | 'typing' | 'close' = 'open') => {
     if (!soundEnabled) return;
 
     try {
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      // Create new audio context if needed
+      if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
+        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      const audioContext = audioContextRef.current;
       
       const soundConfigs = {
         open: { frequencies: [523.25, 659.25, 783.99], duration: 0.4 },
@@ -51,6 +87,9 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
       config.frequencies.forEach((freq, index) => {
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
+        
+        // Track oscillator for cleanup
+        activeOscillatorsRef.current.push(oscillator);
         
         oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
         oscillator.type = type === 'typing' ? 'square' : 'sine';
@@ -67,30 +106,39 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
         
         oscillator.start(startTime);
         oscillator.stop(startTime + config.duration);
+        
+        // Remove from tracking when finished
+        oscillator.onended = () => {
+          const index = activeOscillatorsRef.current.indexOf(oscillator);
+          if (index > -1) {
+            activeOscillatorsRef.current.splice(index, 1);
+          }
+        };
       });
     } catch (error) {
       console.log(`🎵 ${type} sound would play here!`);
     }
   }, [soundEnabled]);
 
-  // Typewriter effect
+  // Typewriter effect with proper cleanup
   const typeText = useCallback((text: string) => {
     setIsTyping(true);
     setTypedText('');
     
     let index = 0;
-    const interval = setInterval(() => {
+    typingIntervalRef.current = setInterval(() => {
       if (index < text.length) {
         setTypedText(text.slice(0, index + 1));
         if (Math.random() > 0.7) playSound('typing');
         index++;
       } else {
         setIsTyping(false);
-        clearInterval(interval);
+        if (typingIntervalRef.current) {
+          clearInterval(typingIntervalRef.current);
+          typingIntervalRef.current = null;
+        }
       }
     }, 30 + Math.random() * 40);
-
-    return () => clearInterval(interval);
   }, [playSound]);
 
   const fetchFunFact = async (question?: string) => {
@@ -161,9 +209,20 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
   };
 
   const closeModal = () => {
+    // Stop all audio immediately
+    stopAllAudio();
+    
     setIsModalOpen(false);
     setShowQuestionInput(false);
     setUserQuestion('');
+    setIsTyping(false);
+    
+    // Clear typing interval if active
+    if (typingIntervalRef.current) {
+      clearInterval(typingIntervalRef.current);
+      typingIntervalRef.current = null;
+    }
+    
     playSound('close');
     document.body.style.overflow = 'unset';
   };
@@ -176,6 +235,13 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
       setShowQuestionInput(false);
     }
   };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      stopAllAudio();
+    };
+  }, [stopAllAudio]);
 
   // Handle ESC key
   useEffect(() => {
@@ -200,6 +266,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
         }}
         whileTap={{ scale: 0.95 }}
         aria-label="Ask ARIA about Deaneeth"
+        data-cursor-text="Ask ARIA"
       >
         <div className="flex items-center space-x-3">
           <motion.div
@@ -308,6 +375,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       onClick={() => setSoundEnabled(!soundEnabled)}
                       className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl magnetic"
                       aria-label={soundEnabled ? "Mute sounds" : "Enable sounds"}
+                      data-cursor-text={soundEnabled ? "Mute" : "Unmute"}
                     >
                       {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
                     </Button>
@@ -318,6 +386,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       onClick={closeModal}
                       className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl magnetic"
                       aria-label="Close modal"
+                      data-cursor-text="Close"
                     >
                       <X className="h-6 w-6" />
                     </Button>
@@ -386,6 +455,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                           size="sm"
                           disabled={!userQuestion.trim() || isLoading}
                           className="bg-[#7D27F5] text-primary-foreground hover:bg-[#B794F4] transition-all duration-200 magnetic rounded-xl"
+                          data-cursor-text="Send"
                         >
                           <Send className="h-4 w-4" />
                         </Button>
@@ -401,6 +471,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       onClick={() => fetchFunFact()}
                       disabled={isLoading}
                       className="flex-1 btn-primary magnetic"
+                      data-cursor-text="Discover"
                     >
                       {isLoading ? (
                         <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
@@ -414,6 +485,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       onClick={() => setShowQuestionInput(!showQuestionInput)}
                       className="btn-outline magnetic"
                       aria-label="Ask a question"
+                      data-cursor-text="Ask"
                     >
                       <MessageCircle className="h-4 w-4" />
                     </Button>
