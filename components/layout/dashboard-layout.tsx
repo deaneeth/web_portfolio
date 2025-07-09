@@ -86,12 +86,37 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const SidebarContent = () => (
     <div className="sidebar-content">
+      {/* Collapse Button - Top of Sidebar */}
+      <motion.button
+        onClick={toggleSidebar}
+        className="w-full flex items-center justify-between p-3 mb-4 bg-muted/30 hover:bg-muted/50 rounded-lg transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-primary/50"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+      >
+        <div className="flex items-center gap-3">
+          <div className="profile-avatar w-8 h-8 text-sm">
+            D
+          </div>
+          {!isCollapsed && (
+            <span className="text-sm font-medium text-foreground">Menu</span>
+          )}
+        </div>
+        <motion.div
+          animate={{ rotate: isCollapsed ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+          className="text-muted-foreground group-hover:text-foreground transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </motion.div>
+      </motion.button>
+
       {/* Profile Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="profile-section"
+        className="profile-section mb-6"
       >
         <div className="profile-avatar">
           D
@@ -190,21 +215,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     <div className={`dashboard-layout ${isCollapsed ? 'collapsed' : ''}`}>
       {/* Desktop Sidebar */}
       <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''} hidden lg:block`}>
-        <div className="relative">
+        <div className="relative h-full">
           <SidebarContent />
-          
-          {/* Collapse Button */}
-          <button
-            onClick={toggleSidebar}
-            className="collapse-btn focus-ring"
-            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          >
-            {isCollapsed ? (
-              <ChevronRight className="w-3 h-3" />
-            ) : (
-              <ChevronLeft className="w-3 h-3" />
-            )}
-          </button>
         </div>
       </aside>
 
@@ -217,10 +229,16 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Mobile Sidebar */}
       <aside className={`mobile-sidebar lg:hidden ${isMobileSidebarOpen ? 'open' : ''}`}>
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 className="font-semibold">Navigation</h2>
+          <div className="flex items-center gap-3">
+            <div className="profile-avatar w-8 h-8 text-sm">
+              D
+            </div>
+            <h2 className="font-semibold">Navigation</h2>
+          </div>
           <button
             onClick={closeMobileSidebar}
-            className="p-2 hover:bg-muted rounded-lg transition-colors"
+            className="p-2 hover:bg-muted rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
+            aria-label="Close navigation"
           >
             <X className="w-5 h-5" />
           </button>
@@ -234,7 +252,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="lg:hidden flex items-center justify-between mb-6">
           <button
             onClick={toggleMobileSidebar}
-            className="p-2 hover:bg-muted rounded-lg transition-colors"
+            className="p-2 hover:bg-muted rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
+            aria-label="Open navigation menu"
           >
             <Menu className="w-6 h-6" />
           </button>
