@@ -122,7 +122,7 @@ export function PersonalStory() {
               <p className="text-lg leading-relaxed text-foreground/90" style={{ fontFamily: 'Georgia, serif' }}>
                 Every AI model I train, every automation I build, every line of code I write—it all comes back to one simple belief: 
                 <span className="text-teal-400 font-medium"> technology should amplify human potential, not replace it.</span> 
-                Whether I'm helping a client streamline their workflow or building an AI that understands Sinhala poetry, I'm driven by the possibility of making someone's day a little brighter, a little easier, a little more creative.
+                Whether I'm helping a client streamline their workflow or building an AI that understands Sinhala poetry, I\'m driven by the possibility of making someone's day a little brighter, a little easier, a little more creative.
               </p>
               
               <motion.div

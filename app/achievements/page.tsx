@@ -2,18 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Trophy, 
-  Award, 
-  Star, 
-  Calendar, 
-  ExternalLink,
-  Filter,
-  Search,
-  Medal,
-  Certificate,
-  Target
-} from 'lucide-react';
+import { Trophy, Award, Star, Calendar, ExternalLink, Filter, Search, Medal, AlignCenterVertical as Certificate, Target } from 'lucide-react';
 
 const achievements = [
   {
