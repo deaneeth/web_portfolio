@@ -127,7 +127,6 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 2rem;
   padding: 1rem;
   background: hsl(var(--muted) / 0.5);
   border-radius: 0.75rem;
