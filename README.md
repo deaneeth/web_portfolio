@@ -1,8 +1,8 @@
-# Dineth's Portfolio - Enhanced AI Easter Egg Experience
+# Dean's Portfolio - Enhanced AI Easter Egg & AI Chat Agent Experience
 
 A personal portfolio featuring an advanced AI-powered easter egg and personalized AI Agent system with gamification, curiosity trails, and interactive discovery mechanics.
 
-> This Project is currently under development
+> This Project is currently under-development
 
 ## 🎮 Enhanced Easter Egg Features
 
