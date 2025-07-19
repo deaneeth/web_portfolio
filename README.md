@@ -2,6 +2,8 @@
 
 A personal portfolio featuring an advanced AI-powered easter egg and personalized AI Agent system with gamification, curiosity trails, and interactive discovery mechanics.
 
+> This Project is currently under development
+
 ## 🎮 Enhanced Easter Egg Features
 
 ### 🔍 Curiosity Trail System
