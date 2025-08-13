@@ -124,11 +124,6 @@ export function CustomCursor() {
       backgroundColor: theme === 'dark' ? 'rgba(125, 39, 245, 0.2)' : 'rgba(125, 39, 245, 0.1)',
       border: theme === 'dark' ? '2px solid rgba(125, 39, 245, 0.8)' : '2px solid rgba(125, 39, 245, 0.6)',
     },
-    text: {
-      scale: 2,
-      backgroundColor: 'transparent',
-      border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.5)' : '1px solid rgba(0, 0, 0, 0.3)',
-    }
   };
 
   return (
