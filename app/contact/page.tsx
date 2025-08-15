@@ -190,10 +190,9 @@ export default function ContactPage() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="form-input magnetic"
+                      className="form-input"
                       required
                       placeholder="Your full name"
-                      data-cursor-text="Name"
                     />
                   </div>
                   <div className="form-group">
@@ -203,10 +202,9 @@ export default function ContactPage() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="form-input magnetic"
+                      className="form-input"
                       required
                       placeholder="your@email.com"
-                      data-cursor-text="Email"
                     />
                   </div>
                 </div>
@@ -219,9 +217,8 @@ export default function ContactPage() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="form-input magnetic"
+                      className="form-input"
                       placeholder="Your company name"
-                      data-cursor-text="Company"
                     />
                   </div>
                   <div className="form-group">
@@ -230,9 +227,8 @@ export default function ContactPage() {
                       name="projectType"
                       value={formData.projectType}
                       onChange={handleChange}
-                      className="form-input magnetic"
+                      className="form-input"
                       required
-                      data-cursor-text="Select Type"
                     >
                       <option value="">Select project type</option>
                       <option value="ai-ml">AI/ML Solution</option>
@@ -251,8 +247,7 @@ export default function ContactPage() {
                       name="budget"
                       value={formData.budget}
                       onChange={handleChange}
-                      className="form-input magnetic"
-                      data-cursor-text="Select Budget"
+                      className="form-input"
                     >
                       <option value="">Select budget range</option>
                       <option value="under-5k">Under $5,000</option>
@@ -268,8 +263,7 @@ export default function ContactPage() {
                       name="timeline"
                       value={formData.timeline}
                       onChange={handleChange}
-                      className="form-input magnetic"
-                      data-cursor-text="Select Timeline"
+                      className="form-input"
                     >
                       <option value="">Select timeline</option>
                       <option value="asap">ASAP</option>
@@ -286,21 +280,19 @@ export default function ContactPage() {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    className="form-input form-textarea magnetic"
+                    className="form-input form-textarea"
                     required
                     placeholder="Tell me about your project, goals, and any specific requirements..."
                     rows={6}
-                    data-cursor-text="Describe Project"
                   />
                 </div>
 
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn btn-primary w-full magnetic"
+                  className="btn btn-primary w-full"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  data-cursor-text="Send Message"
                 >
                   {isSubmitting ? (
                     <>
@@ -326,9 +318,8 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="card magnetic"
+            className="card"
             whileHover={{ y: -4 }}
-            data-cursor-text="Contact Info"
           >
             <h3 className="font-semibold mb-4">Other Ways to Reach Me</h3>
             <div className="space-y-4">
@@ -336,9 +327,8 @@ export default function ContactPage() {
                 <motion.a
                   key={method.title}
                   href={method.href}
-                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors group magnetic"
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors group"
                   whileHover={{ x: 4 }}
-                  data-cursor-text={method.title}
                 >
                   <div className={`p-2 rounded-lg bg-gradient-to-r ${method.color} bg-opacity-10`}>
                     <method.icon className="w-5 h-5 text-white" />
@@ -364,9 +354,8 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="card magnetic"
+            className="card"
             whileHover={{ y: -4 }}
-            data-cursor-text="Location"
           >
             <h3 className="font-semibold mb-4">Location & Social</h3>
             
@@ -389,9 +378,8 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 magnetic"
+            className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20"
             whileHover={{ y: -4 }}
-            data-cursor-text="Ask ARIA"
           >
             <h3 className="font-semibold mb-2">Quick Questions?</h3>
             <p className="text-sm text-muted-foreground mb-4">
@@ -405,18 +393,16 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
-            className="card magnetic"
+            className="card"
             whileHover={{ y: -4 }}
-            data-cursor-text="FAQ"
           >
             <h3 className="font-semibold mb-4">Frequently Asked</h3>
             <div className="space-y-4">
               {faqs.map((faq, index) => (
                 <motion.details 
                   key={index} 
-                  className="group magnetic"
+                  className="group"
                   whileHover={{ x: 2 }}
-                  data-cursor-text="Expand"
                 >
                   <summary className="font-medium cursor-pointer hover:text-primary transition-colors">
                     {faq.question}
