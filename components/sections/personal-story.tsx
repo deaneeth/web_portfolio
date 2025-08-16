@@ -133,7 +133,7 @@ export function PersonalStory() {
                 className="border-l-4 border-gradient-to-b from-purple-500 to-teal-500 pl-6 py-2"
               >
                 <p className="text-lg font-medium text-foreground italic">
-                  "I don't just build for tomorrow—I build for the person who will smile when they use what I've created today."
+                  "I don't just build for tomorrow; I build for the person who will smile when they use what I've created today."
                 </p>
                 <p className="text-sm text-muted-foreground mt-2">— Deaneeth, Founder's Note</p>
               </motion.div>
