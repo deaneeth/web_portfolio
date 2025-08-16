@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Deaneeth - AI/ML Explorer & Creative Technologist',
   description: 'Portfolio of Deaneeth - Builder of Futures, AI/ML Explorer, and Computer Science undergraduate at University of Plymouth, Sri Lanka.',
   keywords: ['Deaneeth', 'AI', 'Machine Learning', 'Computer Science', 'Portfolio', 'Sri Lanka', 'Plymouth'],
-  authors: [{ name: 'Deaneeth' }],
+  authors: [{ name: 'Dineth Hettiarachchi' }],
   openGraph: {
     title: 'Deaneeth - AI/ML Explorer & Creative Technologist',
     description: 'Builder of Futures. AI/ML Explorer.',
