@@ -103,7 +103,7 @@ export default function HomePage() {
             Builder of Futures. AI/ML Explorer.
           </p>
           <p className="text-muted-foreground max-w-2xl leading-relaxed">
-            20-year-old Computer Science undergraduate at University of Plymouth, Sri Lanka. 
+            20 year old Computer Science undergraduate at University of Plymouth, Sri Lanka. 
             Specializing in AI/ML and intelligent automation, turning ideas into reality through code.
           </p>
         </motion.div>
