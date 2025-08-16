@@ -115,14 +115,14 @@ export function PersonalStory() {
               className="space-y-6"
             >
               <p className="text-lg leading-relaxed text-foreground/90" style={{ fontFamily: 'Georgia, serif' }}>
-                Growing up in Sri Lanka, I watched technology transform lives around me—from my grandmother learning to video call family abroad to local businesses going digital overnight. 
+                Growing up in Sri Lanka, I watched technology transform lives around me, from my grandmother learning to video call family abroad to local businesses going digital overnight. 
                 <span className="text-purple-400 font-medium"> That's when I realized: technology isn't just about code, it's about human connection.</span>
               </p>
               
               <p className="text-lg leading-relaxed text-foreground/90" style={{ fontFamily: 'Georgia, serif' }}>
-                Every AI model I train, every automation I build, every line of code I write—it all comes back to one simple belief: 
+                Every AI model I train, every automation I build, every line of code I write it all comes back to one simple belief: 
                 <span className="text-teal-400 font-medium"> technology should amplify human potential, not replace it.</span> 
-                Whether I'm helping a client streamline their workflow or building an AI that understands Sinhala poetry, I\'m driven by the possibility of making someone's day a little brighter, a little easier, a little more creative.
+                Whether I'm helping a client streamline their workflow or building an AI that understands Sinhala literature, I'm driven by the possibility of making someone's day a little brighter, a little easier, a little more creative.
               </p>
               
               <motion.div
