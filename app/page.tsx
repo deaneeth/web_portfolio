@@ -97,7 +97,7 @@ export default function HomePage() {
           transition={{ duration: 0.5 }}
         >
           <h1 className="text-4xl font-bold mb-2">
-            Hey, I'm <span className="bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">Dineth Hettiarachchi</span>
+            Hey, I'm <span className="bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">Deaneeth</span>
           </h1>
           <p className="text-xl text-muted-foreground mb-4">
             Builder of Futures. AI/ML Explorer.
