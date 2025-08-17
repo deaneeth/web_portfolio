@@ -6,14 +6,13 @@ import { Heart, Sparkles, Target } from 'lucide-react';
 
 export function PersonalStory() {
   return (
-    <div className="space-y-16">
-      <motion.section
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        viewport={{ once: true }}
-        className="relative py-20"
-      >
+    <motion.section
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+      viewport={{ once: true }}
+      className="relative py-16"
+    >
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -50,7 +49,7 @@ export function PersonalStory() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <div className="flex items-center justify-center mb-4">
             <motion.div
@@ -62,8 +61,8 @@ export function PersonalStory() {
             </motion.div>
             <h2 className="text-3xl font-bold text-foreground">Why I Do What I Do</h2>
           </div>
-          <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
-            Beyond the code and algorithms, here's the human story that drives everything I create
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Beyond the code and algorithms, here's the story that drives everything I create
           </p>
         </motion.div>
 
@@ -73,9 +72,9 @@ export function PersonalStory() {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className="max-w-5xl mx-auto"
+          className="max-w-4xl mx-auto"
         >
-          <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm border border-border/50 rounded-3xl p-10 md:p-16 overflow-hidden">
+          <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm border border-border/50 rounded-3xl p-8 md:p-12 overflow-hidden">
             {/* Decorative Elements */}
             <motion.div
               className="absolute top-6 right-6"
@@ -96,66 +95,47 @@ export function PersonalStory() {
               <Target className="h-5 w-5 text-teal-400/60" />
             </motion.div>
 
+            {/* Quote Mark */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="text-6xl font-serif text-purple-400/30 mb-6"
+            >
+              "
+            </motion.div>
+
             {/* Story Content */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
               viewport={{ once: true }}
-              className="space-y-8"
+              className="space-y-6"
             >
-              {/* Opening paragraph with visual break */}
-              <div className="flex items-start gap-6">
-                <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="flex-shrink-0 mt-2"
-                >
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500/20 to-teal-500/20 rounded-full flex items-center justify-center">
-                    <Heart className="h-6 w-6 text-purple-400" />
-                  </div>
-                </motion.div>
-                <p className="text-lg leading-relaxed text-foreground/90" style={{ lineHeight: '1.7' }}>
-                  Growing up in Sri Lanka, I watched technology transform lives—from my grandmother learning to video call family abroad to local businesses going digital overnight. That's when I realized: 
-                  <span className="text-purple-400 font-semibold"> technology isn't just about code, it's about human connection.</span>
-                </p>
-              </div>
-
-              {/* Key insight callout */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                viewport={{ once: true }}
-                className="relative bg-gradient-to-r from-primary/10 to-secondary/10 border-l-4 border-primary rounded-r-xl p-6 my-8"
-              >
-                <div className="absolute top-4 right-4">
-                  <Sparkles className="h-5 w-5 text-primary/60" />
-                </div>
-                <p className="text-xl font-semibold text-primary leading-relaxed">
-                  "Technology should amplify human potential, not replace it."
-                </p>
-                <p className="text-sm text-muted-foreground mt-2">— Core Philosophy</p>
-              </motion.div>
-
-              {/* Closing paragraph */}
-              <p className="text-lg leading-relaxed text-foreground/90" style={{ lineHeight: '1.7' }}>
-                Every AI model I train, every automation I build, every line of code I write—it all comes back to making someone's day brighter, easier, and more creative. Whether I'm helping a client streamline their workflow or building AI that understands Sinhala literature, I'm driven by human impact.
+              <p className="text-lg leading-relaxed text-foreground/90" style={{ fontFamily: 'Georgia, serif' }}>
+                Growing up in Sri Lanka, I watched technology transform lives around me—from my grandmother learning to video call family abroad to local businesses going digital overnight. 
+                <span className="text-purple-400 font-medium"> That's when I realized: technology isn't just about code, it's about human connection.</span>
               </p>
-
-              {/* Final quote */}
+              
+              <p className="text-lg leading-relaxed text-foreground/90" style={{ fontFamily: 'Georgia, serif' }}>
+                Every AI model I train, every automation I build, every line of code I write—it all comes back to one simple belief: 
+                <span className="text-teal-400 font-medium"> technology should amplify human potential, not replace it.</span> 
+                Whether I'm helping a client streamline their workflow or building an AI that understands Sinhala poetry, I\'m driven by the possibility of making someone's day a little brighter, a little easier, a little more creative.
+              </p>
+              
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
                 viewport={{ once: true }}
-                className="bg-muted/30 rounded-xl p-6 border border-border/50"
+                className="border-l-4 border-gradient-to-b from-purple-500 to-teal-500 pl-6 py-2"
               >
-                <div className="text-4xl font-serif text-primary/40 mb-3">"</div>
-                <p className="text-lg font-medium text-foreground italic leading-relaxed">
-                  "I don't just build for tomorrow; I build for the person who will smile when they use what I've created today."
+                <p className="text-lg font-medium text-foreground italic">
+                  "I don't just build for tomorrow—I build for the person who will smile when they use what I've created today."
                 </p>
-                <p className="text-sm text-muted-foreground mt-3">— Deaneeth, Founder's Note</p>
+                <p className="text-sm text-muted-foreground mt-2">— Deaneeth, Founder's Note</p>
               </motion.div>
             </motion.div>
 
@@ -165,7 +145,7 @@ export function PersonalStory() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1 }}
               viewport={{ once: true }}
-              className="mt-12 flex items-center justify-between"
+              className="mt-8 flex items-center justify-between"
             >
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
@@ -191,27 +171,7 @@ export function PersonalStory() {
             </motion.div>
           </div>
         </motion.div>
-        
-        {/* Transition to next section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent flex-1 max-w-32"></div>
-            <Target className="h-5 w-5 text-primary" />
-            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent flex-1 max-w-32"></div>
-          </div>
-          <p className="text-muted-foreground text-lg">
-            Here's how I bring this philosophy to life through my projects:
-          </p>
-        </motion.div>
-      </motion.section>
-    </div>
+      </div>
+    </motion.section>
   );
-}
-  )
 }

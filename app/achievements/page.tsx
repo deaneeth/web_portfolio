@@ -154,8 +154,9 @@ export default function AchievementsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
-                className="card hover:border-primary/50 transition-all duration-300 hover:shadow-lg"
+                className="card hover:border-primary/50 transition-all duration-300 hover:shadow-lg magnetic"
                 whileHover={{ y: -4 }}
+                data-cursor-text="View Details"
               >
                 <div className="relative h-48 overflow-hidden rounded-lg mb-4">
                   <img
@@ -194,8 +195,9 @@ export default function AchievementsPage() {
                     <span className="text-muted-foreground">by {achievement.issuer}</span>
                     <motion.a
                       href={achievement.verifyUrl}
-                      className="text-primary hover:text-primary/80 transition-colors"
+                      className="text-primary hover:text-primary/80 transition-colors magnetic"
                       whileHover={{ scale: 1.05 }}
+                      data-cursor-text="Verify"
                     >
                       <ExternalLink className="w-4 h-4" />
                     </motion.a>
@@ -232,13 +234,14 @@ export default function AchievementsPage() {
             <motion.button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors magnetic ${
                 selectedCategory === category
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-muted/50 text-muted-foreground hover:bg-muted'
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              data-cursor-text={category}
             >
               {category}
             </motion.button>
@@ -252,7 +255,8 @@ export default function AchievementsPage() {
             placeholder="Search achievements..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="form-input pl-10 w-64"
+            className="form-input pl-10 w-64 magnetic"
+            data-cursor-text="Search"
           />
         </div>
       </motion.div>
@@ -279,8 +283,9 @@ export default function AchievementsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
-                className="card hover:border-primary/50 transition-all duration-300 hover:shadow-lg"
+                className="card hover:border-primary/50 transition-all duration-300 hover:shadow-lg magnetic"
                 whileHover={{ y: -4 }}
+                data-cursor-text="View Details"
               >
                 <div className="relative h-48 overflow-hidden rounded-lg mb-4">
                   <img
@@ -319,8 +324,9 @@ export default function AchievementsPage() {
                     <span className="text-muted-foreground">by {achievement.issuer}</span>
                     <motion.a
                       href={achievement.verifyUrl}
-                      className="text-primary hover:text-primary/80 transition-colors"
+                      className="text-primary hover:text-primary/80 transition-colors magnetic"
                       whileHover={{ scale: 1.05 }}
+                      data-cursor-text="Verify"
                     >
                       <ExternalLink className="w-4 h-4" />
                     </motion.a>
@@ -362,8 +368,9 @@ export default function AchievementsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.8 }}
-        className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20"
+        className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 magnetic"
         whileHover={{ y: -4 }}
+        data-cursor-text="Summary"
       >
         <div className="text-center">
           <h3 className="text-xl font-semibold mb-4">Achievement Summary</h3>

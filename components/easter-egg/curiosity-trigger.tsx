@@ -259,13 +259,14 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
       {/* Ask ARIA Button - Prominent but Minimal */}
       <motion.button
         onClick={openModal}
-        className="group relative px-8 py-4 bg-[#7D27F5]/10 border border-[#7D27F5]/30 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#7D27F5]/50 focus:ring-offset-2 focus:ring-offset-[#0A0A0A]"
+        className="group relative px-8 py-4 bg-[#7D27F5]/10 border border-[#7D27F5]/30 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#7D27F5]/50 focus:ring-offset-2 focus:ring-offset-[#0A0A0A] magnetic"
         whileHover={{ 
           scale: 1.05,
           transition: { duration: 0.3 }
         }}
         whileTap={{ scale: 0.95 }}
         aria-label="Ask ARIA about Deaneeth"
+        data-cursor-text="Ask ARIA"
       >
         <div className="flex items-center space-x-3">
           <motion.div
@@ -372,8 +373,9 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       variant="ghost"
                       size="icon"
                       onClick={() => setSoundEnabled(!soundEnabled)}
-                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl"
+                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl magnetic"
                       aria-label={soundEnabled ? "Mute sounds" : "Enable sounds"}
+                      data-cursor-text={soundEnabled ? "Mute" : "Unmute"}
                     >
                       {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
                     </Button>
@@ -382,8 +384,9 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       variant="ghost"
                       size="icon"
                       onClick={closeModal}
-                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl"
+                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl magnetic"
                       aria-label="Close modal"
+                      data-cursor-text="Close"
                     >
                       <X className="h-6 w-6" />
                     </Button>
@@ -451,7 +454,8 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                           type="submit"
                           size="sm"
                           disabled={!userQuestion.trim() || isLoading}
-                          className="bg-[#7D27F5] text-primary-foreground hover:bg-[#B794F4] transition-all duration-200 rounded-xl"
+                          className="bg-[#7D27F5] text-primary-foreground hover:bg-[#B794F4] transition-all duration-200 magnetic rounded-xl"
+                          data-cursor-text="Send"
                         >
                           <Send className="h-4 w-4" />
                         </Button>
@@ -466,7 +470,8 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                     <Button
                       onClick={() => fetchFunFact()}
                       disabled={isLoading}
-                      className="flex-1 btn-primary"
+                      className="flex-1 btn-primary magnetic"
+                      data-cursor-text="Discover"
                     >
                       {isLoading ? (
                         <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
@@ -478,8 +483,9 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                     
                     <Button
                       onClick={() => setShowQuestionInput(!showQuestionInput)}
-                      className="btn-outline"
+                      className="btn-outline magnetic"
                       aria-label="Ask a question"
+                      data-cursor-text="Ask"
                     >
                       <MessageCircle className="h-4 w-4" />
                     </Button>
