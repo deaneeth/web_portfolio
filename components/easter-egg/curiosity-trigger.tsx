@@ -372,8 +372,9 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       variant="ghost"
                       size="icon"
                       onClick={() => setSoundEnabled(!soundEnabled)}
-                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl"
+                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl magnetic"
                       aria-label={soundEnabled ? "Mute sounds" : "Enable sounds"}
+                      data-cursor-text={soundEnabled ? "Mute" : "Unmute"}
                     >
                       {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
                     </Button>
@@ -452,8 +453,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                           type="submit"
                           size="sm"
                           disabled={!userQuestion.trim() || isLoading}
-                          className="bg-[#7D27F5] text-primary-foreground hover:bg-[#B794F4] transition-all duration-200 magnetic rounded-xl"
-                          data-cursor-text="Send"
+                          className="bg-[#7D27F5] text-primary-foreground hover:bg-[#B794F4] transition-all duration-200 rounded-xl"
                         >
                           <Send className="h-4 w-4" />
                         </Button>
