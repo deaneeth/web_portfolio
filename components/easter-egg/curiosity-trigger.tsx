@@ -372,8 +372,9 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       variant="ghost"
                       size="icon"
                       onClick={() => setSoundEnabled(!soundEnabled)}
-                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl"
+                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl magnetic"
                       aria-label={soundEnabled ? "Mute sounds" : "Enable sounds"}
+                      data-cursor-text={soundEnabled ? "Mute" : "Unmute"}
                     >
                       {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
                     </Button>
@@ -382,8 +383,9 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       variant="ghost"
                       size="icon"
                       onClick={closeModal}
-                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl"
+                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl magnetic"
                       aria-label="Close modal"
+                      data-cursor-text="Close"
                     >
                       <X className="h-6 w-6" />
                     </Button>
@@ -466,7 +468,8 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                     <Button
                       onClick={() => fetchFunFact()}
                       disabled={isLoading}
-                      className="flex-1 btn-primary"
+                      className="flex-1 btn-primary magnetic"
+                      data-cursor-text="Discover"
                     >
                       {isLoading ? (
                         <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
@@ -478,8 +481,9 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                     
                     <Button
                       onClick={() => setShowQuestionInput(!showQuestionInput)}
-                      className="btn-outline"
+                      className="btn-outline magnetic"
                       aria-label="Ask a question"
+                      data-cursor-text="Ask"
                     >
                       <MessageCircle className="h-4 w-4" />
                     </Button>

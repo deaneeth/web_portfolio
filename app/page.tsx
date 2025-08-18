@@ -136,7 +136,7 @@ export default function HomePage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="flex flex-wrap gap-4 mt-8"
         >
-          <Link href="/work" className="btn btn-primary">
+          <Link href="/work" className="btn btn-primary magnetic" data-cursor-text="View Work">
             <FolderOpen className="w-4 h-4" />
             View Projects
           </Link>
