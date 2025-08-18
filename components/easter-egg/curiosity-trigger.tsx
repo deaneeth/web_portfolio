@@ -372,9 +372,8 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                       variant="ghost"
                       size="icon"
                       onClick={() => setSoundEnabled(!soundEnabled)}
-                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl magnetic"
+                      className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl"
                       aria-label={soundEnabled ? "Mute sounds" : "Enable sounds"}
-                      data-cursor-text={soundEnabled ? "Mute" : "Unmute"}
                     >
                       {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
                     </Button>
