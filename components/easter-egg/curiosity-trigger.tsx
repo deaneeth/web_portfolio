@@ -259,14 +259,13 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
       {/* Ask ARIA Button - Prominent but Minimal */}
       <motion.button
         onClick={openModal}
-        className="group relative px-8 py-4 bg-[#7D27F5]/10 border border-[#7D27F5]/30 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#7D27F5]/50 focus:ring-offset-2 focus:ring-offset-[#0A0A0A] magnetic"
+        className="group relative px-8 py-4 bg-[#7D27F5]/10 border border-[#7D27F5]/30 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#7D27F5]/50 focus:ring-offset-2 focus:ring-offset-[#0A0A0A]"
         whileHover={{ 
           scale: 1.05,
           transition: { duration: 0.3 }
         }}
         whileTap={{ scale: 0.95 }}
         aria-label="Ask ARIA about Deaneeth"
-        data-cursor-text="Ask ARIA"
       >
         <div className="flex items-center space-x-3">
           <motion.div

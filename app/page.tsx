@@ -140,7 +140,7 @@ export default function HomePage() {
             <FolderOpen className="w-4 h-4" />
             View Projects
           </Link>
-          <Link href="/contact" className="btn btn-outline magnetic" data-cursor-text="Contact">
+          <Link href="/contact" className="btn btn-outline">
             <Mail className="w-4 h-4" />
             Get in Touch
           </Link>
@@ -168,10 +168,9 @@ export default function HomePage() {
         {quickStats.map((stat, index) => (
           <motion.div 
             key={stat.label} 
-            className="card text-center magnetic"
+            className="card text-center"
             whileHover={{ y: -4 }}
             transition={{ duration: 0.3 }}
-            data-cursor-text={stat.value}
           >
             <div className="text-2xl font-bold text-primary mb-1">{stat.value}</div>
             <div className="text-sm text-muted-foreground">{stat.label}</div>
@@ -204,10 +203,9 @@ export default function HomePage() {
             >
               <Link href={section.href} className="block group">
                 <motion.div 
-                  className="card hover:border-primary/50 transition-all duration-300 group-hover:shadow-lg magnetic"
+                  className="card hover:border-primary/50 transition-all duration-300 group-hover:shadow-lg"
                   whileHover={{ y: -4 }}
                   transition={{ duration: 0.3 }}
-                  data-cursor-text="Explore"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className={`p-3 rounded-lg bg-gradient-to-r ${section.color} bg-opacity-10`}>
@@ -245,7 +243,7 @@ export default function HomePage() {
           className="flex items-center justify-between mb-6"
         >
           <h2 className="text-2xl font-semibold">Recent Activity</h2>
-          <Link href="/blog" className="text-sm text-primary hover:underline magnetic" data-cursor-text="View All">
+          <Link href="/blog" className="text-sm text-primary hover:underline">
             View all
           </Link>
         </motion.div>
@@ -257,9 +255,8 @@ export default function HomePage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.9 + (index * 0.1) }}
-              className="card magnetic"
+              className="card"
               whileHover={{ x: 4 }}
-              data-cursor-text="View"
             >
               <div className="flex items-start gap-4">
                 <div className={`p-2 rounded-lg ${
@@ -300,9 +297,8 @@ export default function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 1.2 }}
-        className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 magnetic"
+        className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20"
         whileHover={{ y: -4 }}
-        data-cursor-text="Let's Build"
       >
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
@@ -312,10 +308,10 @@ export default function HomePage() {
             </p>
           </div>
           <div className="flex gap-3">
-            <Link href="/services" className="btn btn-outline magnetic" data-cursor-text="Services">
+            <Link href="/services" className="btn btn-outline">
               View Services
             </Link>
-            <Link href="/contact" className="btn btn-primary magnetic" data-cursor-text="Start">
+            <Link href="/contact" className="btn btn-primary">
               Start Project
             </Link>
           </div>
