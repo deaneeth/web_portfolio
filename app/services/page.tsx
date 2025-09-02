@@ -12,8 +12,10 @@ import {
   Star,
   Clock,
   Users,
-  MessageCircle
+  MessageCircle,
+  X
 } from 'lucide-react';
+import { QuotationModal } from '@/components/services/quotation-modal';
 
 const services = [
   {
@@ -139,6 +141,17 @@ const process = [
 
 export default function ServicesPage() {
   const [selectedService, setSelectedService] = useState<typeof services[0] | null>(null);
+  const [isQuotationModalOpen, setIsQuotationModalOpen] = useState(false);
+
+  const handleServiceClick = (service: typeof services[0]) => {
+    setSelectedService(service);
+    setIsQuotationModalOpen(true);
+  };
+
+  const handleCloseQuotationModal = () => {
+    setIsQuotationModalOpen(false);
+    setSelectedService(null);
+  };
 
   return (
     <div className="space-y-12">
@@ -202,7 +215,7 @@ export default function ServicesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
               className="card hover:border-primary/50 transition-all duration-300 cursor-pointer group"
-              onClick={() => setSelectedService(service)}
+              onClick={() => handleServiceClick(service)}
             >
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
@@ -369,84 +382,12 @@ export default function ServicesPage() {
       {/* Service Detail Modal */}
       {selectedService && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-          onClick={() => setSelectedService(null)}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 50 }}
-            className="bg-card border border-border rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-lg bg-gradient-to-r ${selectedService.color} bg-opacity-10`}>
-                    <selectedService.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{selectedService.title}</h2>
-                    <p className="text-muted-foreground">{selectedService.description}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setSelectedService(null)}
-                  className="p-2 hover:bg-muted rounded-lg transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <h3 className="font-semibold mb-3">What's Included</h3>
-                  <ul className="space-y-2">
-                    {selectedService.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                        <span className="text-muted-foreground">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="font-semibold mb-2">Deliverables</h3>
-                    <p className="text-muted-foreground text-sm">{selectedService.deliverables}</p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">Timeline</h3>
-                    <p className="text-muted-foreground text-sm">{selectedService.timeline}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between pt-6 border-t border-border">
-                  <div>
-                    <div className="text-sm text-muted-foreground">Starting at</div>
-                    <div className="text-2xl font-bold text-primary">{selectedService.startingPrice}</div>
-                  </div>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setSelectedService(null)}
-                      className="btn btn-outline"
-                    >
-                      Close
-                    </button>
-                    <a href="/contact" className="btn btn-primary">
-                      Get Started
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
+      {/* Quotation Modal */}
+      <QuotationModal
+        service={selectedService}
+        isOpen={isQuotationModalOpen}
+        onClose={handleCloseQuotationModal}
+      />
     </div>
   );
 }
