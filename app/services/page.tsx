@@ -12,7 +12,8 @@ import {
   Star,
   Clock,
   Users,
-  MessageCircle
+  MessageCircle,
+  X
 } from 'lucide-react';
 
 const services = [

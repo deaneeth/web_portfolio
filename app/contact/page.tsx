@@ -47,18 +47,22 @@ const contactMethods = [
 
 const faqs = [
   {
+   id: 1,
     question: 'What types of projects do you work on?',
     answer: 'I specialize in AI/ML solutions, intelligent automation, web applications, and technical consulting. From custom machine learning models to full-stack web apps.'
   },
   {
+   id: 2,
     question: 'How long does a typical project take?',
     answer: 'Project timelines vary based on complexity. Simple automation scripts take 1-2 weeks, while complex AI solutions can take 4-8 weeks. I always provide detailed timelines upfront.'
   },
   {
+   id: 3,
     question: 'Do you work with international clients?',
     answer: 'Absolutely! I work with clients worldwide and am comfortable with different time zones. Most communication happens via email, Slack, or scheduled video calls.'
   },
   {
+   id: 4,
     question: 'What are your rates?',
     answer: 'Rates depend on project scope and complexity. I offer both fixed-price projects and hourly consulting. Contact me for a custom quote based on your specific needs.'
   }
@@ -76,6 +80,11 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+ const [openFaqId, setOpenFaqId] = useState<number | null>(null);
+
+  const toggleFaq = (faqId: number) => {
+    setOpenFaqId(openFaqId === faqId ? null : faqId);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -399,18 +408,38 @@ export default function ContactPage() {
             <h3 className="font-semibold mb-4">Frequently Asked</h3>
             <div className="space-y-4">
               {faqs.map((faq, index) => (
-                <motion.details 
-                  key={index} 
+               <motion.div
+                 key={faq.id} 
                   className="group"
                   whileHover={{ x: 2 }}
                 >
-                  <summary className="font-medium cursor-pointer hover:text-primary transition-colors">
+                 <button 
+                   onClick={() => toggleFaq(faq.id)}
+                   className="w-full text-left font-medium cursor-pointer hover:text-primary transition-colors flex items-center justify-between"
+                 >
                     {faq.question}
-                  </summary>
-                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-                    {faq.answer}
-                  </p>
-                </motion.details>
+                   <motion.span
+                     animate={{ rotate: openFaqId === faq.id ? 180 : 0 }}
+                     transition={{ duration: 0.2 }}
+                     className="text-muted-foreground"
+                   >
+                     ▼
+                   </motion.span>
+                 </button>
+                 <motion.div
+                   initial={false}
+                   animate={{ 
+                     height: openFaqId === faq.id ? 'auto' : 0,
+                     opacity: openFaqId === faq.id ? 1 : 0
+                   }}
+                   transition={{ duration: 0.3, ease: 'easeInOut' }}
+                   className="overflow-hidden"
+                 >
+                   <p className="text-sm text-muted-foreground mt-2 leading-relaxed pb-2">
+                     {faq.answer}
+                   </p>
+                 </motion.div>
+               </motion.div>
               ))}
             </div>
           </motion.div>
