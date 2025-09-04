@@ -10,7 +10,8 @@ import {
   Calendar,
   Tag,
   ArrowUpRight,
-  Star
+  Star,
+  X
 } from 'lucide-react';
 
 const projects = [
