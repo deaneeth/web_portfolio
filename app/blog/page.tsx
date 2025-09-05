@@ -380,7 +380,7 @@ export default function BlogPage() {
                   <Button
                     variant="outline"
                     onClick={clearFilters}
-                    className="border-gray-600 text-gray-300 hover:bg-white/10"
+                    className="border-gray-600 text-gray-300 hover:bg-gray-800/60"
                   >
                     Clear Filters
                   </Button>
