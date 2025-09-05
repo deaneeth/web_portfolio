@@ -120,7 +120,7 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
                   className={`p-2 rounded-lg transition-all duration-200 ${
                     liked 
                       ? 'bg-red-500/20 text-red-400' 
-                      : 'bg-white/5 text-gray-400 hover:text-red-400 hover:bg-red-500/10'
+                      : 'bg-gray-800/50 text-gray-400 hover:text-red-400 hover:bg-red-500/10'
                   }`}
                 >
                   <Heart className={`h-5 w-5 ${liked ? 'fill-current' : ''}`} />
@@ -133,7 +133,7 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
                   className={`p-2 rounded-lg transition-all duration-200 ${
                     bookmarked 
                       ? 'bg-yellow-500/20 text-yellow-400' 
-                      : 'bg-white/5 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10'
+                      : 'bg-gray-800/50 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10'
                   }`}
                 >
                   <Bookmark className={`h-5 w-5 ${bookmarked ? 'fill-current' : ''}`} />
@@ -144,7 +144,7 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setShowShareMenu(!showShareMenu)}
-                    className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+                    className="p-2 rounded-lg bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-700/80 transition-all duration-200"
                   >
                     <Share2 className="h-5 w-5" />
                   </motion.button>
@@ -233,11 +233,11 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
 
                 {/* Stats */}
                 <div className="absolute bottom-4 left-4 flex space-x-3">
-                  <div className="glassy-button px-3 py-1 rounded-lg flex items-center space-x-2">
+                  <div className="bg-gray-900/80 backdrop-blur-sm border border-gray-700/50 px-3 py-1 rounded-lg flex items-center space-x-2">
                     <Eye className="h-4 w-4 text-white" />
                     <span className="text-white text-sm">{post.views} views</span>
                   </div>
-                  <div className="glassy-button px-3 py-1 rounded-lg flex items-center space-x-2">
+                  <div className="bg-gray-900/80 backdrop-blur-sm border border-gray-700/50 px-3 py-1 rounded-lg flex items-center space-x-2">
                     <Heart className="h-4 w-4 text-red-400" />
                     <span className="text-white text-sm">{post.likes} likes</span>
                   </div>
@@ -285,7 +285,7 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
                     >
                       <Badge
                         variant="secondary"
-                        className="bg-white/5 text-gray-300 border-white/10 hover:bg-white/10 transition-colors cursor-pointer"
+                        className="bg-gray-800/60 text-gray-300 border-gray-600/40 hover:bg-gray-700/80 transition-colors cursor-pointer"
                       >
                         {tag}
                       </Badge>
@@ -331,7 +331,7 @@ export function BlogModal({ post, isOpen, onClose, onPostSelect }: BlogModalProp
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setShowShareMenu(!showShareMenu)}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+                    className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-700/80 transition-all duration-200"
                   >
                     <Share2 className="h-5 w-5" />
                     <span>Share</span>

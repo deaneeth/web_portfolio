@@ -35,7 +35,7 @@ export function BlogCard({ post, featured = false, onClick }: BlogCardProps) {
       }`}
       style={{ boxShadow: 'none' }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = '0 20px 60px rgba(168, 85, 247, 0.3)';
+        e.currentTarget.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.4)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.boxShadow = 'none';
@@ -78,7 +78,7 @@ export function BlogCard({ post, featured = false, onClick }: BlogCardProps) {
         {/* Hover Actions */}
         <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-all duration-300 flex space-x-2">
           <motion.div
-            className="glassy-button p-2 rounded-lg hover:scale-110 transition-all duration-200"
+            className="bg-gray-900/80 backdrop-blur-sm border border-gray-700/50 p-2 rounded-lg hover:scale-110 transition-all duration-200"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -89,7 +89,7 @@ export function BlogCard({ post, featured = false, onClick }: BlogCardProps) {
               href={post.mediumUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="glassy-button p-2 rounded-lg hover:scale-110 transition-all duration-200"
+              className="bg-gray-900/80 backdrop-blur-sm border border-gray-700/50 p-2 rounded-lg hover:scale-110 transition-all duration-200"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
@@ -101,11 +101,11 @@ export function BlogCard({ post, featured = false, onClick }: BlogCardProps) {
 
         {/* Stats Overlay */}
         <div className="absolute top-4 left-4 flex space-x-3">
-          <div className="glassy-button px-2 py-1 rounded-lg flex items-center space-x-1">
+          <div className="bg-gray-900/80 backdrop-blur-sm border border-gray-700/50 px-2 py-1 rounded-lg flex items-center space-x-1">
             <Eye className="h-3 w-3 text-white" />
             <span className="text-white text-xs">{post.views}</span>
           </div>
-          <div className="glassy-button px-2 py-1 rounded-lg flex items-center space-x-1">
+          <div className="bg-gray-900/80 backdrop-blur-sm border border-gray-700/50 px-2 py-1 rounded-lg flex items-center space-x-1">
             <Heart className="h-3 w-3 text-red-400" />
             <span className="text-white text-xs">{post.likes}</span>
           </div>
@@ -152,7 +152,7 @@ export function BlogCard({ post, featured = false, onClick }: BlogCardProps) {
             >
               <Badge
                 variant="secondary"
-                className="bg-white/5 text-gray-300 border-white/10 hover:bg-white/10 transition-colors text-xs cursor-pointer"
+                className="bg-gray-800/60 text-gray-300 border-gray-600/40 hover:bg-gray-700/80 transition-colors text-xs cursor-pointer"
               >
                 {tag}
               </Badge>
@@ -161,7 +161,7 @@ export function BlogCard({ post, featured = false, onClick }: BlogCardProps) {
           {post.tags.length > (featured ? 4 : 3) && (
             <Badge
               variant="secondary"
-              className="bg-white/5 text-gray-300 border-white/10 text-xs"
+              className="bg-gray-800/60 text-gray-300 border-gray-600/40 text-xs"
             >
               +{post.tags.length - (featured ? 4 : 3)}
             </Badge>

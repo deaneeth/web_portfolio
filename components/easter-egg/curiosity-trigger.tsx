@@ -342,7 +342,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                   ease: "linear"
                 }}
               >
-                <div className="w-full h-full bg-card/95 rounded-3xl" />
+                <div className="w-full h-full bg-gray-900/98 rounded-3xl" />
               </motion.div>
 
               {/* Modal Content */}
