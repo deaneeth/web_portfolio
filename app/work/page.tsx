@@ -106,29 +106,6 @@ const projects = [
       { label: 'Error Reduction', value: '85%' },
       { label: 'Cost Savings', value: '30%' }
     ]
-  },
-  {
-    id: 5,
-    title: 'Cloud Infrastructure Automation',
-    description: 'Automated cloud deployment system using Infrastructure as Code principles.',
-    longDescription: 'A comprehensive DevOps solution that automates cloud infrastructure deployment and management using modern IaC tools.',
-    category: 'DevOps',
-    tags: ['AWS', 'Terraform', 'Docker', 'Kubernetes'],
-    image: 'https://images.pexels.com/photos/1249158/pexels-photo-1249158.jpeg?auto=compress&cs=tinysrgb&w=800',
-    github: '#',
-    demo: '#',
-    featured: false,
-    impact: '70% faster deployments',
-    status: 'Completed',
-    date: '2024-09-10',
-    problem: 'Manual infrastructure setup was time-consuming and error-prone.',
-    solution: 'Implemented automated IaC pipeline with monitoring and rollback capabilities.',
-    technologies: ['Terraform', 'AWS', 'Docker', 'Kubernetes', 'Jenkins', 'Ansible'],
-    metrics: [
-      { label: 'Deployment Speed', value: '70% faster' },
-      { label: 'Error Reduction', value: '85%' },
-      { label: 'Cost Savings', value: '30%' }
-    ]
   }
 ];
 
