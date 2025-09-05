@@ -375,10 +375,10 @@ export function Footer() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={isInView ? { opacity: 0.04, scale: 1.5 } : { opacity: 0, scale: 0.8 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          className="text-[20vw] md:text-[15vw] lg:text-[12vw] font-black text-white leading-none tracking-tighter"
+          className="text-[20vw] md:text-[15vw] lg:text-[12vw] font-black text-gray-200 leading-none tracking-tighter"
           style={{ 
             fontFamily: 'system-ui, -apple-system, sans-serif',
-            textShadow: '0 0 100px rgba(255, 255, 255, 0.1)'
+            textShadow: '0 0 100px rgba(255, 255, 255, 0.05)'
           }}
         >
           deaneeth
@@ -446,7 +446,7 @@ export function Footer() {
                   placeholder="your@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 bg-white/5 border-white/10 text-white placeholder-gray-400 focus:border-teal-500/50 focus:ring-teal-500/20"
+                  className="flex-1 bg-gray-900/80 border-gray-700/50 text-white placeholder-gray-400 focus:border-teal-500/50 focus:ring-teal-500/20"
                   required
                 />
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -500,7 +500,7 @@ export function Footer() {
                   placeholder="Enter your email"
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white placeholder-gray-400 focus:border-teal-500/50 focus:ring-teal-500/20"
+                  className="bg-gray-900/80 border-gray-700/50 text-white placeholder-gray-400 focus:border-teal-500/50 focus:ring-teal-500/20"
                   required
                 />
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
@@ -524,7 +524,7 @@ export function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300 group"
+                    className="p-3 bg-gray-900/50 border border-gray-700/50 rounded-xl hover:bg-gray-800/80 transition-all duration-300 group"
                     variants={socialIconVariants}
                     initial="rest"
                     whileHover="hover"
@@ -538,7 +538,7 @@ export function Footer() {
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.boxShadow = 'none';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.borderColor = 'rgba(115, 115, 115, 0.5)';
                     }}
                   >
                     <social.icon 
@@ -609,7 +609,7 @@ export function Footer() {
               {mounted && (
                 <motion.button
                   onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className="p-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all duration-300"
+                  className="p-2 bg-gray-900/50 border border-gray-700/50 rounded-lg hover:bg-gray-800/80 transition-all duration-300"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                 >
@@ -678,7 +678,7 @@ export function Footer() {
 
           {/* Main Popup Container */}
           <motion.div
-            className="relative bg-gray-900/95 backdrop-blur-md text-white p-4 rounded-xl overflow-hidden"
+            className="relative bg-gray-900/98 backdrop-blur-md text-white p-4 rounded-xl overflow-hidden border border-gray-700/30"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.3 }}
           >
@@ -704,7 +704,7 @@ export function Footer() {
                 backgroundSize: '400% 400%'
               }}
             >
-              <div className="w-full h-full bg-gray-900/95 rounded-xl" />
+              <div className="w-full h-full bg-gray-900/98 rounded-xl" />
             </motion.div>
 
             {/* Content with Random Message */}

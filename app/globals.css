@@ -3,58 +3,58 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 15, 15, 15;
-  --background-end-rgb: 10, 10, 10;
+  --foreground-rgb: 245, 245, 245;
+  --background-start-rgb: 13, 13, 13;
+  --background-end-rgb: 8, 8, 8;
 }
 
 @layer base {
   :root {
-    --background: 222 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --background: 0 0% 5%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 96%;
     --primary: 262 83% 58%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 0 0% 12%;
+    --accent-foreground: 0 0% 96%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 32.6% 17.5%;
-    --input: 217 32.6% 17.5%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 12%;
     --ring: 262 83% 58%;
     --radius: 0.75rem;
-    --sidebar-background: 217 32.6% 15%;
-    --main-background: 222 84% 4.9%;
+    --sidebar-background: 0 0% 7%;
+    --main-background: 0 0% 5%;
   }
 
   .light {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 9%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 9%;
     --primary: 262 83% 58%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 90%;
+    --input: 0 0% 96%;
     --ring: 262 83% 58%;
-    --sidebar-background: 210 40% 98%;
+    --sidebar-background: 0 0% 98%;
     --main-background: 0 0% 100%;
   }
 }
@@ -95,7 +95,7 @@
 /* Sidebar Styles */
 .sidebar {
   background: hsl(var(--sidebar-background));
-  border-right: 1px solid hsl(var(--border));
+  border-right: 1px solid hsl(0 0% 15%);
   transition: all 0.3s ease;
   overflow: hidden;
 }
@@ -129,13 +129,13 @@
   gap: 0.75rem;
   margin-bottom: 2rem;
   padding: 1rem;
-  background: hsl(var(--muted) / 0.5);
+  background: hsl(0 0% 10% / 0.8);
   border-radius: 0.75rem;
   transition: all 0.3s ease;
 }
 
 .profile-section:hover {
-  background: hsl(var(--muted) / 0.8);
+  background: hsl(0 0% 12% / 0.9);
 }
 
 .profile-avatar {
@@ -222,12 +222,12 @@
 }
 
 .nav-item:hover {
-  background: hsl(var(--muted) / 0.5);
+  background: hsl(0 0% 15% / 0.8);
   color: hsl(var(--foreground));
 }
 
 .nav-item.active {
-  background: hsl(var(--primary) / 0.1);
+  background: hsl(var(--primary) / 0.15);
   color: hsl(var(--primary));
 }
 
@@ -279,8 +279,8 @@
 }
 
 .card:hover {
-  border-color: hsl(var(--border) / 0.8);
-  box-shadow: 0 4px 12px hsl(var(--foreground) / 0.05);
+  border-color: hsl(0 0% 25%);
+  box-shadow: 0 4px 20px hsl(0 0% 0% / 0.3);
 }
 
 .card-header {
@@ -372,7 +372,7 @@
 }
 
 .btn-outline:hover {
-  background: hsl(var(--muted) / 0.5);
+  background: hsl(0 0% 15% / 0.8);
 }
 
 /* Theme Toggle */
@@ -382,8 +382,8 @@
   left: 2rem;
   width: 48px;
   height: 48px;
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
+  background: hsl(0 0% 10%);
+  border: 1px solid hsl(0 0% 20%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -391,11 +391,11 @@
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 30;
-  box-shadow: 0 4px 12px hsl(var(--foreground) / 0.1);
+  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.3);
 }
 
 .theme-toggle:hover {
-  background: hsl(var(--muted));
+  background: hsl(0 0% 15%);
   transform: scale(1.05);
 }
 
@@ -406,8 +406,8 @@
   right: -12px;
   width: 24px;
   height: 24px;
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
+  background: hsl(0 0% 10%);
+  border: 1px solid hsl(0 0% 20%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -418,7 +418,7 @@
 }
 
 .collapse-btn:hover {
-  background: hsl(var(--muted));
+  background: hsl(0 0% 15%);
 }
 
 /* Mobile Sidebar Overlay */
@@ -443,8 +443,8 @@
   top: 0;
   width: 280px;
   height: 100vh;
-  background: hsl(var(--sidebar-background));
-  border-right: 1px solid hsl(var(--border));
+  background: hsl(0 0% 7%);
+  border-right: 1px solid hsl(0 0% 15%);
   transition: left 0.3s ease;
   z-index: 50;
 }
@@ -509,8 +509,8 @@
 .form-input {
   width: 100%;
   padding: 0.75rem;
-  background: hsl(var(--input));
-  border: 1px solid hsl(var(--border));
+  background: hsl(0 0% 8%);
+  border: 1px solid hsl(0 0% 20%);
   border-radius: 0.5rem;
   color: hsl(var(--foreground));
   font-size: 0.875rem;
@@ -521,7 +521,7 @@
 .form-input:focus {
   outline: none;
   border-color: hsl(var(--primary));
-  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.15);
 }
 
 .form-input::placeholder {
@@ -548,7 +548,7 @@ select.form-input {
 }
 
 select.form-input option {
-  background: hsl(var(--card));
+  background: hsl(0 0% 8%);
   color: hsl(var(--foreground));
 }
 
@@ -574,15 +574,15 @@ select.form-input option {
 
 /* ARIA Modal Styles */
 .aria-modal {
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
+  background: hsl(0 0% 8%);
+  border: 1px solid hsl(0 0% 20%);
   color: hsl(var(--foreground));
 }
 
 .aria-modal .glass {
-  background: hsl(var(--muted) / 0.1);
+  background: hsl(0 0% 10% / 0.8);
   backdrop-filter: blur(10px);
-  border: 1px solid hsl(var(--border));
+  border: 1px solid hsl(0 0% 20%);
 }
 
 .aria-modal .text-body {
@@ -595,12 +595,12 @@ select.form-input option {
 
 /* Glassmorphism */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .light .glass {
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }

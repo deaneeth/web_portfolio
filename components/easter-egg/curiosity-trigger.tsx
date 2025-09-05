@@ -446,7 +446,7 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
                           value={userQuestion}
                           onChange={(e) => setUserQuestion(e.target.value)}
                           placeholder="Ask ARIA about Deaneeth..."
-                          className="flex-1 glass border-border text-foreground placeholder-muted-foreground focus:border-[#7D27F5] focus:ring-[#7D27F5]/20 rounded-xl"
+                          className="flex-1 bg-gray-800/60 border-gray-600/50 text-white placeholder-gray-400 focus:border-[#7D27F5] focus:ring-[#7D27F5]/20 rounded-xl"
                           autoFocus
                         />
                         <Button
