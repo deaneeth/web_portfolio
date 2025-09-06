@@ -190,10 +190,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     <div className={`dashboard-layout ${isCollapsed ? 'collapsed' : ''}`}>
       {/* Desktop Sidebar */}
       <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''} hidden lg:block`}>
-        <div className="relative">
-          <SidebarContent />
-          
-          {/* Collapse Button */}
+        <div className="relative h-full">
+          {/* Collapse Button - Fixed at top */}
           <button
             onClick={toggleSidebar}
             className="collapse-btn focus-ring"
@@ -205,6 +203,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <ChevronLeft className="w-3 h-3" />
             )}
           </button>
+          
+          <SidebarContent />
         </div>
       </aside>
 
