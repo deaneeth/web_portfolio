@@ -17,7 +17,8 @@ import {
   X,
   Sun,
   Moon,
-  Circle
+  Circle,
+  BookOpen
 } from 'lucide-react';
 
 interface DashboardLayoutProps {
@@ -31,6 +32,7 @@ const navigationItems = [
       { name: 'Homepage', href: '/', icon: Home }, 
       { name: 'Featured Work', href: '/work', icon: FolderOpen },
       { name: 'Creative Services', href: '/services', icon: Briefcase },
+      { name: 'Articles', href: '/articles', icon: BookOpen },
     ]
   },
   {
@@ -190,10 +192,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     <div className={`dashboard-layout ${isCollapsed ? 'collapsed' : ''}`}>
       {/* Desktop Sidebar */}
       <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''} hidden lg:block`}>
-        <div className="relative">
-          <SidebarContent />
-          
-          {/* Collapse Button */}
+        <div className="relative h-full">
+          {/* Collapse Button - Fixed at top */}
           <button
             onClick={toggleSidebar}
             className="collapse-btn focus-ring"
@@ -205,6 +205,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <ChevronLeft className="w-3 h-3" />
             )}
           </button>
+          
+          <SidebarContent />
         </div>
       </aside>
 
