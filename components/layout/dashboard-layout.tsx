@@ -17,7 +17,8 @@ import {
   X,
   Sun,
   Moon,
-  Circle
+  Circle,
+  BookOpen
 } from 'lucide-react';
 
 interface DashboardLayoutProps {
@@ -31,6 +32,7 @@ const navigationItems = [
       { name: 'Homepage', href: '/', icon: Home }, 
       { name: 'Featured Work', href: '/work', icon: FolderOpen },
       { name: 'Creative Services', href: '/services', icon: Briefcase },
+      { name: 'Articles', href: '/articles', icon: BookOpen },
     ]
   },
   {
