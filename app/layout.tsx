@@ -34,11 +34,12 @@ export default function RootLayout({
         >
           <DashboardLayout>
             {children}
+          </DashboardLayout>
           <Toaster />
         </ThemeProvider>
       </body>
     </html>
+      </body>
+    </html>
   );
-}
-  )
 }
