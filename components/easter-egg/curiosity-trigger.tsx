@@ -70,7 +70,8 @@ export function CuriosityTrigger({ triggerType = 'main' }: { triggerType?: 'main
     try {
       // Create new audio context if needed
       if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
-        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        audioContextRef.current = new AudioContextClass();
       }
 
       const audioContext = audioContextRef.current;
