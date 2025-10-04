@@ -5,21 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import {
-  Home,
-  FolderOpen,
-  Briefcase,
-  Trophy,
-  Mail,
-  ChevronLeft,
-  ChevronRight,
-  Menu,
-  X,
-  Sun,
-  Moon,
-  Circle,
-  BookOpen
-} from 'lucide-react';
+import { Chrome as Home, FolderOpen, Briefcase, Trophy, Mail, ChevronLeft, ChevronRight, Menu, X, Sun, Moon, Circle, BookOpen } from 'lucide-react';
+import { SearchBar } from '@/components/search/search-bar';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -47,27 +34,12 @@ const navigationItems = [
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [currentTime, setCurrentTime] = useState('');
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
-    
-    const updateTime = () => {
-      const now = new Date();
-      const timeString = now.toLocaleTimeString('en-US', {
-        hour12: true,
-        hour: 'numeric',
-        minute: '2-digit',
-        timeZoneName: 'short'
-      });
-      setCurrentTime(timeString);
-    };
-
-    updateTime();
-    // Remove auto-refresh - only update on mount
   }, []);
 
   const toggleSidebar = () => {
@@ -141,18 +113,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         ))}
       </nav>
 
-      {/* Static Local Time */}
-      {!isCollapsed && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-auto p-4 bg-muted/30 rounded-lg text-center"
-        >
-          <div className="text-xs text-muted-foreground mb-1">Local Time</div>
-          <div className="text-sm font-mono text-foreground">{currentTime}</div>
-        </motion.div>
-      )}
+      {/* Search Bar */}
+      <SearchBar isCollapsed={isCollapsed} />
 
       {/* Theme Toggle in Sidebar */}
       <motion.div
