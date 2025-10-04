@@ -153,22 +153,38 @@ export default function ServicesPage() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8"
         >
-          <div className="text-center">
+          <motion.div 
+            className="card text-center"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-2xl font-bold text-primary mb-1">5,000+</div>
             <div className="text-sm text-muted-foreground">Happy Clients</div>
-          </div>
-          <div className="text-center">
+          </motion.div>
+          <motion.div 
+            className="card text-center"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-2xl font-bold text-primary mb-1">24-48h</div>
             <div className="text-sm text-muted-foreground">Delivery</div>
-          </div>
-          <div className="text-center">
+          </motion.div>
+          <motion.div 
+            className="card text-center"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-2xl font-bold text-primary mb-1">100%</div>
             <div className="text-sm text-muted-foreground">Satisfaction</div>
-          </div>
-          <div className="text-center">
+          </motion.div>
+          <motion.div 
+            className="card text-center"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-2xl font-bold text-primary mb-1">3+</div>
             <div className="text-sm text-muted-foreground">Years Experience</div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
 
