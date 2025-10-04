@@ -95,7 +95,7 @@
 /* Sidebar Styles */
 .sidebar {
   background: hsl(var(--sidebar-background));
-  border-right: 1px solid hsl(0 0% 15%);
+  border-right: 1px solid hsl(var(--border));
   transition: all 0.3s ease;
   overflow: visible;
   position: relative;
@@ -132,15 +132,15 @@
   gap: 0.75rem;
   margin-bottom: 0.75rem;
   padding: 0.875rem;
-  background: hsl(0 0% 9% / 0.6);
-  border: 1px solid hsl(0 0% 15%);
+  background: hsl(var(--card) / 0.6);
+  border: 1px solid hsl(var(--border));
   border-radius: 0.75rem;
   transition: all 0.3s ease;
 }
 
 .profile-section:hover {
-  background: hsl(0 0% 11% / 0.7);
-  border-color: hsl(0 0% 18%);
+  background: hsl(var(--card) / 0.8);
+  border-color: hsl(var(--border));
 }
 
 .sidebar.collapsed .profile-section {
@@ -151,7 +151,7 @@
 }
 
 .sidebar.collapsed .profile-section:hover {
-  background: hsl(0 0% 11% / 0.5);
+  background: hsl(var(--accent));
   border-radius: 0.5rem;
 }
 
@@ -165,15 +165,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px hsl(0 0% 0% / 0.2);
   transition: all 0.3s ease;
-  border: 2px solid hsl(0 0% 15%);
+  border: 2px solid hsl(var(--border));
 }
 
 .profile-avatar:hover {
-  box-shadow: 0 4px 12px rgba(125, 39, 245, 0.3);
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
   transform: scale(1.05);
   border-color: hsl(var(--primary));
+}
+
+.light .profile-avatar {
+  box-shadow: 0 2px 8px hsl(0 0% 0% / 0.1);
+}
+
+.light .profile-avatar:hover {
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.25);
 }
 
 .profile-image {
@@ -276,7 +284,7 @@
 }
 
 .nav-item:hover {
-  background: hsl(0 0% 15% / 0.8);
+  background: hsl(var(--accent));
   color: hsl(var(--foreground));
 }
 
@@ -333,8 +341,12 @@
 }
 
 .card:hover {
-  border-color: hsl(0 0% 25%);
-  box-shadow: 0 4px 20px hsl(0 0% 0% / 0.3);
+  border-color: hsl(var(--border));
+  box-shadow: 0 4px 20px hsl(0 0% 0% / 0.15);
+}
+
+.light .card:hover {
+  box-shadow: 0 4px 20px hsl(0 0% 0% / 0.08);
 }
 
 .card-header {
@@ -426,7 +438,7 @@
 }
 
 .btn-outline:hover {
-  background: hsl(0 0% 15% / 0.8);
+  background: hsl(var(--accent));
 }
 
 /* Theme Toggle */
@@ -436,8 +448,8 @@
   left: 2rem;
   width: 48px;
   height: 48px;
-  background: hsl(0 0% 10%);
-  border: 1px solid hsl(0 0% 20%);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -445,12 +457,16 @@
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 30;
-  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.3);
+  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.2);
 }
 
 .theme-toggle:hover {
-  background: hsl(0 0% 15%);
+  background: hsl(var(--accent));
   transform: scale(1.05);
+}
+
+.light .theme-toggle {
+  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.1);
 }
 
 /* Collapse Button */
@@ -477,7 +493,15 @@
   border-color: hsl(var(--primary));
   color: hsl(var(--primary-foreground));
   transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(125, 39, 245, 0.3);
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
+}
+
+.light .collapse-btn {
+  box-shadow: 0 2px 8px hsl(0 0% 0% / 0.08);
+}
+
+.light .collapse-btn:hover {
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.25);
 }
 
 .collapsed .collapse-btn {
@@ -510,8 +534,8 @@
   top: 0;
   width: 280px;
   height: 100vh;
-  background: hsl(0 0% 7%);
-  border-right: 1px solid hsl(0 0% 15%);
+  background: hsl(var(--sidebar-background));
+  border-right: 1px solid hsl(var(--border));
   transition: left 0.3s ease;
   z-index: 50;
 }
@@ -576,8 +600,8 @@
 .form-input {
   width: 100%;
   padding: 0.75rem;
-  background: hsl(0 0% 8%);
-  border: 1px solid hsl(0 0% 20%);
+  background: hsl(var(--input));
+  border: 1px solid hsl(var(--border));
   border-radius: 0.5rem;
   color: hsl(var(--foreground));
   font-size: 0.875rem;
@@ -615,8 +639,12 @@ select.form-input {
 }
 
 select.form-input option {
-  background: hsl(0 0% 8%);
+  background: hsl(var(--card));
   color: hsl(var(--foreground));
+}
+
+.light select.form-input option {
+  background: hsl(var(--background));
 }
 
 /* Responsive Design */
@@ -641,15 +669,15 @@ select.form-input option {
 
 /* ARIA Modal Styles */
 .aria-modal {
-  background: hsl(0 0% 8%);
-  border: 1px solid hsl(0 0% 20%);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
   color: hsl(var(--foreground));
 }
 
 .aria-modal .glass {
-  background: hsl(0 0% 10% / 0.8);
+  background: hsl(var(--card) / 0.8);
   backdrop-filter: blur(10px);
-  border: 1px solid hsl(0 0% 20%);
+  border: 1px solid hsl(var(--border));
 }
 
 .aria-modal .text-body {
