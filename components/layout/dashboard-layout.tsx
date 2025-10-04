@@ -68,19 +68,34 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         className="profile-section"
       >
         <div className="profile-avatar">
-          D
+          <img
+            src="/image.png"
+            alt="Deaneeth"
+            className="profile-image"
+          />
         </div>
         {!isCollapsed && (
           <div className="profile-info">
             <h3>Deaneeth</h3>
             <p>AI/ML Explorer</p>
-            <div className="status-badge">
-              <div className="status-dot"></div>
-              <span>Open for Work</span>
-            </div>
           </div>
         )}
       </motion.div>
+
+      {/* Status Badge - Separate from profile */}
+      {!isCollapsed && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="status-badge-container"
+        >
+          <div className="status-badge">
+            <div className="status-dot"></div>
+            <span>Open for Work</span>
+          </div>
+        </motion.div>
+      )}
 
       {/* Navigation */}
       <nav className="flex-1">
