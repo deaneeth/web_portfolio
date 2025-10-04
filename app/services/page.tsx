@@ -2,19 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Brain, 
-  Code, 
-  Palette, 
-  Zap, 
-  CheckCircle, 
-  ArrowRight,
-  Star,
-  Clock,
-  Users,
-  MessageCircle,
-  X
-} from 'lucide-react';
+import { Brain, Code, Palette, Zap, CircleCheck as CheckCircle, ArrowRight, Star, Clock, Users, MessageCircle, X } from 'lucide-react';
 
 const services = [
   {
