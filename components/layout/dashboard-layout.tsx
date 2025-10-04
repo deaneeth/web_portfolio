@@ -162,9 +162,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {isCollapsed ? (
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-4 h-4" />
             ) : (
-              <ChevronLeft className="w-3 h-3" />
+              <ChevronLeft className="w-4 h-4" />
             )}
           </button>
           

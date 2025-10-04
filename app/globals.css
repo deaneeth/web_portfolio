@@ -97,13 +97,13 @@
   background: hsl(var(--sidebar-background));
   border-right: 1px solid hsl(0 0% 15%);
   transition: all 0.3s ease;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 
 .sidebar-content {
   padding: 1.5rem;
-  padding-top: 2.5rem;
+  padding-top: 4rem;
   height: 100vh;
   overflow-y: auto;
   display: flex;
@@ -112,7 +112,7 @@
 
 .sidebar.collapsed .sidebar-content {
   padding: 1rem 0.5rem;
-  padding-top: 2rem;
+  padding-top: 4rem;
   align-items: center;
 }
 
@@ -405,26 +405,36 @@
 /* Collapse Button */
 .collapse-btn {
   position: absolute;
-  top: 0.75rem;
-  right: -14px;
-  width: 24px;
-  height: 24px;
+  top: 1.5rem;
+  right: -16px;
+  width: 32px;
+  height: 32px;
   background: hsl(var(--card));
   border: 1px solid hsl(var(--border));
-  border-radius: 50%;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  z-index: 50;
+  transition: all 0.3s ease;
+  z-index: 60;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .collapse-btn:hover {
-  background: hsl(var(--muted));
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(125, 39, 245, 0.3);
+}
+
+.collapsed .collapse-btn {
+  right: -16px;
+}
+
+.collapsed .collapse-btn:hover {
+  transform: scale(1.1);
 }
 
 /* Mobile Sidebar Overlay */
