@@ -208,7 +208,7 @@ export function SearchBar({ isCollapsed = false }: SearchBarProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
               transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="fixed top-[10%] left-1/2 -translate-x-1/2 w-full max-w-2xl z-[101] px-4"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl z-[101] px-4"
             >
               <div className="bg-background border border-border rounded-xl shadow-2xl overflow-hidden">
                 {/* Search Input */}
