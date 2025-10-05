@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Trophy, Award, Star, Calendar, ExternalLink, Filter, Search, Medal, AlignCenterVertical as Certificate, Target } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { Trophy, Award, Star, Search, Medal, FileCheck, Sparkles, ExternalLink, Calendar, Filter } from 'lucide-react';
 
 const achievements = [
   {
@@ -86,12 +86,10 @@ export default function AchievementsPage() {
     return matchesCategory && matchesSearch;
   });
 
-  const featuredAchievements = achievements.filter(a => a.featured);
-
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'Certification':
-        return Certificate;
+        return FileCheck;
       case 'Achievement':
         return Trophy;
       case 'Academic':
@@ -103,18 +101,33 @@ export default function AchievementsPage() {
     }
   };
 
-  const getCategoryColor = (category: string) => {
+  const getCategoryGradient = (category: string) => {
     switch (category) {
       case 'Certification':
-        return 'from-blue-500 to-purple-500';
+        return 'from-indigo-500 via-purple-500 to-pink-500';
       case 'Achievement':
-        return 'from-yellow-500 to-orange-500';
+        return 'from-emerald-500 via-teal-500 to-green-500';
       case 'Academic':
-        return 'from-green-500 to-teal-500';
+        return 'from-blue-500 via-cyan-500 to-sky-500';
       case 'Competition':
-        return 'from-red-500 to-pink-500';
+        return 'from-orange-500 via-amber-500 to-yellow-500';
       default:
         return 'from-gray-500 to-gray-600';
+    }
+  };
+
+  const getCategoryBadgeColor = (category: string) => {
+    switch (category) {
+      case 'Certification':
+        return 'bg-purple-500';
+      case 'Achievement':
+        return 'bg-emerald-500';
+      case 'Academic':
+        return 'bg-blue-500';
+      case 'Competition':
+        return 'bg-orange-500';
+      default:
+        return 'bg-gray-500';
     }
   };
 
@@ -127,7 +140,10 @@ export default function AchievementsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="page-title">Achievement Wall</h1>
+          <div className="flex items-center gap-3 mb-4">
+            <Sparkles className="w-8 h-8 text-primary" />
+            <h1 className="page-title">Achievement Wall</h1>
+          </div>
           <p className="page-subtitle">
             Certifications, awards, and milestones throughout my journey in AI/ML and technology.
           </p>
@@ -174,99 +190,11 @@ export default function AchievementsPage() {
         </div>
       </motion.div>
 
-      {/* Featured Achievements */}
-      {featuredAchievements.length > 0 && (
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex items-center gap-2 mb-6"
-          >
-            <Star className="w-5 h-5 text-yellow-500" />
-            <h2 className="text-xl font-semibold">Featured Achievements</h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {featuredAchievements.map((achievement, index) => (
-              <motion.div
-                key={achievement.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
-                className="card hover:border-primary/50 transition-all duration-300 hover:shadow-lg magnetic"
-                whileHover={{ y: -4 }}
-                data-cursor-text="View Details"
-              >
-                <div className="relative h-48 overflow-hidden rounded-lg mb-4">
-                  <img
-                    src={achievement.image}
-                    alt={achievement.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-3 right-3">
-                    <div className={`p-2 rounded-lg bg-gradient-to-r ${getCategoryColor(achievement.category)} bg-opacity-90`}>
-                      {React.createElement(getCategoryIcon(achievement.category), {
-                        className: "w-4 h-4 text-white"
-                      })}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-start justify-between">
-                    <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                      {achievement.category}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {new Date(achievement.date).toLocaleDateString()}
-                    </span>
-                  </div>
-
-                  <h3 className="font-semibold text-foreground line-clamp-2">
-                    {achievement.title}
-                  </h3>
-                  
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {achievement.description}
-                  </p>
-
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">by {achievement.issuer}</span>
-                    <motion.a
-                      href={achievement.verifyUrl}
-                      className="text-primary hover:text-primary/80 transition-colors magnetic"
-                      whileHover={{ scale: 1.05 }}
-                      data-cursor-text="Verify"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </motion.a>
-                  </div>
-
-                  <div className="flex flex-wrap gap-1">
-                    {achievement.skills.slice(0, 3).map(skill => (
-                      <span key={skill} className="text-xs bg-muted/50 text-muted-foreground px-2 py-1 rounded">
-                        {skill}
-                      </span>
-                    ))}
-                    {achievement.skills.length > 3 && (
-                      <span className="text-xs text-muted-foreground">
-                        +{achievement.skills.length - 3}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Filters */}
+      {/* Filters & Search */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
         className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between"
       >
         <div className="flex flex-wrap gap-2">
@@ -274,9 +202,9 @@ export default function AchievementsPage() {
             <motion.button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors magnetic ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all magnetic ${
                 selectedCategory === category
-                  ? 'bg-primary text-primary-foreground'
+                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30'
                   : 'bg-muted/50 text-muted-foreground hover:bg-muted'
               }`}
               whileHover={{ scale: 1.05 }}
@@ -288,114 +216,127 @@ export default function AchievementsPage() {
           ))}
         </div>
 
-        <div className="relative">
+        <div className="relative w-full sm:w-auto">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
             type="text"
             placeholder="Search achievements..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-gray-900/60 border-gray-700/50 text-white placeholder-gray-400 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-lg px-4 py-3 pl-10 w-64 magnetic"
+            className="bg-muted/50 border border-border text-foreground placeholder-muted-foreground focus:border-primary/50 focus:ring-2 focus:ring-primary/20 rounded-full px-4 py-2.5 pl-10 w-full sm:w-64 transition-all magnetic"
             data-cursor-text="Search"
           />
         </div>
       </motion.div>
 
-      {/* All Achievements */}
+      {/* All Achievements - Modern Compact Cards */}
       <div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
           className="flex items-center justify-between mb-6"
         >
-          <h2 className="text-xl font-semibold">All Achievements</h2>
-          <span className="text-sm text-muted-foreground">
+          <h2 className="text-2xl font-bold">All Achievements</h2>
+          <span className="text-sm text-muted-foreground px-4 py-1.5 bg-muted/50 rounded-full">
             {filteredAchievements.length} achievement{filteredAchievements.length !== 1 ? 's' : ''}
           </span>
         </motion.div>
 
         {filteredAchievements.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredAchievements.map((achievement, index) => (
-              <motion.div
-                key={achievement.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
-                className="card hover:border-primary/50 transition-all duration-300 hover:shadow-lg magnetic"
-                whileHover={{ y: -4 }}
-                data-cursor-text="View Details"
-              >
-                <div className="relative h-48 overflow-hidden rounded-lg mb-4">
-                  <img
-                    src={achievement.image}
-                    alt={achievement.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-3 right-3">
-                    <div className={`p-2 rounded-lg bg-gradient-to-r ${getCategoryColor(achievement.category)} bg-opacity-90`}>
-                      {React.createElement(getCategoryIcon(achievement.category), {
-                        className: "w-4 h-4 text-white"
-                      })}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-start justify-between">
-                    <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                      {achievement.category}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {new Date(achievement.date).toLocaleDateString()}
-                    </span>
-                  </div>
-
-                  <h3 className="font-semibold text-foreground line-clamp-2">
-                    {achievement.title}
-                  </h3>
+            {filteredAchievements.map((achievement, index) => {
+              const CardIcon = getCategoryIcon(achievement.category);
+              
+              return (
+                <motion.a
+                  key={achievement.id}
+                  href={achievement.verifyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 + (index * 0.05) }}
+                  whileHover={{ scale: 1.03, y: -5 }}
+                  className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${getCategoryGradient(achievement.category)} p-[2px] cursor-pointer magnetic`}
+                  data-cursor-text="View"
+                >
+                  {/* Glass Effect Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {achievement.description}
-                  </p>
-
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">by {achievement.issuer}</span>
-                    <motion.a
-                      href={achievement.verifyUrl}
-                      className="text-primary hover:text-primary/80 transition-colors magnetic"
-                      whileHover={{ scale: 1.05 }}
-                      data-cursor-text="Verify"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </motion.a>
-                  </div>
-
-                  <div className="flex flex-wrap gap-1">
-                    {achievement.skills.slice(0, 3).map(skill => (
-                      <span key={skill} className="text-xs bg-muted/50 text-muted-foreground px-2 py-1 rounded">
-                        {skill}
+                  {/* Card Content */}
+                  <div className="relative bg-card/95 backdrop-blur-xl rounded-3xl p-5 h-full flex flex-col">
+                    {/* Top Badge */}
+                    <div className="flex items-start justify-between mb-3">
+                      <span className={`${getCategoryBadgeColor(achievement.category)} text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg`}>
+                        <CardIcon className="w-3.5 h-3.5" />
+                        {achievement.category}
                       </span>
-                    ))}
-                    {achievement.skills.length > 3 && (
-                      <span className="text-xs text-muted-foreground">
-                        +{achievement.skills.length - 3}
-                      </span>
-                    )}
+                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {new Date(achievement.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                      </div>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                      {achievement.title}
+                    </h3>
+
+                    {/* Issuer */}
+                    <p className="text-sm text-muted-foreground mb-3">
+                      by <span className="font-medium text-foreground">{achievement.issuer}</span>
+                    </p>
+
+                    {/* Description */}
+                    <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-grow">
+                      {achievement.description}
+                    </p>
+
+                    {/* Skills Tags */}
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {achievement.skills.slice(0, 4).map(skill => (
+                        <span
+                          key={skill}
+                          className="text-xs bg-muted/70 text-muted-foreground px-2.5 py-1 rounded-full font-medium"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                      {achievement.skills.length > 4 && (
+                        <span className="text-xs text-muted-foreground px-2.5 py-1">
+                          +{achievement.skills.length - 4}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Verify Link */}
+                    <div className="flex items-center justify-between mt-auto pt-3 border-t border-border/50">
+                      <span className="text-xs text-muted-foreground">ID: {achievement.credentialId}</span>
+                      <motion.div
+                        className="flex items-center gap-1.5 text-sm font-medium text-primary"
+                        whileHover={{ x: 3 }}
+                      >
+                        Verify
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </motion.div>
+                    </div>
+
+                    {/* Hover Glow Effect */}
+                    <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-20 bg-gradient-to-br ${getCategoryGradient(achievement.category)} blur-xl transition-opacity duration-300 pointer-events-none`} />
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.a>
+              );
+            })}
           </div>
         ) : (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12"
+            className="text-center py-16"
           >
-            <Filter className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No achievements found</h3>
+            <Filter className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+            <h3 className="text-xl font-semibold mb-2">No achievements found</h3>
             <p className="text-muted-foreground">
               Try adjusting your search or filter criteria
             </p>
