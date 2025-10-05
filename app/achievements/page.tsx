@@ -134,6 +134,46 @@ export default function AchievementsPage() {
         </motion.div>
       </div>
 
+      {/* Achievement Summary - Moved to Top */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 magnetic"
+        whileHover={{ y: -4 }}
+        data-cursor-text="Summary"
+      >
+        <div className="text-center">
+          <h3 className="text-xl font-semibold mb-4">Achievement Summary</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+              <div className="text-2xl font-bold text-primary mb-1">
+                {achievements.filter(a => a.category === 'Certification').length}
+              </div>
+              <div className="text-sm text-muted-foreground">Certifications</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-primary mb-1">
+                {achievements.filter(a => a.category === 'Achievement').length}
+              </div>
+              <div className="text-sm text-muted-foreground">Achievements</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-primary mb-1">
+                {achievements.filter(a => a.category === 'Academic').length}
+              </div>
+              <div className="text-sm text-muted-foreground">Academic</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-primary mb-1">
+                {new Set(achievements.flatMap(a => a.skills)).size}
+              </div>
+              <div className="text-sm text-muted-foreground">Skills Validated</div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
       {/* Featured Achievements */}
       {featuredAchievements.length > 0 && (
         <div>
@@ -362,46 +402,6 @@ export default function AchievementsPage() {
           </motion.div>
         )}
       </div>
-
-      {/* Stats Summary */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.8 }}
-        className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 magnetic"
-        whileHover={{ y: -4 }}
-        data-cursor-text="Summary"
-      >
-        <div className="text-center">
-          <h3 className="text-xl font-semibold mb-4">Achievement Summary</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div>
-              <div className="text-2xl font-bold text-primary mb-1">
-                {achievements.filter(a => a.category === 'Certification').length}
-              </div>
-              <div className="text-sm text-muted-foreground">Certifications</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-primary mb-1">
-                {achievements.filter(a => a.category === 'Achievement').length}
-              </div>
-              <div className="text-sm text-muted-foreground">Achievements</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-primary mb-1">
-                {achievements.filter(a => a.category === 'Academic').length}
-              </div>
-              <div className="text-sm text-muted-foreground">Academic</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-primary mb-1">
-                {new Set(achievements.flatMap(a => a.skills)).size}
-              </div>
-              <div className="text-sm text-muted-foreground">Skills Validated</div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
     </div>
   );
 }
