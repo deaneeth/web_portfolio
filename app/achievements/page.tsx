@@ -258,7 +258,7 @@ export default function AchievementsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 + (index * 0.05) }}
                   whileHover={{ scale: 1.03, y: -5 }}
-                  className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${getCategoryGradient(achievement.category)} p-[2px] cursor-pointer magnetic`}
+                  className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${getCategoryGradient(achievement.category)} p-[1px] cursor-pointer magnetic`}
                   data-cursor-text="View"
                 >
                   {/* Glass Effect Overlay */}
