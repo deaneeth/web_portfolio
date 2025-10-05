@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 
@@ -28,16 +29,27 @@ export function Modal({
   maxWidth = '2xl',
   showCloseButton = true,
 }: ModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure component is mounted before rendering portal
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
     } else {
       document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     }
 
     return () => {
       document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     };
   }, [isOpen]);
 
@@ -55,55 +67,100 @@ export function Modal({
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  return (
-    <AnimatePresence>
+  if (!mounted) return null;
+
+  const modalContent = (
+    <AnimatePresence mode="wait">
       {isOpen && (
-        <>
-          {/* Backdrop - Full Screen Overlay */}
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center"
+          style={{ 
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9999
+          }}
+        >
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-0 left-0 right-0 bottom-0 w-full h-full bg-black/80 backdrop-blur-sm z-[100]"
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             onClick={onClose}
-            style={{ margin: 0, padding: 0 }}
+            style={{ 
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0
+            }}
           />
 
-          {/* Modal Container - Centered Wrapper */}
+          {/* Modal Container - Scrollable wrapper */}
           <div 
-            className="fixed top-0 left-0 right-0 bottom-0 w-full h-full z-[101] flex items-center justify-center p-4 pointer-events-none overflow-y-auto"
-            style={{ margin: 0, padding: '1rem' }}
+            className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              padding: '1rem'
+            }}
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className={`w-full ${maxWidthClasses[maxWidth]} pointer-events-auto my-auto`}
-              onClick={(e) => e.stopPropagation()}
+            <div 
+              className="min-h-full flex items-center justify-center py-8 px-4"
+              style={{
+                minHeight: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
             >
-              <div className="bg-card border border-border rounded-xl shadow-2xl max-h-[90vh] overflow-y-auto">
-                {/* Close Button (positioned inside modal content) */}
-                {showCloseButton && (
-                  <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 z-10 p-2 hover:bg-muted rounded-lg transition-colors bg-card/80 backdrop-blur-sm"
-                    aria-label="Close modal"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                )}
-                
-                {/* Modal Content */}
-                <div className="relative">
-                  {children}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className={`relative w-full ${maxWidthClasses[maxWidth]}`}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  position: 'relative',
+                  width: '100%'
+                }}
+              >
+                <div className="bg-card border border-border rounded-xl shadow-2xl relative">
+                  {/* Close Button */}
+                  {showCloseButton && (
+                    <button
+                      onClick={onClose}
+                      className="absolute top-4 right-4 z-10 p-2 hover:bg-muted rounded-lg transition-colors bg-card/80 backdrop-blur-sm"
+                      aria-label="Close modal"
+                      type="button"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  )}
+                  
+                  {/* Modal Content */}
+                  <div className="relative">
+                    {children}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
-        </>
+        </div>
       )}
     </AnimatePresence>
   );
+
+  // Use portal to render modal at document body level
+  return createPortal(modalContent, document.body);
 }
