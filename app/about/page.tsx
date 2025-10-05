@@ -6,6 +6,7 @@ import { Download, Sparkles, User, Brain, Cpu, Cloud, Database, Code2, Zap, Box,
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import ExperienceSection from '@/components/sections/experience-section';
+import EducationSection from '@/components/sections/education-section';
 
 // Skills data organized by category
 const skillsData = {
@@ -358,6 +359,9 @@ export default function AboutPage() {
 
       {/* Experience Section */}
       <ExperienceSection />
+
+      {/* Education Section */}
+      <EducationSection />
     </div>
   );
 }
