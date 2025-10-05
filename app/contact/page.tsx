@@ -16,7 +16,6 @@ import {
   ExternalLink,
   X
 } from 'lucide-react';
-import { CuriosityTrigger } from '@/components/easter-egg/curiosity-trigger';
 import { SocialButtons } from '@/components/ui/social-buttons';
 
 const contactMethods = [
@@ -571,26 +570,11 @@ export default function ContactPage() {
             </div>
           </motion.div>
 
-          {/* Ask ARIA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20"
-            whileHover={{ y: -4 }}
-          >
-            <h3 className="font-semibold mb-2">Quick Questions?</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Ask ARIA, my AI assistant, anything about my work, skills, or experience.
-            </p>
-            <CuriosityTrigger triggerType="main" />
-          </motion.div>
-
           {/* FAQ */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
             className="card"
             whileHover={{ y: -4 }}
           >
