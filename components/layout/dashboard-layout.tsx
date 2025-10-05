@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import { Chrome as Home, FolderOpen, Briefcase, Trophy, Mail, ChevronLeft, ChevronRight, Menu, X, Sun, Moon, Circle, BookOpen } from 'lucide-react';
+import { Chrome as Home, FolderOpen, Briefcase, Trophy, Mail, ChevronLeft, ChevronRight, Menu, X, Sun, Moon, Circle, BookOpen, User } from 'lucide-react';
 import { SearchBar } from '@/components/search/search-bar';
 
 interface DashboardLayoutProps {
@@ -16,7 +16,8 @@ const navigationItems = [
   {
     section: 'Main',
     items: [
-      { name: 'Homepage', href: '/', icon: Home }, 
+      { name: 'Homepage', href: '/', icon: Home },
+      { name: 'About', href: '/about', icon: User }, 
       { name: 'Featured Work', href: '/work', icon: FolderOpen },
       { name: 'Creative Services', href: '/services', icon: Briefcase },
       { name: 'Articles', href: '/articles', icon: BookOpen },
