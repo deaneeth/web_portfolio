@@ -104,30 +104,30 @@ export default function AchievementsPage() {
   const getCategoryGradient = (category: string) => {
     switch (category) {
       case 'Certification':
-        return 'from-indigo-500 via-purple-500 to-pink-500';
+        return 'from-indigo-500/40 via-purple-500/40 to-pink-500/40';
       case 'Achievement':
-        return 'from-emerald-500 via-teal-500 to-green-500';
+        return 'from-emerald-500/40 via-teal-500/40 to-green-500/40';
       case 'Academic':
-        return 'from-blue-500 via-cyan-500 to-sky-500';
+        return 'from-blue-500/40 via-cyan-500/40 to-sky-500/40';
       case 'Competition':
-        return 'from-orange-500 via-amber-500 to-yellow-500';
+        return 'from-orange-500/40 via-amber-500/40 to-yellow-500/40';
       default:
-        return 'from-gray-500 to-gray-600';
+        return 'from-gray-500/40 to-gray-600/40';
     }
   };
 
   const getCategoryBadgeColor = (category: string) => {
     switch (category) {
       case 'Certification':
-        return 'bg-purple-500';
+        return 'bg-purple-500/80';
       case 'Achievement':
-        return 'bg-emerald-500';
+        return 'bg-emerald-500/80';
       case 'Academic':
-        return 'bg-blue-500';
+        return 'bg-blue-500/80';
       case 'Competition':
-        return 'bg-orange-500';
+        return 'bg-orange-500/80';
       default:
-        return 'bg-gray-500';
+        return 'bg-gray-500/80';
     }
   };
 
@@ -244,7 +244,7 @@ export default function AchievementsPage() {
         </motion.div>
 
         {filteredAchievements.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredAchievements.map((achievement, index) => {
               const CardIcon = getCategoryIcon(achievement.category);
               
@@ -257,73 +257,56 @@ export default function AchievementsPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 + (index * 0.05) }}
-                  whileHover={{ scale: 1.03, y: -5 }}
-                  className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${getCategoryGradient(achievement.category)} p-[1px] cursor-pointer magnetic`}
+                  whileHover={{ scale: 1.02, y: -3 }}
+                  className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${getCategoryGradient(achievement.category)} p-[1px] cursor-pointer magnetic`}
                   data-cursor-text="View"
                 >
                   {/* Glass Effect Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
                   {/* Card Content */}
-                  <div className="relative bg-card/95 backdrop-blur-xl rounded-3xl p-5 h-full flex flex-col">
+                  <div className="relative bg-card/95 backdrop-blur-xl rounded-2xl p-4 h-full flex flex-col">
                     {/* Top Badge */}
-                    <div className="flex items-start justify-between mb-3">
-                      <span className={`${getCategoryBadgeColor(achievement.category)} text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg`}>
-                        <CardIcon className="w-3.5 h-3.5" />
+                    <div className="flex items-start justify-between mb-2.5">
+                      <span className={`${getCategoryBadgeColor(achievement.category)} text-white text-xs font-medium px-2.5 py-1 rounded-full flex items-center gap-1.5`}>
+                        <CardIcon className="w-3 h-3" />
                         {achievement.category}
                       </span>
-                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                        <Calendar className="w-3.5 h-3.5" />
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <Calendar className="w-3 h-3" />
                         {new Date(achievement.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                       </div>
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                    <h3 className="font-semibold text-base text-foreground mb-1.5 line-clamp-2 group-hover:text-primary transition-colors">
                       {achievement.title}
                     </h3>
 
                     {/* Issuer */}
-                    <p className="text-sm text-muted-foreground mb-3">
+                    <p className="text-xs text-muted-foreground mb-2.5">
                       by <span className="font-medium text-foreground">{achievement.issuer}</span>
                     </p>
 
                     {/* Description */}
-                    <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-grow">
+                    <p className="text-xs text-muted-foreground/80 line-clamp-2 mb-3 flex-grow">
                       {achievement.description}
                     </p>
 
-                    {/* Skills Tags */}
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                      {achievement.skills.slice(0, 4).map(skill => (
-                        <span
-                          key={skill}
-                          className="text-xs bg-muted/70 text-muted-foreground px-2.5 py-1 rounded-full font-medium"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                      {achievement.skills.length > 4 && (
-                        <span className="text-xs text-muted-foreground px-2.5 py-1">
-                          +{achievement.skills.length - 4}
-                        </span>
-                      )}
-                    </div>
-
                     {/* Verify Link */}
-                    <div className="flex items-center justify-between mt-auto pt-3 border-t border-border/50">
-                      <span className="text-xs text-muted-foreground">ID: {achievement.credentialId}</span>
+                    <div className="flex items-center justify-between mt-auto pt-2.5 border-t border-border/30">
+                      <span className="text-xs text-muted-foreground/70">ID: {achievement.credentialId}</span>
                       <motion.div
-                        className="flex items-center gap-1.5 text-sm font-medium text-primary"
-                        whileHover={{ x: 3 }}
+                        className="flex items-center gap-1 text-xs font-medium text-primary/90"
+                        whileHover={{ x: 2 }}
                       >
                         Verify
-                        <ExternalLink className="w-3.5 h-3.5" />
+                        <ExternalLink className="w-3 h-3" />
                       </motion.div>
                     </div>
 
                     {/* Hover Glow Effect */}
-                    <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-20 bg-gradient-to-br ${getCategoryGradient(achievement.category)} blur-xl transition-opacity duration-300 pointer-events-none`} />
+                    <div className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 bg-gradient-to-br ${getCategoryGradient(achievement.category)} blur-xl transition-opacity duration-300 pointer-events-none`} />
                   </div>
                 </motion.a>
               );
