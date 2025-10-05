@@ -699,3 +699,61 @@ select.form-input option {
   background: rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
+
+/* Skills Carousel Animation - Optimized for Performance */
+.skills-carousel-row {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Edge Gradient Fades - Responsive */
+.carousel-fade-left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8rem; /* 128px on desktop */
+  background: linear-gradient(to right, hsl(var(--background)), transparent);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.carousel-fade-right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 8rem; /* 128px on desktop */
+  background: linear-gradient(to left, hsl(var(--background)), transparent);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Responsive gradient widths */
+@media (max-width: 768px) {
+  .carousel-fade-left,
+  .carousel-fade-right {
+    width: 4rem; /* 64px on tablet/mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-fade-left,
+  .carousel-fade-right {
+    width: 3rem; /* 48px on small mobile */
+  }
+}
+
+/* Smooth hover transitions for carousel items */
+.skill-pill {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skill-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+}
+
+
