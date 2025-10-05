@@ -4,6 +4,15 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Code, Palette, Zap, CircleCheck as CheckCircle, ArrowRight, Star, Clock, Users, MessageCircle } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
+import { TwoRowTestimonialCarousel } from '@/components/ui/two-row-testimonial-carousel';
+
+interface Testimonial {
+  name: string;
+  role: string;
+  content: string;
+  rating: number;
+  avatar: string;
+}
 
 const services = [
   {
@@ -80,7 +89,7 @@ const services = [
   }
 ];
 
-const testimonials = [
+const testimonials: Testimonial[] = [
   {
     name: 'Sarah Johnson',
     role: 'CTO, TechCorp',
@@ -101,6 +110,27 @@ const testimonials = [
     content: 'Outstanding web application that exceeded our expectations. Fast delivery and excellent communication throughout.',
     rating: 5,
     avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  },
+  {
+    name: 'David Martinez',
+    role: 'CEO, DataFlow Inc',
+    content: 'The ML model built for us has significantly improved our prediction accuracy. Highly recommended!',
+    rating: 5,
+    avatar: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  },
+  {
+    name: 'Amanda Foster',
+    role: 'Operations Director, CloudNet',
+    content: 'Fantastic automation workflows that streamlined our entire operation. Professional and efficient service.',
+    rating: 5,
+    avatar: 'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  },
+  {
+    name: 'James Wilson',
+    role: 'Tech Lead, Innovate Solutions',
+    content: 'Excellent technical consulting and code architecture. Helped us avoid major pitfalls in our project.',
+    rating: 5,
+    avatar: 'https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
   }
 ];
 
@@ -307,47 +337,24 @@ export default function ServicesPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="text-center mb-8"
+          className="text-center mb-12"
         >
           <h2 className="text-2xl font-semibold mb-4">Client Testimonials</h2>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             What clients say about working with me
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.9 + (index * 0.1) }}
-              className="card"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <img
-                  src={testimonial.avatar}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <h4 className="font-semibold">{testimonial.name}</h4>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                </div>
-              </div>
-              
-              <div className="flex gap-1 mb-3">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />
-                ))}
-              </div>
-              
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                "{testimonial.content}"
-              </p>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.9 }}
+        >
+          <TwoRowTestimonialCarousel 
+            testimonials={testimonials}
+            animationDuration={30}
+          />
+        </motion.div>
       </div>
 
       {/* CTA */}
