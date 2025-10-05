@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Download, Sparkles, User, Brain, Cpu, Cloud, Database, Code2, Zap, Box, Activity, GitBranch, BarChart3, LineChart, TrendingUp, Server, Layers, Boxes } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import ExperienceSection from '@/components/sections/experience-section';
 
 // Skills data organized by category
 const skillsData = {
@@ -354,6 +355,9 @@ export default function AboutPage() {
           </div>
         </div>
       </motion.div>
+
+      {/* Experience Section */}
+      <ExperienceSection />
     </div>
   );
 }
