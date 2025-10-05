@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Code, Palette, Zap, CircleCheck as CheckCircle, ArrowRight, Star, Clock, Users, MessageCircle } from 'lucide-react';
-import { Modal } from '@/components/ui/modal';
+import { ServiceOrderModal } from '@/components/service-order-modal';
 import { TwoRowTestimonialCarousel } from '@/components/ui/two-row-testimonial-carousel';
 
 interface Testimonial {
@@ -379,71 +379,12 @@ export default function ServicesPage() {
         </div>
       </motion.div>
 
-      {/* Service Detail Modal */}
-      <Modal
+      {/* Service Order Modal */}
+      <ServiceOrderModal
         isOpen={!!selectedService}
         onClose={() => setSelectedService(null)}
-        maxWidth="2xl"
-      >
-        {selectedService && (
-          <div className="p-6">
-            <div className="flex items-start justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <div className={`p-3 rounded-lg bg-gradient-to-r ${selectedService.color} bg-opacity-10`}>
-                  <selectedService.icon className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-bold">{selectedService.title}</h2>
-                  <p className="text-muted-foreground">{selectedService.description}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-semibold mb-3">What's Included</h3>
-                <ul className="space-y-2">
-                  {selectedService.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="font-semibold mb-2">Deliverables</h3>
-                  <p className="text-muted-foreground text-sm">{selectedService.deliverables}</p>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-2">Timeline</h3>
-                  <p className="text-muted-foreground text-sm">{selectedService.timeline}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between pt-6 border-t border-border">
-                <div>
-                  <div className="text-sm text-muted-foreground">Starting at</div>
-                  <div className="text-2xl font-bold text-primary">{selectedService.startingPrice}</div>
-                </div>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => setSelectedService(null)}
-                    className="btn btn-outline"
-                  >
-                    Close
-                  </button>
-                  <a href="/contact" className="btn btn-primary">
-                    Get Started
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </Modal>
+        service={selectedService}
+      />
     </div>
   );
 }
