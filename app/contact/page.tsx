@@ -149,23 +149,54 @@ export default function ContactPage() {
 
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setShowSuccessPopup(true);
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      projectType: '',
-      budget: '',
-      message: '',
-      timeline: ''
-    });
-    setErrors({});
+    try {
+      // Send form data to API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        // Handle validation errors from server
+        if (result.errors) {
+          setErrors(result.errors);
+          setIsSubmitting(false);
+          return;
+        }
+        
+        // Handle other errors
+        throw new Error(result.error || 'Failed to send message');
+      }
+
+      // Success!
+      setIsSubmitting(false);
+      setShowSuccessPopup(true);
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        projectType: '',
+        budget: '',
+        message: '',
+        timeline: ''
+      });
+      setErrors({});
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setIsSubmitting(false);
+      
+      // Show error to user
+      setErrors({
+        submit: error instanceof Error ? error.message : 'Failed to send message. Please try again.'
+      });
+    }
   };
 
   return (
@@ -440,6 +471,20 @@ export default function ContactPage() {
                   )}
                 </div>
               </div>
+
+              {/* Submission Error Message */}
+              {errors.submit && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-lg flex items-start gap-3"
+                >
+                  <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="text-sm">{errors.submit}</p>
+                </motion.div>
+              )}
 
               <motion.button
                 type="submit"
