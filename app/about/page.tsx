@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import ExperienceSection from '@/components/sections/experience-section';
 import EducationSection from '@/components/sections/education-section';
+import MotivationSection from '@/components/sections/motivation-section';
 
 // Skills data organized by category
 const skillsData = {
@@ -356,6 +357,9 @@ export default function AboutPage() {
           </div>
         </div>
       </motion.div>
+
+      {/* Motivation Section */}
+      <MotivationSection />
 
       {/* Experience Section */}
       <ExperienceSection />
