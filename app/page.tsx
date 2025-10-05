@@ -17,7 +17,6 @@ import {
   MapPin
 } from 'lucide-react';
 import { CuriosityTrigger } from '@/components/easter-egg/curiosity-trigger';
-import { PersonalStory } from '@/components/sections/personal-story';
 import { SocialButtons } from '@/components/ui/social-buttons';
 
 const quickStats = [
@@ -177,9 +176,6 @@ export default function HomePage() {
           </motion.div>
         ))}
       </motion.div>
-
-      {/* Personal Story Section */}
-      <PersonalStory />
 
       {/* Featured Sections */}
       <div>
