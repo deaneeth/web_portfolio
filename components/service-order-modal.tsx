@@ -112,7 +112,7 @@ export function ServiceOrderModal({ isOpen, onClose, service }: ServiceOrderModa
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isOpen, isSubmitting, onClose]);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     
@@ -326,6 +326,7 @@ export function ServiceOrderModal({ isOpen, onClose, service }: ServiceOrderModa
           >
             <div 
               className="min-h-full flex items-center justify-center py-8 px-4"
+              onClick={handleClose}
               style={{
                 minHeight: '100%',
                 display: 'flex',
@@ -338,12 +339,12 @@ export function ServiceOrderModal({ isOpen, onClose, service }: ServiceOrderModa
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="relative w-full max-w-2xl"
+                className="relative w-full max-w-3xl"
                 onClick={(e) => e.stopPropagation()}
                 style={{
                   position: 'relative',
                   width: '100%',
-                  maxWidth: '42rem'
+                  maxWidth: '48rem'
                 }}
               >
                 <div className="bg-card border border-border rounded-2xl shadow-2xl relative">
@@ -403,7 +404,7 @@ export function ServiceOrderModal({ isOpen, onClose, service }: ServiceOrderModa
                   </div>
 
                   {/* Form */}
-                  <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                  <form onSubmit={handleSubmit} className="p-6 space-y-4">
                     {/* Name & Email Row */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Name Field */}
@@ -461,7 +462,7 @@ export function ServiceOrderModal({ isOpen, onClose, service }: ServiceOrderModa
                         name="requirements"
                         value={formData.requirements}
                         onChange={handleInputChange}
-                        rows={4}
+                        rows={3}
                         placeholder="Describe your project requirements, goals, and any specific details..."
                         className={`w-full px-4 py-2.5 bg-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none ${
                           errors.requirements ? 'border-red-500' : 'border-border'
@@ -488,14 +489,14 @@ export function ServiceOrderModal({ isOpen, onClose, service }: ServiceOrderModa
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}
-                        className={`border-2 border-dashed rounded-lg p-8 text-center transition-all cursor-pointer ${
+                        className={`border-2 border-dashed rounded-lg p-6 text-center transition-all cursor-pointer ${
                           isDragging
                             ? 'border-primary bg-primary/5'
                             : 'border-border hover:border-primary/50 hover:bg-muted/50'
                         }`}
                         onClick={() => fileInputRef.current?.click()}
                       >
-                        <Upload className={`w-12 h-12 mx-auto mb-4 transition-colors ${
+                        <Upload className={`w-10 h-10 mx-auto mb-3 transition-colors ${
                           isDragging ? 'text-primary' : 'text-muted-foreground'
                         }`} />
                         <p className="text-sm font-medium mb-1">
@@ -606,16 +607,16 @@ export function ServiceOrderModal({ isOpen, onClose, service }: ServiceOrderModa
                             type="button"
                             onClick={() => handlePaymentMethodChange(method.id)}
                             disabled={isSubmitting}
-                            className={`p-4 rounded-lg border-2 transition-all text-center ${
+                            className={`p-3 rounded-lg border-2 transition-all text-center ${
                               formData.paymentMethod === method.id
                                 ? 'border-primary bg-primary/5'
                                 : 'border-border hover:border-primary/50 hover:bg-muted/50'
                             }`}
                           >
-                            <div className={`w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-br ${method.color} flex items-center justify-center`}>
-                              <DollarSign className="w-4 h-4 text-white" />
+                            <div className={`w-7 h-7 mx-auto mb-2 rounded-full bg-gradient-to-br ${method.color} flex items-center justify-center`}>
+                              <DollarSign className="w-3.5 h-3.5 text-white" />
                             </div>
-                            <span className="text-sm font-medium">{method.label}</span>
+                            <span className="text-xs font-medium">{method.label}</span>
                           </button>
                         ))}
                       </div>
