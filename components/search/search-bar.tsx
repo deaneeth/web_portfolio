@@ -197,42 +197,43 @@ export function SearchBar({ isCollapsed = false }: SearchBarProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
+              className="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-black/60 backdrop-blur-sm z-[100]"
               onClick={handleClose}
             />
 
-            {/* Modal */}
-            <motion.div
-              ref={modalRef}
-              initial={{ opacity: 0, scale: 0.95, y: -20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl z-[101] px-4"
-            >
-              <div className="bg-background border border-border rounded-xl shadow-2xl overflow-hidden">
-                {/* Search Input */}
-                <div className="flex items-center gap-3 p-4 border-b border-border">
-                  <Search className="h-5 w-5 text-muted-foreground" />
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search pages, projects, services, and more..."
-                    className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground"
-                  />
-                  <button
-                    onClick={handleClose}
-                    className="p-1 hover:bg-muted rounded-md transition-colors"
-                    aria-label="Close search"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
+            {/* Modal Container - Centered */}
+            <div className="fixed inset-0 z-[101] flex items-center justify-center p-4 pointer-events-none">
+              <motion.div
+                ref={modalRef}
+                initial={{ opacity: 0, scale: 0.95, y: -20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="w-full max-w-2xl max-h-[90vh] pointer-events-auto"
+              >
+                <div className="bg-background border border-border rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+                  {/* Search Input */}
+                  <div className="flex items-center gap-3 p-4 border-b border-border flex-shrink-0">
+                    <Search className="h-5 w-5 text-muted-foreground" />
+                    <input
+                      ref={searchInputRef}
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search pages, projects, services, and more..."
+                      className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground"
+                    />
+                    <button
+                      onClick={handleClose}
+                      className="p-1 hover:bg-muted rounded-md transition-colors"
+                      aria-label="Close search"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
 
-                {/* Search Results */}
-                <div className="max-h-[60vh] overflow-y-auto">
+                  {/* Search Results */}
+                  <div className="overflow-y-auto flex-1">
                   {searchQuery.trim() === '' ? (
                     // Recent Searches or Empty State
                     <div className="p-4">
@@ -348,30 +349,31 @@ export function SearchBar({ isCollapsed = false }: SearchBarProps) {
                       <p className="text-xs mt-1">Try searching for something else</p>
                     </div>
                   )}
-                </div>
+                  </div>
 
-                {/* Footer */}
-                <div className="p-3 border-t border-border bg-muted/30">
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-1">
-                        <kbd className="px-1.5 py-0.5 bg-background border border-border rounded text-[10px]">↑↓</kbd>
-                        <span>Navigate</span>
+                  {/* Footer */}
+                  <div className="p-3 border-t border-border bg-muted/30 flex-shrink-0">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1">
+                          <kbd className="px-1.5 py-0.5 bg-background border border-border rounded text-[10px]">↑↓</kbd>
+                          <span>Navigate</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <kbd className="px-1.5 py-0.5 bg-background border border-border rounded text-[10px]">↵</kbd>
+                          <span>Select</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <kbd className="px-1.5 py-0.5 bg-background border border-border rounded text-[10px]">ESC</kbd>
+                          <span>Close</span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <kbd className="px-1.5 py-0.5 bg-background border border-border rounded text-[10px]">↵</kbd>
-                        <span>Select</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <kbd className="px-1.5 py-0.5 bg-background border border-border rounded text-[10px]">ESC</kbd>
-                        <span>Close</span>
-                      </div>
+                      <span>{searchResults.length} results</span>
                     </div>
-                    <span>{searchResults.length} results</span>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>

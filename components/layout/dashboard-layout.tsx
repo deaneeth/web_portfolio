@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import { Chrome as Home, FolderOpen, Briefcase, Trophy, Mail, ChevronLeft, ChevronRight, Menu, X, Sun, Moon, Circle, BookOpen } from 'lucide-react';
+import { Chrome as Home, FolderOpen, Briefcase, Trophy, Mail, ChevronLeft, ChevronRight, Menu, X, Sun, Moon, Circle, BookOpen, User } from 'lucide-react';
 import { SearchBar } from '@/components/search/search-bar';
 
 interface DashboardLayoutProps {
@@ -16,7 +16,8 @@ const navigationItems = [
   {
     section: 'Main',
     items: [
-      { name: 'Homepage', href: '/', icon: Home }, 
+      { name: 'Homepage', href: '/', icon: Home },
+      { name: 'About', href: '/about', icon: User }, 
       { name: 'Featured Work', href: '/work', icon: FolderOpen },
       { name: 'Creative Services', href: '/services', icon: Briefcase },
       { name: 'Articles', href: '/articles', icon: BookOpen },
@@ -68,19 +69,34 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         className="profile-section"
       >
         <div className="profile-avatar">
-          D
+          <img
+            src="/image.png"
+            alt="Deaneeth"
+            className="profile-image"
+          />
         </div>
         {!isCollapsed && (
           <div className="profile-info">
             <h3>Deaneeth</h3>
             <p>AI/ML Explorer</p>
-            <div className="status-badge">
-              <div className="status-dot"></div>
-              <span>Open for Work</span>
-            </div>
           </div>
         )}
       </motion.div>
+
+      {/* Status Badge - Separate from profile */}
+      {!isCollapsed && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="status-badge-container"
+        >
+          <div className="status-badge">
+            <div className="status-dot"></div>
+            <span>Open for Work</span>
+          </div>
+        </motion.div>
+      )}
 
       {/* Navigation */}
       <nav className="flex-1">
@@ -162,9 +178,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {isCollapsed ? (
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-4 h-4" />
             ) : (
-              <ChevronLeft className="w-3 h-3" />
+              <ChevronLeft className="w-4 h-4" />
             )}
           </button>
           

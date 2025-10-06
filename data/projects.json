@@ -1,0 +1,35 @@
+[
+  {
+    "id": "project-001",
+    "title": "Neural Style Transfer Engine",
+    "type": "Project",
+    "date": "2025-10-03",
+    "description": "Completed AI-powered image transformation system",
+    "link": "/work",
+    "tags": ["AI", "Computer Vision", "Deep Learning"],
+    "status": "completed",
+    "featured": true
+  },
+  {
+    "id": "project-002",
+    "title": "Sinhala Poetry AI Generator",
+    "type": "Project",
+    "date": "2025-09-15",
+    "description": "Built AI model for generating authentic Sinhala poetry",
+    "link": "/work",
+    "tags": ["NLP", "Cultural AI", "Deep Learning"],
+    "status": "completed",
+    "featured": false
+  },
+  {
+    "id": "project-003",
+    "title": "Smart Automation Dashboard",
+    "type": "Project",
+    "date": "2025-08-22",
+    "description": "Created intelligent workflow automation platform for businesses",
+    "link": "/work",
+    "tags": ["Automation", "Web Development", "React"],
+    "status": "completed",
+    "featured": true
+  }
+]

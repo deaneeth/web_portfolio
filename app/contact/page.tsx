@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Mail, 
   MapPin, 
@@ -13,9 +13,9 @@ import {
   MessageCircle,
   Calendar,
   CheckCircle,
-  ExternalLink
+  ExternalLink,
+  X
 } from 'lucide-react';
-import { CuriosityTrigger } from '@/components/easter-egg/curiosity-trigger';
 import { SocialButtons } from '@/components/ui/social-buttons';
 
 const contactMethods = [
@@ -78,43 +78,182 @@ export default function ContactPage() {
     message: '',
     timeline: ''
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
- const [openFaqId, setOpenFaqId] = useState<number | null>(null);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [openFaqId, setOpenFaqId] = useState<number | null>(null);
+
+  // Auto-close popup after 5 seconds
+  useEffect(() => {
+    if (showSuccessPopup) {
+      const timer = setTimeout(() => {
+        setShowSuccessPopup(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessPopup]);
 
   const toggleFaq = (faqId: number) => {
     setOpenFaqId(openFaqId === faqId ? null : faqId);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: ''
+      });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!formData.projectType) {
+      newErrors.projectType = 'Please select a project type';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Project description is required';
+    } else if (formData.message.trim().length < 20) {
+      newErrors.message = 'Please provide at least 20 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      projectType: '',
-      budget: '',
-      message: '',
-      timeline: ''
-    });
+    try {
+      // Send form data to API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        // Handle validation errors from server
+        if (result.errors) {
+          setErrors(result.errors);
+          setIsSubmitting(false);
+          return;
+        }
+        
+        // Handle other errors
+        throw new Error(result.error || 'Failed to send message');
+      }
+
+      // Success!
+      setIsSubmitting(false);
+      setShowSuccessPopup(true);
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        projectType: '',
+        budget: '',
+        message: '',
+        timeline: ''
+      });
+      setErrors({});
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setIsSubmitting(false);
+      
+      // Show error to user
+      setErrors({
+        submit: error instanceof Error ? error.message : 'Failed to send message. Please try again.'
+      });
+    }
   };
 
   return (
     <div className="space-y-12">
+      {/* Success Popup Overlay */}
+      <AnimatePresence>
+        {showSuccessPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowSuccessPopup(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: 'spring', duration: 0.5 }}
+              className="relative bg-card border border-border rounded-2xl shadow-2xl p-8 max-w-md w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setShowSuccessPopup(false)}
+                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Success Content */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+                className="text-center"
+              >
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-500/10 flex items-center justify-center">
+                  <CheckCircle className="w-12 h-12 text-green-500" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Message Sent!</h3>
+                <p className="text-muted-foreground mb-6">
+                  Thanks for reaching out. I'll get back to you within 24 hours.
+                </p>
+                <motion.button
+                  onClick={() => setShowSuccessPopup(false)}
+                  className="btn btn-primary"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Close
+                </motion.button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Page Header */}
       <div className="page-header">
         <motion.div
@@ -177,146 +316,195 @@ export default function ContactPage() {
               </p>
             </div>
 
-            {isSubmitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-8"
-              >
-                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">Message Sent!</h3>
-                <p className="text-muted-foreground">
-                  Thanks for reaching out. I'll get back to you within 24 hours.
-                </p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="form-group">
-                    <label className="form-label">Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="form-input"
-                      required
-                      placeholder="Your full name"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Email *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="form-input"
-                      required
-                      placeholder="your@email.com"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="form-group">
-                    <label className="form-label">Company</label>
-                    <input
-                      type="text"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="form-input"
-                      placeholder="Your company name"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Project Type *</label>
-                    <select
-                      name="projectType"
-                      value={formData.projectType}
-                      onChange={handleChange}
-                      className="form-input"
-                      required
-                    >
-                      <option value="">Select project type</option>
-                      <option value="ai-ml">AI/ML Solution</option>
-                      <option value="automation">Intelligent Automation</option>
-                      <option value="web-app">Web Application</option>
-                      <option value="consulting">Design & Consulting</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="form-group">
-                    <label className="form-label">Budget Range</label>
-                    <select
-                      name="budget"
-                      value={formData.budget}
-                      onChange={handleChange}
-                      className="form-input"
-                    >
-                      <option value="">Select budget range</option>
-                      <option value="under-5k">Under $5,000</option>
-                      <option value="5k-10k">$5,000 - $10,000</option>
-                      <option value="10k-25k">$10,000 - $25,000</option>
-                      <option value="25k-plus">$25,000+</option>
-                      <option value="discuss">Let's discuss</option>
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Timeline</label>
-                    <select
-                      name="timeline"
-                      value={formData.timeline}
-                      onChange={handleChange}
-                      className="form-input"
-                    >
-                      <option value="">Select timeline</option>
-                      <option value="asap">ASAP</option>
-                      <option value="1-month">Within 1 month</option>
-                      <option value="2-3-months">2-3 months</option>
-                      <option value="flexible">Flexible</option>
-                    </select>
-                  </div>
-                </div>
-
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="form-group">
-                  <label className="form-label">Project Description *</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
+                  <label className="form-label">Name *</label>
+                  <motion.input
+                    type="text"
+                    name="name"
+                    value={formData.name}
                     onChange={handleChange}
-                    className="bg-gray-900/60 border-gray-700/50 text-white placeholder-gray-400 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-lg px-4 py-3 min-h-[120px] resize-vertical"
+                    className={`form-input transition-all ${errors.name ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}`}
                     required
-                    placeholder="Tell me about your project, goals, and any specific requirements..."
-                    rows={6}
+                    placeholder="Your full name"
+                    whileFocus={{ scale: 1.01 }}
+                  />
+                  {errors.name && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-500 text-sm mt-1"
+                    >
+                      {errors.name}
+                    </motion.p>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Email *</label>
+                  <motion.input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`form-input transition-all ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}`}
+                    required
+                    placeholder="your@email.com"
+                    whileFocus={{ scale: 1.01 }}
+                  />
+                  {errors.email && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-500 text-sm mt-1"
+                    >
+                      {errors.email}
+                    </motion.p>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="form-group">
+                  <label className="form-label">Company</label>
+                  <motion.input
+                    type="text"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="form-input transition-all"
+                    placeholder="Your company name"
+                    whileFocus={{ scale: 1.01 }}
                   />
                 </div>
-
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn btn-primary w-full"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      Send Message
-                    </>
+                <div className="form-group">
+                  <label className="form-label">Project Type *</label>
+                  <motion.select
+                    name="projectType"
+                    value={formData.projectType}
+                    onChange={handleChange}
+                    className={`form-input transition-all ${errors.projectType ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}`}
+                    required
+                    whileFocus={{ scale: 1.01 }}
+                  >
+                    <option value="">Select project type</option>
+                    <option value="ai-ml">AI/ML Solution</option>
+                    <option value="automation">Intelligent Automation</option>
+                    <option value="web-app">Web Application</option>
+                    <option value="consulting">Design & Consulting</option>
+                    <option value="other">Other</option>
+                  </motion.select>
+                  {errors.projectType && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-500 text-sm mt-1"
+                    >
+                      {errors.projectType}
+                    </motion.p>
                   )}
-                </motion.button>
-              </form>
-            )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="form-group">
+                  <label className="form-label">Budget Range</label>
+                  <motion.select
+                    name="budget"
+                    value={formData.budget}
+                    onChange={handleChange}
+                    className="form-input transition-all"
+                    whileFocus={{ scale: 1.01 }}
+                  >
+                    <option value="">Select budget range</option>
+                    <option value="under-5k">Under $5,000</option>
+                    <option value="5k-10k">$5,000 - $10,000</option>
+                    <option value="10k-25k">$10,000 - $25,000</option>
+                    <option value="25k-plus">$25,000+</option>
+                    <option value="discuss">Let's discuss</option>
+                  </motion.select>
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Timeline</label>
+                  <motion.select
+                    name="timeline"
+                    value={formData.timeline}
+                    onChange={handleChange}
+                    className="form-input transition-all"
+                    whileFocus={{ scale: 1.01 }}
+                  >
+                    <option value="">Select timeline</option>
+                    <option value="asap">ASAP</option>
+                    <option value="1-month">Within 1 month</option>
+                    <option value="2-3-months">2-3 months</option>
+                    <option value="flexible">Flexible</option>
+                  </motion.select>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Project Description *</label>
+                <motion.textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className={`form-input min-h-[140px] resize-vertical transition-all ${errors.message ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}`}
+                  required
+                  placeholder="Tell me about your project, goals, and any specific requirements..."
+                  rows={6}
+                  whileFocus={{ scale: 1.005 }}
+                />
+                <div className="flex items-center justify-between mt-2">
+                  {errors.message ? (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-500 text-sm"
+                    >
+                      {errors.message}
+                    </motion.p>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">
+                      {formData.message.length}/500 characters (min 20)
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Submission Error Message */}
+              {errors.submit && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-lg flex items-start gap-3"
+                >
+                  <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="text-sm">{errors.submit}</p>
+                </motion.div>
+              )}
+
+              <motion.button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    Send Message
+                  </>
+                )}
+              </motion.button>
+            </form>
           </motion.div>
         </div>
 
@@ -382,26 +570,11 @@ export default function ContactPage() {
             </div>
           </motion.div>
 
-          {/* Ask ARIA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20"
-            whileHover={{ y: -4 }}
-          >
-            <h3 className="font-semibold mb-2">Quick Questions?</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Ask ARIA, my AI assistant, anything about my work, skills, or experience.
-            </p>
-            <CuriosityTrigger triggerType="main" />
-          </motion.div>
-
           {/* FAQ */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
             className="card"
             whileHover={{ y: -4 }}
           >

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { 
@@ -17,8 +17,8 @@ import {
   MapPin
 } from 'lucide-react';
 import { CuriosityTrigger } from '@/components/easter-egg/curiosity-trigger';
-import { PersonalStory } from '@/components/sections/personal-story';
 import { SocialButtons } from '@/components/ui/social-buttons';
+import { getRecentActivityWithTime } from '@/lib/utils/recentActivity';
 
 const quickStats = [
   { label: 'Projects Completed', value: '25+' },
@@ -62,31 +62,47 @@ const featuredSections = [
   }
 ];
 
-const recentActivity = [
-  {
-    type: 'project',
-    title: 'Neural Style Transfer Engine',
-    description: 'Completed AI-powered image transformation system',
-    time: '2 days ago',
-    status: 'completed'
-  },
-  {
-    type: 'article',
-    title: 'The Future of AI in Creative Industries',
-    description: 'Published new article on AI and creativity',
-    time: '1 week ago',
-    status: 'published'
-  },
-  {
-    type: 'achievement',
-    title: 'Google Cloud ML Engineer Certification',
-    description: 'Earned professional certification',
-    time: '2 weeks ago',
-    status: 'earned'
-  }
-];
-
 export default function HomePage() {
+  // Get recent activity dynamically from JSON data sources
+  const recentActivity = useMemo(() => getRecentActivityWithTime(4), []);
+
+  // Helper function to get icon and color for activity type
+  const getActivityStyle = (type: string) => {
+    switch (type) {
+      case 'Project':
+        return {
+          icon: <Code className="w-4 h-4" />,
+          bgColor: 'bg-blue-500/10 text-blue-500'
+        };
+      case 'Article':
+        return {
+          icon: <BookOpen className="w-4 h-4" />,
+          bgColor: 'bg-green-500/10 text-green-500'
+        };
+      case 'Achievement':
+      case 'Certification':
+        return {
+          icon: <Trophy className="w-4 h-4" />,
+          bgColor: 'bg-yellow-500/10 text-yellow-500'
+        };
+      case 'Service':
+        return {
+          icon: <Briefcase className="w-4 h-4" />,
+          bgColor: 'bg-purple-500/10 text-purple-500'
+        };
+      case 'Academic':
+        return {
+          icon: <BookOpen className="w-4 h-4" />,
+          bgColor: 'bg-indigo-500/10 text-indigo-500'
+        };
+      default:
+        return {
+          icon: <Sparkles className="w-4 h-4" />,
+          bgColor: 'bg-gray-500/10 text-gray-500'
+        };
+    }
+  };
+
   return (
     <div className="space-y-12">
       {/* Page Header */}
@@ -178,9 +194,6 @@ export default function HomePage() {
         ))}
       </motion.div>
 
-      {/* Personal Story Section */}
-      <PersonalStory />
-
       {/* Featured Sections */}
       <div>
         <motion.div
@@ -249,46 +262,48 @@ export default function HomePage() {
         </motion.div>
 
         <div className="space-y-4">
-          {recentActivity.map((activity, index) => (
-            <motion.div
-              key={activity.title}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.9 + (index * 0.1) }}
-              className="card"
-              whileHover={{ x: 4 }}
-            >
-              <div className="flex items-start gap-4">
-                <div className={`p-2 rounded-lg ${
-                  activity.type === 'project' ? 'bg-blue-500/10 text-blue-500' :
-                  activity.type === 'article' ? 'bg-green-500/10 text-green-500' :
-                  'bg-yellow-500/10 text-yellow-500'
-                }`}>
-                  {activity.type === 'project' ? <Code className="w-4 h-4" /> :
-                   activity.type === 'article' ? <BookOpen className="w-4 h-4" /> :
-                   <Trophy className="w-4 h-4" />}
-                </div>
-                
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-medium mb-1">{activity.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-2">{activity.description}</p>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <span>{activity.time}</span>
-                    <span>•</span>
-                    <span className={`capitalize ${
-                      activity.status === 'completed' ? 'text-green-500' :
-                      activity.status === 'published' ? 'text-blue-500' :
-                      'text-yellow-500'
-                    }`}>
-                      {activity.status}
-                    </span>
+          {recentActivity.map((activity, index) => {
+            const activityStyle = getActivityStyle(activity.type);
+            
+            return (
+              <motion.div
+                key={activity.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.9 + (index * 0.1) }}
+                className="card"
+                whileHover={{ x: 4 }}
+              >
+                <Link href={activity.link} className="block">
+                  <div className="flex items-start gap-4">
+                    <div className={`p-2 rounded-lg ${activityStyle.bgColor}`}>
+                      {activityStyle.icon}
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium mb-1">{activity.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-2">{activity.description}</p>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span>{activity.time}</span>
+                        <span>•</span>
+                        <span className={`capitalize ${
+                          activity.status === 'completed' ? 'text-green-500' :
+                          activity.status === 'published' ? 'text-blue-500' :
+                          activity.status === 'earned' ? 'text-yellow-500' :
+                          activity.status === 'available' ? 'text-purple-500' :
+                          'text-gray-500'
+                        }`}>
+                          {activity.status}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
-                </div>
-                
-                <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-            </motion.div>
-          ))}
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 

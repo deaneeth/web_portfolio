@@ -2,7 +2,17 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Brain, Code, Palette, Zap, CircleCheck as CheckCircle, ArrowRight, Star, Clock, Users, MessageCircle, X } from 'lucide-react';
+import { Brain, Code, Palette, Zap, CircleCheck as CheckCircle, ArrowRight, Star, Clock, Users, MessageCircle } from 'lucide-react';
+import { ServiceOrderModal } from '@/components/service-order-modal';
+import { TwoRowTestimonialCarousel } from '@/components/ui/two-row-testimonial-carousel';
+
+interface Testimonial {
+  name: string;
+  role: string;
+  content: string;
+  rating: number;
+  avatar: string;
+}
 
 const services = [
   {
@@ -79,7 +89,7 @@ const services = [
   }
 ];
 
-const testimonials = [
+const testimonials: Testimonial[] = [
   {
     name: 'Sarah Johnson',
     role: 'CTO, TechCorp',
@@ -100,6 +110,27 @@ const testimonials = [
     content: 'Outstanding web application that exceeded our expectations. Fast delivery and excellent communication throughout.',
     rating: 5,
     avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  },
+  {
+    name: 'David Martinez',
+    role: 'CEO, DataFlow Inc',
+    content: 'The ML model built for us has significantly improved our prediction accuracy. Highly recommended!',
+    rating: 5,
+    avatar: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  },
+  {
+    name: 'Amanda Foster',
+    role: 'Operations Director, CloudNet',
+    content: 'Fantastic automation workflows that streamlined our entire operation. Professional and efficient service.',
+    rating: 5,
+    avatar: 'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  },
+  {
+    name: 'James Wilson',
+    role: 'Tech Lead, Innovate Solutions',
+    content: 'Excellent technical consulting and code architecture. Helped us avoid major pitfalls in our project.',
+    rating: 5,
+    avatar: 'https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
   }
 ];
 
@@ -152,22 +183,38 @@ export default function ServicesPage() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8"
         >
-          <div className="text-center">
+          <motion.div 
+            className="card text-center"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-2xl font-bold text-primary mb-1">5,000+</div>
             <div className="text-sm text-muted-foreground">Happy Clients</div>
-          </div>
-          <div className="text-center">
+          </motion.div>
+          <motion.div 
+            className="card text-center"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-2xl font-bold text-primary mb-1">24-48h</div>
             <div className="text-sm text-muted-foreground">Delivery</div>
-          </div>
-          <div className="text-center">
+          </motion.div>
+          <motion.div 
+            className="card text-center"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-2xl font-bold text-primary mb-1">100%</div>
             <div className="text-sm text-muted-foreground">Satisfaction</div>
-          </div>
-          <div className="text-center">
+          </motion.div>
+          <motion.div 
+            className="card text-center"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-2xl font-bold text-primary mb-1">3+</div>
             <div className="text-sm text-muted-foreground">Years Experience</div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
 
@@ -290,47 +337,24 @@ export default function ServicesPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="text-center mb-8"
+          className="text-center mb-12"
         >
           <h2 className="text-2xl font-semibold mb-4">Client Testimonials</h2>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             What clients say about working with me
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.9 + (index * 0.1) }}
-              className="card"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <img
-                  src={testimonial.avatar}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <h4 className="font-semibold">{testimonial.name}</h4>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                </div>
-              </div>
-              
-              <div className="flex gap-1 mb-3">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />
-                ))}
-              </div>
-              
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                "{testimonial.content}"
-              </p>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.9 }}
+        >
+          <TwoRowTestimonialCarousel 
+            testimonials={testimonials}
+            animationDuration={30}
+          />
+        </motion.div>
       </div>
 
       {/* CTA */}
@@ -355,87 +379,12 @@ export default function ServicesPage() {
         </div>
       </motion.div>
 
-      {/* Service Detail Modal */}
-      {selectedService && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto"
-          onClick={() => setSelectedService(null)}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 50 }}
-            className="bg-card border border-border rounded-xl max-w-2xl w-full max-h-[95vh] overflow-y-auto my-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-lg bg-gradient-to-r ${selectedService.color} bg-opacity-10`}>
-                    <selectedService.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{selectedService.title}</h2>
-                    <p className="text-muted-foreground">{selectedService.description}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setSelectedService(null)}
-                  className="p-2 hover:bg-muted rounded-lg transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <h3 className="font-semibold mb-3">What's Included</h3>
-                  <ul className="space-y-2">
-                    {selectedService.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                        <span className="text-muted-foreground">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="font-semibold mb-2">Deliverables</h3>
-                    <p className="text-muted-foreground text-sm">{selectedService.deliverables}</p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">Timeline</h3>
-                    <p className="text-muted-foreground text-sm">{selectedService.timeline}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between pt-6 border-t border-border">
-                  <div>
-                    <div className="text-sm text-muted-foreground">Starting at</div>
-                    <div className="text-2xl font-bold text-primary">{selectedService.startingPrice}</div>
-                  </div>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setSelectedService(null)}
-                      className="btn btn-outline"
-                    >
-                      Close
-                    </button>
-                    <a href="/contact" className="btn btn-primary">
-                      Get Started
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
+      {/* Service Order Modal */}
+      <ServiceOrderModal
+        isOpen={!!selectedService}
+        onClose={() => setSelectedService(null)}
+        service={selectedService}
+      />
     </div>
   );
 }

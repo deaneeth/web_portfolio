@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, ExternalLink } from 'lucide-react';
+import { Github, Linkedin, ExternalLink, Facebook } from 'lucide-react';
+import { Twitter } from 'lucide-react'; // X (Twitter) icon
 
 interface SocialButtonsProps {
   variant?: 'horizontal' | 'vertical';
@@ -24,6 +25,20 @@ const socialLinks = [
     href: 'https://linkedin.com/in/deaneeth',
     color: '#0077b5',
     hoverColor: '#005885',
+  },
+  {
+    name: 'Facebook',
+    icon: Facebook,
+    href: 'https://facebook.com/deaneeth',
+    color: '#1877f2',
+    hoverColor: '#0d65d9',
+  },
+  {
+    name: 'X',
+    icon: Twitter,
+    href: 'https://x.com/deaneeth_',
+    color: '#000000',
+    hoverColor: '#1a1a1a',
   },
   {
     name: 'Medium',

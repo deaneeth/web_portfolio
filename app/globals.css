@@ -95,15 +95,15 @@
 /* Sidebar Styles */
 .sidebar {
   background: hsl(var(--sidebar-background));
-  border-right: 1px solid hsl(0 0% 15%);
+  border-right: 1px solid hsl(var(--border));
   transition: all 0.3s ease;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 
 .sidebar-content {
   padding: 1.5rem;
-  padding-top: 2.5rem;
+  padding-top: 1.5rem;
   height: 100vh;
   overflow-y: auto;
   display: flex;
@@ -112,7 +112,7 @@
 
 .sidebar.collapsed .sidebar-content {
   padding: 1rem 0.5rem;
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   align-items: center;
 }
 
@@ -130,61 +130,120 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background: hsl(0 0% 10% / 0.8);
+  margin-bottom: 0.75rem;
+  padding: 0.875rem;
+  background: hsl(var(--card) / 0.6);
+  border: 1px solid hsl(var(--border));
   border-radius: 0.75rem;
   transition: all 0.3s ease;
 }
 
 .profile-section:hover {
-  background: hsl(0 0% 12% / 0.9);
+  background: hsl(var(--card) / 0.8);
+  border-color: hsl(var(--border));
+}
+
+.sidebar.collapsed .profile-section {
+  justify-content: center;
+  padding: 0.75rem;
+  background: transparent;
+  border: none;
+}
+
+.sidebar.collapsed .profile-section:hover {
+  background: hsl(var(--accent));
+  border-radius: 0.5rem;
 }
 
 .profile-avatar {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
   background: linear-gradient(135deg, #7D27F5, #B794F4);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: 600;
-  font-size: 1.25rem;
-  flex-shrink: 0;
+  box-shadow: 0 2px 8px hsl(0 0% 0% / 0.2);
+  transition: all 0.3s ease;
+  border: 2px solid hsl(var(--border));
+}
+
+.profile-avatar:hover {
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
+  transform: scale(1.05);
+  border-color: hsl(var(--primary));
+}
+
+.light .profile-avatar {
+  box-shadow: 0 2px 8px hsl(0 0% 0% / 0.1);
+}
+
+.light .profile-avatar:hover {
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.25);
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.2;
 }
 
 .profile-info h3 {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9375rem;
   margin: 0;
   color: hsl(var(--foreground));
+  line-height: 1.3;
 }
 
 .profile-info p {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: hsl(var(--muted-foreground));
-  margin: 0;
+  margin: 0.125rem 0 0 0;
+  line-height: 1.3;
+}
+
+/* Status Badge Container */
+.status-badge-container {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 0.25rem;
 }
 
 /* Status Badge */
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.375rem 0.75rem;
-  background: hsl(142 76% 36% / 0.1);
+  gap: 0.375rem;
+  padding: 0.3rem 0.625rem;
+  background: hsl(142 76% 36% / 0.15);
+  border: 1px solid hsl(142 76% 36% / 0.3);
   color: hsl(142 76% 36%);
   border-radius: 9999px;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 500;
-  margin-top: 0.5rem;
+  margin: 0;
+  transition: all 0.2s ease;
+}
+
+.status-badge:hover {
+  background: hsl(142 76% 36% / 0.2);
+  border-color: hsl(142 76% 36% / 0.4);
 }
 
 .status-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   background: hsl(142 76% 36%);
   border-radius: 50%;
   animation: pulse 2s infinite;
@@ -225,7 +284,7 @@
 }
 
 .nav-item:hover {
-  background: hsl(0 0% 15% / 0.8);
+  background: hsl(var(--accent));
   color: hsl(var(--foreground));
 }
 
@@ -282,8 +341,12 @@
 }
 
 .card:hover {
-  border-color: hsl(0 0% 25%);
-  box-shadow: 0 4px 20px hsl(0 0% 0% / 0.3);
+  border-color: hsl(var(--border));
+  box-shadow: 0 4px 20px hsl(0 0% 0% / 0.15);
+}
+
+.light .card:hover {
+  box-shadow: 0 4px 20px hsl(0 0% 0% / 0.08);
 }
 
 .card-header {
@@ -375,7 +438,7 @@
 }
 
 .btn-outline:hover {
-  background: hsl(0 0% 15% / 0.8);
+  background: hsl(var(--accent));
 }
 
 /* Theme Toggle */
@@ -385,8 +448,8 @@
   left: 2rem;
   width: 48px;
   height: 48px;
-  background: hsl(0 0% 10%);
-  border: 1px solid hsl(0 0% 20%);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -394,37 +457,59 @@
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 30;
-  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.3);
+  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.2);
 }
 
 .theme-toggle:hover {
-  background: hsl(0 0% 15%);
+  background: hsl(var(--accent));
   transform: scale(1.05);
+}
+
+.light .theme-toggle {
+  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.1);
 }
 
 /* Collapse Button */
 .collapse-btn {
   position: absolute;
-  top: 0.75rem;
-  right: -14px;
-  width: 24px;
-  height: 24px;
+  top: 1.5rem;
+  right: -16px;
+  width: 32px;
+  height: 32px;
   background: hsl(var(--card));
   border: 1px solid hsl(var(--border));
-  border-radius: 50%;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  z-index: 50;
+  transition: all 0.3s ease;
+  z-index: 60;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .collapse-btn:hover {
-  background: hsl(var(--muted));
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
+}
+
+.light .collapse-btn {
+  box-shadow: 0 2px 8px hsl(0 0% 0% / 0.08);
+}
+
+.light .collapse-btn:hover {
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.25);
+}
+
+.collapsed .collapse-btn {
+  right: -16px;
+}
+
+.collapsed .collapse-btn:hover {
+  transform: scale(1.1);
 }
 
 /* Mobile Sidebar Overlay */
@@ -449,8 +534,8 @@
   top: 0;
   width: 280px;
   height: 100vh;
-  background: hsl(0 0% 7%);
-  border-right: 1px solid hsl(0 0% 15%);
+  background: hsl(var(--sidebar-background));
+  border-right: 1px solid hsl(var(--border));
   transition: left 0.3s ease;
   z-index: 50;
 }
@@ -515,8 +600,8 @@
 .form-input {
   width: 100%;
   padding: 0.75rem;
-  background: hsl(0 0% 8%);
-  border: 1px solid hsl(0 0% 20%);
+  background: hsl(var(--input));
+  border: 1px solid hsl(var(--border));
   border-radius: 0.5rem;
   color: hsl(var(--foreground));
   font-size: 0.875rem;
@@ -554,8 +639,12 @@ select.form-input {
 }
 
 select.form-input option {
-  background: hsl(0 0% 8%);
+  background: hsl(var(--card));
   color: hsl(var(--foreground));
+}
+
+.light select.form-input option {
+  background: hsl(var(--background));
 }
 
 /* Responsive Design */
@@ -580,15 +669,15 @@ select.form-input option {
 
 /* ARIA Modal Styles */
 .aria-modal {
-  background: hsl(0 0% 8%);
-  border: 1px solid hsl(0 0% 20%);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
   color: hsl(var(--foreground));
 }
 
 .aria-modal .glass {
-  background: hsl(0 0% 10% / 0.8);
+  background: hsl(var(--card) / 0.8);
   backdrop-filter: blur(10px);
-  border: 1px solid hsl(0 0% 20%);
+  border: 1px solid hsl(var(--border));
 }
 
 .aria-modal .text-body {
@@ -610,3 +699,61 @@ select.form-input option {
   background: rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
+
+/* Skills Carousel Animation - Optimized for Performance */
+.skills-carousel-row {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Edge Gradient Fades - Responsive */
+.carousel-fade-left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8rem; /* 128px on desktop */
+  background: linear-gradient(to right, hsl(var(--background)), transparent);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.carousel-fade-right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 8rem; /* 128px on desktop */
+  background: linear-gradient(to left, hsl(var(--background)), transparent);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Responsive gradient widths */
+@media (max-width: 768px) {
+  .carousel-fade-left,
+  .carousel-fade-right {
+    width: 4rem; /* 64px on tablet/mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-fade-left,
+  .carousel-fade-right {
+    width: 3rem; /* 48px on small mobile */
+  }
+}
+
+/* Smooth hover transitions for carousel items */
+.skill-pill {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skill-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+}
+
+

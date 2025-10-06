@@ -1,0 +1,14 @@
+[
+  {
+    "id": "academic-001",
+    "title": "BSc in Computer Science - University of Colombo",
+    "type": "Academic",
+    "date": "2023-01-15",
+    "description": "Expected graduation with honors in Computer Science",
+    "link": "/achievements",
+    "tags": ["Education", "Computer Science", "University"],
+    "status": "in-progress",
+    "institution": "University of Colombo",
+    "degree": "Bachelor of Science"
+  }
+]
