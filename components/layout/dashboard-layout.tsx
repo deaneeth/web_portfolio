@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { Chrome as Home, FolderOpen, Briefcase, Trophy, Mail, ChevronLeft, ChevronRight, Menu, X, Sun, Moon, Circle, BookOpen, User } from 'lucide-react';
 import { SearchBar } from '@/components/search/search-bar';
+import { Footer } from '@/components/footer/footer';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -233,6 +234,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         >
           {children}
         </motion.div>
+
+        {/* Footer */}
+        <Footer />
       </main>
     </div>
   );
