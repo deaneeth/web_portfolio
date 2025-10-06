@@ -1,0 +1,35 @@
+# Check what files changed
+git status
+
+# Stage specific files
+git add <filename>
+
+# Or stage all changes
+git add .
+
+# Commit with a descriptive message
+git commit -m "Add: your feature description"
+
+
+Commit Message Tips:
+
+Add: new feature - for new features
+Fix: bug description - for bug fixes
+Update: component name - for updates
+Refactor: code improvement - for refactoring
+
+git push
+
+after merging with a pr
+
+# Switch to main branch
+git checkout main
+
+# Pull the latest changes
+git pull origin main
+
+# Switch back to development
+git checkout development
+
+# Update development with latest main
+git merge main
