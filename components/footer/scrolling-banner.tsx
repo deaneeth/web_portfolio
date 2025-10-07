@@ -39,10 +39,9 @@ export function ScrollingBanner() {
           className="flex whitespace-nowrap relative z-[2]"
         >
           <span 
-            className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-wider" 
+            className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-wider text-primary/20 dark:text-foreground/25" 
             style={{ 
-              color: 'rgba(180, 170, 160, 0.25)',
-              textShadow: '0 0 15px rgba(255, 255, 255, 0.03)'
+              textShadow: '0 0 15px rgba(125, 39, 245, 0.05)'
             }}
           >
             {repeatedText}
