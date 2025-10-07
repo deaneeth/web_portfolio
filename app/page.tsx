@@ -104,7 +104,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-16">
       {/* Page Header */}
       <div className="page-header">
         <motion.div
@@ -179,7 +179,7 @@ export default function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
-        className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+        className="grid grid-cols-2 lg:grid-cols-4 gap-6"
       >
         {quickStats.map((stat, index) => (
           <motion.div 
@@ -206,7 +206,7 @@ export default function HomePage() {
           <span className="text-sm text-muted-foreground">{featuredSections.length} sections</span>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {featuredSections.map((section, index) => (
             <motion.div
               key={section.title}
