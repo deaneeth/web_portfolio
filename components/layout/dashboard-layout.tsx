@@ -8,6 +8,7 @@ import { useTheme } from 'next-themes';
 import { Chrome as Home, FolderOpen, Briefcase, Trophy, Mail, ChevronLeft, ChevronRight, Menu, X, Sun, Moon, Circle, BookOpen, User } from 'lucide-react';
 import { SearchBar } from '@/components/search/search-bar';
 import { Footer } from '@/components/footer/footer';
+import { BackToTop } from '@/components/ui/back-to-top';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -242,6 +243,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <Footer />
         </div>
       </main>
+
+      {/* Back to Top Button */}
+      <BackToTop />
     </div>
   );
 }
