@@ -33,3 +33,11 @@ git checkout development
 
 # Update development with latest main
 git merge main
+
+-----
+
+# make sure you’re on your feature branch
+git checkout feature/login-system
+
+# pull latest changes from dev into this branch
+git pull origin development

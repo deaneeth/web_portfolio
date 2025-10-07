@@ -226,17 +226,21 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
 
         {/* Page Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="animate-fade-in"
-        >
-          {children}
-        </motion.div>
+        <div className="mx-auto max-w-[1200px] px-2 md:px-4 lg:px-4 mt-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="animate-fade-in"
+          >
+            {children}
+          </motion.div>
+        </div>
 
         {/* Footer */}
-        <Footer />
+        <div className="mt-24 md:mt-32">
+          <Footer />
+        </div>
       </main>
     </div>
   );
