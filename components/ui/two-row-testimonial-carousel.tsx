@@ -38,7 +38,13 @@ export function TwoRowTestimonialCarousel({
   ];
 
   return (
-    <div className="w-full overflow-hidden space-y-6">
+    <div className="w-full overflow-hidden space-y-6 relative">
+      {/* Left Edge Gradient Fade */}
+      <div className="carousel-fade-left" />
+      
+      {/* Right Edge Gradient Fade */}
+      <div className="carousel-fade-right" />
+
       {/* First Row - Scrolls Left */}
       <div className="relative overflow-hidden">
         <motion.div
