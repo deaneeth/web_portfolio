@@ -5,7 +5,7 @@
  * and creates a unified timeline sorted by date.
  */
 
-import { projects } from '../work/allProjects';
+import { projects } from '../featuredWork/allProjects';
 import { articles } from '../articles/articlesDetailed';
 import { achievements } from '../achievements/achievementsDetailed';
 import { services } from '../services/servicesDetailed';

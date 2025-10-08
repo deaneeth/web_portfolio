@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
-import { getSortedExperiences, type Experience } from '@/data/experienceData';
+import { getSortedExperiences, type Experience } from '@/data/about/experienceData';
 
 const ExperienceCard = ({ experience, index }: { experience: Experience; index: number }) => {
   return (

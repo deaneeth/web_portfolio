@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
-import { getSortedEducation, type Education } from '@/data/educationData';
+import { getSortedEducation, type Education } from '@/data/about/educationData';
 
 const EducationCard = ({ education, index }: { education: Education; index: number }) => {
   return (

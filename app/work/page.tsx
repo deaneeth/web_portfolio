@@ -13,7 +13,7 @@ import {
   Star
 } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
-import { projects, projectCategories } from '@/data/work/allProjects';
+import { projects, projectCategories } from '@/data/featuredWork/allProjects';
 import { Project } from '@/data/types';
 
 const categories = ['All', ...projectCategories];

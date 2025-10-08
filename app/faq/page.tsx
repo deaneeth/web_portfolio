@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
-import { faqData, type FAQItem } from '@/data/faqData';
+import { faqData, type FAQItem } from '@/data/global/faqData';
 
 export default function FAQPage() {
   const [openItems, setOpenItems] = useState<number[]>([]);

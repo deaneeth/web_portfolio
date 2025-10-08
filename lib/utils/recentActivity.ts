@@ -1,11 +1,11 @@
 // Utility function to aggregate and process Recent Activity data from all sources
 
-import { projects } from '@/data/work/allProjects';
+import { projects } from '@/data/featuredWork/allProjects';
 import { achievements } from '@/data/achievements/achievementsDetailed';
 import { articles } from '@/data/articles/articlesDetailed';
 import { services } from '@/data/services/servicesDetailed';
-import { education } from '@/data/educationData';
-import { experiences } from '@/data/experienceData';
+import { education } from '@/data/about/educationData';
+import { experiences } from '@/data/about/experienceData';
 import { testimonials } from '@/data/services/testimonials';
 
 export interface RecentActivityItem {
