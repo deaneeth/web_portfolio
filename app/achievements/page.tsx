@@ -3,86 +3,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Trophy, Award, Star, Search, Medal, FileCheck, Sparkles, ExternalLink, Calendar, Filter } from 'lucide-react';
+import { achievements, achievementCategories } from '@/data/achievements/achievementsDetailed';
 
-const achievements = [
-  {
-    id: 1,
-    title: 'Google Cloud ML Engineer Certification',
-    description: 'Professional certification in machine learning engineering on Google Cloud Platform',
-    category: 'Certification',
-    date: '2024-11-15',
-    issuer: 'Google Cloud',
-    credentialId: 'GCP-ML-2024-001',
-    image: 'https://images.pexels.com/photos/1181673/pexels-photo-1181673.jpeg?auto=compress&cs=tinysrgb&w=400',
-    verifyUrl: '#',
-    skills: ['Machine Learning', 'Google Cloud', 'TensorFlow', 'MLOps'],
-    featured: true
-  },
-  {
-    id: 2,
-    title: 'Top Rated Seller on Fiverr',
-    description: 'Achieved Top Rated status serving 5,000+ clients with 99% satisfaction rate',
-    category: 'Achievement',
-    date: '2024-10-01',
-    issuer: 'Fiverr',
-    credentialId: 'FVR-TR-2024',
-    image: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=400',
-    verifyUrl: '#',
-    skills: ['Business', 'Client Relations', 'Design', 'Automation'],
-    featured: true
-  },
-  {
-    id: 3,
-    title: 'AWS Solutions Architect Associate',
-    description: 'Certified in designing distributed systems on Amazon Web Services',
-    category: 'Certification',
-    date: '2024-09-20',
-    issuer: 'Amazon Web Services',
-    credentialId: 'AWS-SAA-2024-789',
-    image: 'https://images.pexels.com/photos/1249158/pexels-photo-1249158.jpeg?auto=compress&cs=tinysrgb&w=400',
-    verifyUrl: '#',
-    skills: ['AWS', 'Cloud Architecture', 'DevOps', 'Infrastructure'],
-    featured: false
-  },
-  {
-    id: 4,
-    title: 'University Dean\'s List',
-    description: 'Academic excellence recognition for maintaining GPA above 3.8',
-    category: 'Academic',
-    date: '2024-08-15',
-    issuer: 'University of Plymouth',
-    credentialId: 'UOP-DL-2024',
-    image: 'https://images.pexels.com/photos/1181673/pexels-photo-1181673.jpeg?auto=compress&cs=tinysrgb&w=400',
-    verifyUrl: '#',
-    skills: ['Computer Science', 'Academic Excellence', 'Research'],
-    featured: false
-  },
-  {
-    id: 5,
-    title: 'TensorFlow Developer Certificate',
-    description: 'Demonstrated proficiency in using TensorFlow for machine learning',
-    category: 'Certification',
-    date: '2024-07-10',
-    issuer: 'TensorFlow',
-    credentialId: 'TF-DEV-2024-456',
-    image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=400',
-    verifyUrl: '#',
-    skills: ['TensorFlow', 'Deep Learning', 'Neural Networks', 'Python'],
-    featured: true
-  }
-];
-
-const categories = ['All', 'Certification', 'Achievement', 'Academic', 'Competition'];
+const categories = ['All', ...achievementCategories];
 
 export default function AchievementsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredAchievements = achievements.filter(achievement => {
+  const filteredAchievements = (achievements || []).filter(achievement => {
     const matchesCategory = selectedCategory === 'All' || achievement.category === selectedCategory;
-    const matchesSearch = achievement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         achievement.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         achievement.skills.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesSearch = achievement.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         achievement.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         (achievement.skills || []).some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesCategory && matchesSearch;
   });
 
@@ -164,25 +97,25 @@ export default function AchievementsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div>
               <div className="text-2xl font-bold text-primary mb-1">
-                {achievements.filter(a => a.category === 'Certification').length}
+                {(achievements || []).filter(a => a.category === 'Certification').length}
               </div>
               <div className="text-sm text-muted-foreground">Certifications</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-primary mb-1">
-                {achievements.filter(a => a.category === 'Achievement').length}
+                {(achievements || []).filter(a => a.category === 'Achievement').length}
               </div>
               <div className="text-sm text-muted-foreground">Achievements</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-primary mb-1">
-                {achievements.filter(a => a.category === 'Academic').length}
+                {(achievements || []).filter(a => a.category === 'Academic').length}
               </div>
               <div className="text-sm text-muted-foreground">Academic</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-primary mb-1">
-                {new Set(achievements.flatMap(a => a.skills)).size}
+                {new Set((achievements || []).flatMap(a => a.skills || [])).size}
               </div>
               <div className="text-sm text-muted-foreground">Skills Validated</div>
             </div>

@@ -4,13 +4,7 @@ import React, { useState, useRef, ChangeEvent, FormEvent, useEffect } from 'reac
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, FileText, Calendar, DollarSign, Loader2, CheckCircle2 } from 'lucide-react';
-
-interface Service {
-  id: number;
-  title: string;
-  description: string;
-  startingPrice: string;
-}
+import { Service } from '@/data/types';
 
 interface ServiceOrderModalProps {
   isOpen: boolean;

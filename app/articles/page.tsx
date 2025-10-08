@@ -3,60 +3,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Clock, Calendar } from 'lucide-react';
-
-// Article data interface
-interface Article {
-  id: string;
-  title: string;
-  date: string;
-  readTime: string;
-  image: string;
-  link: string;
-}
-
-// Sample articles data - easily replaceable
-const articles: Article[] = [
-  {
-    id: '1',
-    title: 'The Future of AI in Creative Industries: A Sri Lankan Perspective',
-    date: 'December 15, 2024',
-    readTime: '8 min read',
-    image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=400',
-    link: '/blog#1'
-  },
-  {
-    id: '2',
-    title: 'Building Neural Networks with TensorFlow: A Beginner\'s Journey',
-    date: 'December 10, 2024',
-    readTime: '12 min read',
-    image: 'https://images.pexels.com/photos/1181673/pexels-photo-1181673.jpeg?auto=compress&cs=tinysrgb&w=400',
-    link: '/blog#2'
-  },
-  {
-    id: '3',
-    title: 'සිංහල කවියේ නව යුගය: Digital Poetry and Cultural Expression',
-    date: 'December 5, 2024',
-    readTime: '6 min read',
-    image: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=400',
-    link: '/blog#3'
-  },
-  {
-    id: '4',
-    title: 'The Psychology of User Experience: Lessons from 5,000+ Client Projects',
-    date: 'November 28, 2024',
-    readTime: '10 min read',
-    image: 'https://images.pexels.com/photos/1249158/pexels-photo-1249158.jpeg?auto=compress&cs=tinysrgb&w=400',
-    link: '/blog#4'
-  },
-  {
-    id: '5',
-    title: 'Cloud Architecture for AI Applications: AWS vs Azure',
-    date: 'November 20, 2024',
-    readTime: '15 min read',
-    image: 'https://images.pexels.com/photos/1181673/pexels-photo-1181673.jpeg?auto=compress&cs=tinysrgb&w=400',
-    link: '/blog#5'
-  }
-];
+import { articles } from '@/data/articles/articlesDetailed';
+import { Article } from '@/data/types';
 
 // Reusable Article Card Component
 interface ArticleCardProps {
@@ -147,7 +95,7 @@ function ArticleCard({ article, index }: ArticleCardProps) {
 // Main Articles Page Component
 export default function ArticlesPage() {
   // Sort articles by date (latest first)
-  const sortedArticles = [...articles].sort((a, b) => 
+  const sortedArticles = [...(articles || [])].sort((a, b) => 
     new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
@@ -175,13 +123,19 @@ export default function ArticlesPage() {
         transition={{ duration: 0.6, delay: 0.3 }}
         className="max-w-4xl mx-auto space-y-6"
       >
-        {sortedArticles.map((article, index) => (
-          <ArticleCard
-            key={article.id}
-            article={article}
-            index={index}
-          />
-        ))}
+        {sortedArticles && sortedArticles.length > 0 ? (
+          sortedArticles.map((article, index) => (
+            <ArticleCard
+              key={article.id}
+              article={article}
+              index={index}
+            />
+          ))
+        ) : (
+          <div className="card text-center py-12">
+            <p className="text-muted-foreground">No articles available at the moment.</p>
+          </div>
+        )}
       </motion.div>
 
       {/* Load More Section (Optional) */}

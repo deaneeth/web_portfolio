@@ -2,62 +2,13 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Download, Sparkles, User, Brain, Cpu, Cloud, Database, Code2, Zap, Box, Activity, GitBranch, BarChart3, LineChart, TrendingUp, Server, Layers, Boxes } from 'lucide-react';
+import { Download, Sparkles, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import ExperienceSection from '@/components/sections/experience-section';
 import EducationSection from '@/components/sections/education-section';
 import MotivationSection from '@/components/sections/motivation-section';
-
-// Skills data organized by category
-const skillsData = {
-  aiMl: [
-    { name: 'Python', icon: Code2 },
-    { name: 'TensorFlow', icon: Brain },
-    { name: 'PyTorch', icon: Brain },
-    { name: 'Scikit-learn', icon: Brain },
-    { name: 'Pandas', icon: Database },
-    { name: 'NumPy', icon: Database },
-    { name: 'OpenCV', icon: Activity },
-    { name: 'Hugging Face', icon: Brain },
-  ],
-  roboticsIot: [
-    { name: 'ROS', icon: Cpu },
-    { name: 'Arduino', icon: Cpu },
-    { name: 'Raspberry Pi', icon: Cpu },
-    { name: 'ESP32', icon: Zap },
-    { name: 'MQTT', icon: Activity },
-    { name: 'Firebase', icon: Cloud },
-    { name: 'Embedded C', icon: Code2 },
-  ],
-  cloudTools: [
-    { name: 'Google Cloud AI', icon: Cloud },
-    { name: 'AWS IoT Core', icon: Cloud },
-    { name: 'Azure ML', icon: Cloud },
-    { name: 'Docker', icon: Box },
-    { name: 'Git & GitHub', icon: GitBranch },
-  ],
-  dataViz: [
-    { name: 'Power BI', icon: BarChart3 },
-    { name: 'Tableau', icon: LineChart },
-    { name: 'Matplotlib', icon: TrendingUp },
-    { name: 'Plotly', icon: BarChart3 },
-    { name: 'SQL', icon: Database },
-  ],
-};
-
-// Combine all skills for the carousel rows
-const allSkills = [
-  ...skillsData.aiMl,
-  ...skillsData.roboticsIot,
-  ...skillsData.cloudTools,
-  ...skillsData.dataViz,
-];
-
-// Create three rows with different skills distribution
-const row1Skills = [...allSkills.slice(0, 10), ...allSkills.slice(0, 10)]; // Duplicate for seamless loop
-const row2Skills = [...allSkills.slice(10, 20), ...allSkills.slice(10, 20)];
-const row3Skills = [...allSkills.slice(20), ...allSkills.slice(0, 5), ...allSkills.slice(20), ...allSkills.slice(0, 5)];
+import { skillsData, row1Skills, row2Skills, row3Skills } from '@/data/about/skills';
 
 export default function AboutPage() {
   const [imageError, setImageError] = useState(false);

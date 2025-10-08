@@ -2,163 +2,16 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Brain, Code, Palette, Zap, CircleCheck as CheckCircle, ArrowRight, Star, Clock, Users, MessageCircle } from 'lucide-react';
+import { CircleCheck as CheckCircle, ArrowRight, Star, Clock, Users, MessageCircle } from 'lucide-react';
 import { ServiceOrderModal } from '@/components/service-order-modal';
 import { TwoRowTestimonialCarousel } from '@/components/ui/two-row-testimonial-carousel';
-
-interface Testimonial {
-  name: string;
-  role: string;
-  content: string;
-  rating: number;
-  avatar: string;
-}
-
-const services = [
-  {
-    id: 1,
-    title: 'AI/ML Solutions',
-    description: 'Custom artificial intelligence and machine learning solutions tailored to your business needs.',
-    icon: Brain,
-    color: 'from-purple-500 to-blue-500',
-    features: [
-      'Custom model development',
-      'Data analysis & insights',
-      'Computer vision systems',
-      'Natural language processing',
-      'Predictive analytics'
-    ],
-    deliverables: 'Trained models, documentation, deployment guide',
-    timeline: '4-8 weeks',
-    startingPrice: '$2,500',
-    popular: true
-  },
-  {
-    id: 2,
-    title: 'Intelligent Automation',
-    description: 'Streamline your workflows with smart automation solutions that save time and reduce errors.',
-    icon: Zap,
-    color: 'from-orange-500 to-red-500',
-    features: [
-      'Process automation',
-      'Data pipeline creation',
-      'API integrations',
-      'Workflow optimization',
-      'Performance monitoring'
-    ],
-    deliverables: 'Automation scripts, monitoring dashboard, training',
-    timeline: '2-4 weeks',
-    startingPrice: '$1,500',
-    popular: false
-  },
-  {
-    id: 3,
-    title: 'Web Applications',
-    description: 'Modern, responsive web applications built with cutting-edge technologies.',
-    icon: Code,
-    color: 'from-green-500 to-teal-500',
-    features: [
-      'Full-stack development',
-      'Responsive design',
-      'Database integration',
-      'API development',
-      'Performance optimization'
-    ],
-    deliverables: 'Complete application, source code, deployment',
-    timeline: '3-6 weeks',
-    startingPrice: '$2,000',
-    popular: false
-  },
-  {
-    id: 4,
-    title: 'Design & Consulting',
-    description: 'Strategic design and technical consulting to guide your digital transformation.',
-    icon: Palette,
-    color: 'from-pink-500 to-purple-500',
-    features: [
-      'UI/UX design',
-      'Technical architecture',
-      'Code reviews',
-      'Performance audits',
-      'Strategic planning'
-    ],
-    deliverables: 'Design files, recommendations, implementation plan',
-    timeline: '1-3 weeks',
-    startingPrice: '$1,000',
-    popular: false
-  }
-];
-
-const testimonials: Testimonial[] = [
-  {
-    name: 'Sarah Johnson',
-    role: 'CTO, TechCorp',
-    content: 'Deaneeth delivered an exceptional AI solution that transformed our data analysis capabilities. Professional, innovative, and results-driven.',
-    rating: 5,
-    avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
-  },
-  {
-    name: 'Michael Chen',
-    role: 'Founder, StartupXYZ',
-    content: 'The automation solution saved us 20+ hours per week. Incredible attention to detail and seamless implementation.',
-    rating: 5,
-    avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
-  },
-  {
-    name: 'Emily Rodriguez',
-    role: 'Product Manager, InnovateLab',
-    content: 'Outstanding web application that exceeded our expectations. Fast delivery and excellent communication throughout.',
-    rating: 5,
-    avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
-  },
-  {
-    name: 'David Martinez',
-    role: 'CEO, DataFlow Inc',
-    content: 'The ML model built for us has significantly improved our prediction accuracy. Highly recommended!',
-    rating: 5,
-    avatar: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
-  },
-  {
-    name: 'Amanda Foster',
-    role: 'Operations Director, CloudNet',
-    content: 'Fantastic automation workflows that streamlined our entire operation. Professional and efficient service.',
-    rating: 5,
-    avatar: 'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
-  },
-  {
-    name: 'James Wilson',
-    role: 'Tech Lead, Innovate Solutions',
-    content: 'Excellent technical consulting and code architecture. Helped us avoid major pitfalls in our project.',
-    rating: 5,
-    avatar: 'https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
-  }
-];
-
-const process = [
-  {
-    step: 1,
-    title: 'Discovery Call',
-    description: 'We discuss your needs, goals, and project requirements in detail.'
-  },
-  {
-    step: 2,
-    title: 'Proposal & Planning',
-    description: 'I create a detailed proposal with timeline, deliverables, and pricing.'
-  },
-  {
-    step: 3,
-    title: 'Development',
-    description: 'Regular updates and milestones ensure you\'re always in the loop.'
-  },
-  {
-    step: 4,
-    title: 'Delivery & Support',
-    description: 'Complete delivery with documentation and ongoing support.'
-  }
-];
+import { services } from '@/data/services/servicesDetailed';
+import { testimonials } from '@/data/services/testimonials';
+import { processSteps as process } from '@/data/services/process';
+import { Service } from '@/data/types';
 
 export default function ServicesPage() {
-  const [selectedService, setSelectedService] = useState<typeof services[0] | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   return (
     <div className="space-y-12">
@@ -227,45 +80,46 @@ export default function ServicesPage() {
           className="flex items-center justify-between mb-8"
         >
           <h2 className="text-2xl font-semibold">My Services</h2>
-          <span className="text-sm text-muted-foreground">{services.length} services available</span>
+          <span className="text-sm text-muted-foreground">{services?.length || 0} services available</span>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
-              className="card hover:border-primary/50 transition-all duration-300 cursor-pointer group"
-              onClick={() => setSelectedService(service)}
-            >
-              {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className={`p-3 rounded-lg bg-gradient-to-r ${service.color} bg-opacity-10`}>
-                  <service.icon className="w-6 h-6 text-white" />
+        {services && services.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {services.map((service, index) => (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
+                className="card hover:border-primary/50 transition-all duration-300 cursor-pointer group"
+                onClick={() => setSelectedService(service)}
+              >
+                {/* Header */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className={`p-3 rounded-lg bg-gradient-to-r ${service.color} bg-opacity-10`}>
+                    <service.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {service.popular && (
+                      <span className="text-xs bg-orange-500/10 text-orange-500 px-2 py-1 rounded-full flex items-center gap-1">
+                        <Star className="w-3 h-3" />
+                        Popular
+                      </span>
+                    )}
+                    <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  {service.popular && (
-                    <span className="text-xs bg-orange-500/10 text-orange-500 px-2 py-1 rounded-full flex items-center gap-1">
-                      <Star className="w-3 h-3" />
-                      Popular
-                    </span>
-                  )}
-                  <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
 
-              {/* Content */}
-              <h3 className="card-title group-hover:text-primary transition-colors">
-                {service.title}
-              </h3>
-              <p className="card-description mb-4">
-                {service.description}
-              </p>
+                {/* Content */}
+                <h3 className="card-title group-hover:text-primary transition-colors">
+                  {service.title}
+                </h3>
+                <p className="card-description mb-4">
+                  {service.description}
+                </p>
 
-              {/* Features */}
-              <ul className="space-y-2 mb-6">
+                {/* Features */}
+                <ul className="space-y-2 mb-6">
                 {service.features.slice(0, 3).map((feature, idx) => (
                   <li key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
@@ -294,6 +148,11 @@ export default function ServicesPage() {
             </motion.div>
           ))}
         </div>
+        ) : (
+          <div className="card text-center py-12">
+            <p className="text-muted-foreground">No services available at the moment.</p>
+          </div>
+        )}
       </div>
 
       {/* Process */}

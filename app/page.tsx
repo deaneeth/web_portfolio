@@ -19,48 +19,8 @@ import {
 import { CuriosityTrigger } from '@/components/easter-egg/curiosity-trigger';
 import { SocialButtons } from '@/components/ui/social-buttons';
 import { getRecentActivityWithTime } from '@/lib/utils/recentActivity';
-
-const quickStats = [
-  { label: 'Projects Completed', value: '25+' },
-  { label: 'Clients Served', value: '5,000+' },
-  { label: 'Years Experience', value: '3+' },
-  { label: 'Technologies', value: '20+' }
-];
-
-const featuredSections = [
-  {
-    title: 'Featured Work',
-    description: 'Deep-dive case studies of my best AI/ML and Computer Science projects',
-    href: '/work',
-    icon: FolderOpen,
-    color: 'from-blue-500 to-purple-500',
-    stats: '12 Projects'
-  },
-  {
-    title: 'Creative Services',
-    description: 'AI solutions, automation, web apps, and design consulting services',
-    href: '/services',
-    icon: Briefcase,
-    color: 'from-green-500 to-teal-500',
-    stats: '5 Services'
-  },
-  {
-    title: 'Achievement Wall',
-    description: 'Certifications, awards, and milestones throughout my journey',
-    href: '/achievements',
-    icon: Trophy,
-    color: 'from-yellow-500 to-orange-500',
-    stats: '15 Achievements'
-  },
-  {
-    title: 'Get in Touch',
-    description: 'Let\'s collaborate on your next AI/ML project or automation solution',
-    href: '/contact',
-    icon: Mail,
-    color: 'from-teal-500 to-blue-500',
-    stats: 'Available'
-  }
-];
+import { quickStats } from '@/data/homepage/quickStats';
+import { featuredSections } from '@/data/homepage/featuredSections';
 
 export default function HomePage() {
   // Get recent activity dynamically from JSON data sources
@@ -175,24 +135,26 @@ export default function HomePage() {
       </div>
 
       {/* Quick Stats */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="grid grid-cols-2 lg:grid-cols-4 gap-6"
-      >
-        {quickStats.map((stat, index) => (
-          <motion.div 
-            key={stat.label} 
-            className="card text-center"
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="text-2xl font-bold text-primary mb-1">{stat.value}</div>
-            <div className="text-sm text-muted-foreground">{stat.label}</div>
-          </motion.div>
-        ))}
-      </motion.div>
+      {quickStats && quickStats.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          {quickStats.map((stat, index) => (
+            <motion.div 
+              key={stat.label} 
+              className="card text-center"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="text-2xl font-bold text-primary mb-1">{stat.value}</div>
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
 
       {/* Featured Sections */}
       <div>
@@ -203,39 +165,39 @@ export default function HomePage() {
           className="flex items-center justify-between mb-6"
         >
           <h2 className="text-2xl font-semibold">Explore My Work</h2>
-          <span className="text-sm text-muted-foreground">{featuredSections.length} sections</span>
+          <span className="text-sm text-muted-foreground">{featuredSections?.length || 0} sections</span>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {featuredSections.map((section, index) => (
-            <motion.div
-              key={section.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 + (index * 0.1) }}
-            >
-              <Link href={section.href} className="block group">
-                <motion.div 
-                  className="card hover:border-primary/50 transition-all duration-300 group-hover:shadow-lg"
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={`p-3 rounded-lg bg-gradient-to-r ${section.color} bg-opacity-10`}>
-                      <section.icon className="w-6 h-6 text-white" />
+        {featuredSections && featuredSections.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {featuredSections.map((section, index) => (
+              <motion.div
+                key={section.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 + (index * 0.1) }}
+              >
+                <Link href={section.href} className="block group">
+                  <motion.div 
+                    className="card hover:border-primary/50 transition-all duration-300 group-hover:shadow-lg"
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div className={`p-3 rounded-lg bg-gradient-to-r ${section.color} bg-opacity-10`}>
+                        <section.icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-full">
+                        {section.stats}
+                      </div>
                     </div>
-                    <div className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-full">
-                      {section.stats}
-                    </div>
-                  </div>
-                  
-                  <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
-                    {section.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                    {section.description}
-                  </p>
-                  
+                    
+                    <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
+                      {section.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                      {section.description}
+                    </p>
                   <div className="flex items-center text-sm text-primary group-hover:gap-2 transition-all">
                     <span>Explore</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -245,6 +207,11 @@ export default function HomePage() {
             </motion.div>
           ))}
         </div>
+        ) : (
+          <div className="card text-center py-12">
+            <p className="text-muted-foreground">No featured sections available at the moment.</p>
+          </div>
+        )}
       </div>
 
       {/* Recent Activity */}

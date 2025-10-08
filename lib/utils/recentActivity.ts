@@ -1,22 +1,30 @@
 // Utility function to aggregate and process Recent Activity data from all sources
 
-import projectsData from '@/data/projects.json';
-import certificationsData from '@/data/certifications.json';
-import achievementsData from '@/data/achievements.json';
-import articlesData from '@/data/articles.json';
-import servicesData from '@/data/services.json';
-import academicData from '@/data/academic.json';
+import { projects } from '@/data/work/allProjects';
+import { achievements } from '@/data/achievements/achievementsDetailed';
+import { articles } from '@/data/articles/articlesDetailed';
+import { services } from '@/data/services/servicesDetailed';
+import { education } from '@/data/educationData';
 
 export interface RecentActivityItem {
-  id: string;
+  id: string | number;
   title: string;
   type: 'Project' | 'Certification' | 'Achievement' | 'Article' | 'Service' | 'Academic';
-  date: string; // ISO format: YYYY-MM-DD
+  date: string; // ISO format: YYYY-MM-DD or "Month DD, YYYY"
   description: string;
   link: string;
   tags: string[];
   status: string;
   [key: string]: any; // Allow additional properties
+}
+
+/**
+ * Normalize date format to ISO string
+ * Accepts both "December 15, 2024" and "2024-12-15" formats
+ */
+function normalizeDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
 }
 
 /**
@@ -42,13 +50,77 @@ export function getRelativeTime(dateString: string): string {
  * Merge all activity data from different sources
  */
 export function getAllActivityItems(): RecentActivityItem[] {
+  // Convert projects to activity items
+  const projectItems: RecentActivityItem[] = projects.map(project => ({
+    ...project,
+    id: project.id.toString(),
+    title: project.title,
+    type: 'Project' as const,
+    date: normalizeDate(project.date),
+    description: project.description,
+    link: project.link || '/work',
+    tags: Array.isArray(project.tags) ? project.tags.filter(Boolean) : [],
+    status: project.status || 'completed'
+  }));
+
+  // Convert achievements to activity items (filter for certifications and achievements)
+  const achievementItems: RecentActivityItem[] = achievements.map(achievement => ({
+    ...achievement,
+    id: achievement.id.toString(),
+    title: achievement.title,
+    type: achievement.category === 'Certification' ? 'Certification' : 'Achievement',
+    date: normalizeDate(achievement.date),
+    description: achievement.description,
+    link: achievement.link || '/achievements',
+    tags: (Array.isArray(achievement.tags) ? achievement.tags : []).filter(Boolean) as string[],
+    status: achievement.status || 'earned'
+  }));
+
+  // Convert articles to activity items
+  const articleItems: RecentActivityItem[] = articles.map(article => ({
+    ...article,
+    id: article.id.toString(),
+    title: article.title,
+    type: 'Article' as const,
+    date: normalizeDate(article.date),
+    description: article.description || article.excerpt || '',
+    link: article.link || '/articles',
+    tags: (Array.isArray(article.tags) ? article.tags : []).filter(Boolean) as string[],
+    status: article.status || 'published'
+  }));
+
+  // Convert services to activity items
+  const serviceItems: RecentActivityItem[] = services.map(service => ({
+    ...service,
+    id: service.id.toString(),
+    title: service.title,
+    type: 'Service' as const,
+    date: normalizeDate(new Date().toISOString()), // Services don't have dates, use current date
+    description: service.description,
+    link: '/services',
+    tags: service.features ? service.features.slice(0, 3) : [],
+    status: 'available'
+  }));
+
+  // Convert education to academic items
+  const academicItems: RecentActivityItem[] = education.map(edu => ({
+    ...edu,
+    id: edu.institution,
+    title: `${edu.degree} - ${edu.institution}`,
+    type: 'Academic' as const,
+    date: normalizeDate(edu.startDate),
+    description: edu.description || `${edu.degree} at ${edu.institution}`,
+    link: '/achievements',
+    tags: [edu.degree, edu.institution],
+    status: 'in-progress'
+  }));
+
   const allItems: RecentActivityItem[] = [
-    ...(projectsData as RecentActivityItem[]),
-    ...(certificationsData as RecentActivityItem[]),
-    ...(achievementsData as RecentActivityItem[]),
-    ...(articlesData as RecentActivityItem[]),
-    ...(servicesData as RecentActivityItem[]),
-    ...(academicData as RecentActivityItem[]),
+    ...projectItems,
+    ...achievementItems,
+    ...articleItems,
+    ...serviceItems,
+    ...academicItems,
   ];
 
   return allItems;
