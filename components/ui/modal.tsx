@@ -103,6 +103,7 @@ export function Modal({
           {/* Modal Container - Scrollable wrapper */}
           <div 
             className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+            onClick={onClose}
             style={{
               position: 'absolute',
               top: 0,
@@ -116,6 +117,7 @@ export function Modal({
           >
             <div 
               className="min-h-full flex items-center justify-center py-8 px-4"
+              onClick={onClose}
               style={{
                 minHeight: '100%',
                 display: 'flex',
