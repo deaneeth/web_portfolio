@@ -5,7 +5,7 @@
  * and validates their format and accessibility.
  */
 
-import { projects } from '../work/allProjects';
+import { projects } from '../featuredWork/allProjects';
 import { articles } from '../articles/articlesDetailed';
 import { achievements } from '../achievements/achievementsDetailed';
 import { testimonials } from '../services/testimonials';

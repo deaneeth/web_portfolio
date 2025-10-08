@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { scrollingBannerText } from '@/data/footerData';
+import { scrollingBannerText } from '@/data/global/footerData';
 
 export function ScrollingBanner() {
   // Duplicate the text multiple times for seamless looping

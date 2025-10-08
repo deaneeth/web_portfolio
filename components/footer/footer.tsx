@@ -12,7 +12,7 @@ import {
   legalLinks, 
   socialLinks, 
   copyrightText 
-} from '@/data/footerData';
+} from '@/data/global/footerData';
 
 // Social icon mapping
 const socialIcons = {
