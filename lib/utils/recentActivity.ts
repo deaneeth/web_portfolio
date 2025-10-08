@@ -5,16 +5,19 @@ import { achievements } from '@/data/achievements/achievementsDetailed';
 import { articles } from '@/data/articles/articlesDetailed';
 import { services } from '@/data/services/servicesDetailed';
 import { education } from '@/data/educationData';
+import { experiences } from '@/data/experienceData';
+import { testimonials } from '@/data/services/testimonials';
 
 export interface RecentActivityItem {
   id: string | number;
   title: string;
-  type: 'Project' | 'Certification' | 'Achievement' | 'Article' | 'Service' | 'Academic';
+  type: 'Project' | 'Certification' | 'Achievement' | 'Article' | 'Service' | 'Academic' | 'Experience' | 'Testimonial' | 'Competition';
   date: string; // ISO format: YYYY-MM-DD or "Month DD, YYYY"
   description: string;
   link: string;
   tags: string[];
   status: string;
+  category?: string; // Optional category for more granular icon selection
   [key: string]: any; // Allow additional properties
 }
 
@@ -60,21 +63,44 @@ export function getAllActivityItems(): RecentActivityItem[] {
     description: project.description,
     link: project.link || '/work',
     tags: Array.isArray(project.tags) ? project.tags.filter(Boolean) : [],
-    status: project.status || 'completed'
+    status: project.status || 'completed',
+    category: project.category // Include category for icon selection
   }));
 
-  // Convert achievements to activity items (filter for certifications and achievements)
-  const achievementItems: RecentActivityItem[] = achievements.map(achievement => ({
-    ...achievement,
-    id: achievement.id.toString(),
-    title: achievement.title,
-    type: achievement.category === 'Certification' ? 'Certification' : 'Achievement',
-    date: normalizeDate(achievement.date),
-    description: achievement.description,
-    link: achievement.link || '/achievements',
-    tags: (Array.isArray(achievement.tags) ? achievement.tags : []).filter(Boolean) as string[],
-    status: achievement.status || 'earned'
-  }));
+  // Convert achievements to activity items (properly categorize: Certification, Achievement, Academic, Competition)
+  const achievementItems: RecentActivityItem[] = achievements.map(achievement => {
+    // Map achievement category to appropriate type
+    let activityType: RecentActivityItem['type'];
+    
+    switch (achievement.category) {
+      case 'Certification':
+        activityType = 'Certification';
+        break;
+      case 'Academic':
+        activityType = 'Academic';
+        break;
+      case 'Competition':
+        activityType = 'Competition';
+        break;
+      case 'Achievement':
+      default:
+        activityType = 'Achievement';
+        break;
+    }
+
+    return {
+      ...achievement,
+      id: achievement.id.toString(),
+      title: achievement.title,
+      type: activityType,
+      date: normalizeDate(achievement.date),
+      description: achievement.description,
+      link: achievement.link || '/achievements',
+      tags: (Array.isArray(achievement.tags) ? achievement.tags : []).filter(Boolean) as string[],
+      status: achievement.status || 'earned',
+      category: achievement.category // Include category for icon selection
+    };
+  });
 
   // Convert articles to activity items
   const articleItems: RecentActivityItem[] = articles.map(article => ({
@@ -95,11 +121,12 @@ export function getAllActivityItems(): RecentActivityItem[] {
     id: service.id.toString(),
     title: service.title,
     type: 'Service' as const,
-    date: normalizeDate(new Date().toISOString()), // Services don't have dates, use current date
+    date: normalizeDate(service.date || new Date().toISOString()), // Use service date if available
     description: service.description,
     link: '/services',
-    tags: service.features ? service.features.slice(0, 3) : [],
-    status: 'available'
+    tags: Array.isArray(service.tags) ? service.tags.filter(Boolean) : (service.features ? service.features.slice(0, 3) : []),
+    status: service.status || 'available',
+    category: service.category // Include category
   }));
 
   // Convert education to academic items
@@ -115,12 +142,44 @@ export function getAllActivityItems(): RecentActivityItem[] {
     status: 'in-progress'
   }));
 
+  // Convert experience to activity items
+  const experienceItems: RecentActivityItem[] = experiences.map(exp => ({
+    ...exp,
+    id: `${exp.company}-${exp.startDate}`,
+    title: `${exp.role} at ${exp.company}`,
+    type: 'Experience' as const,
+    date: normalizeDate(exp.startDate + '-01'), // Convert YYYY-MM to YYYY-MM-01
+    description: exp.highlights[0] || `${exp.role} at ${exp.company}`,
+    link: '/about',
+    tags: [exp.role, exp.company, exp.location],
+    status: exp.period.includes('Present') ? 'ongoing' : 'completed',
+    category: 'Work Experience'
+  }));
+
+  // Convert testimonials to activity items
+  const testimonialItems: RecentActivityItem[] = testimonials
+    .filter(testimonial => testimonial.date) // Only include testimonials with dates
+    .map(testimonial => ({
+      ...testimonial,
+      id: (testimonial.id || `testimonial-${testimonial.name}`).toString(),
+      title: `Testimonial from ${testimonial.name}${testimonial.company ? ` (${testimonial.company})` : ''}`,
+      type: 'Testimonial' as const,
+      date: normalizeDate(testimonial.date!), // We filtered for date above
+      description: testimonial.content,
+      link: '/services#testimonials',
+      tags: [testimonial.company, testimonial.role, `${testimonial.rating} stars`].filter(Boolean) as string[],
+      status: 'verified',
+      category: 'Client Feedback'
+    }));
+
   const allItems: RecentActivityItem[] = [
     ...projectItems,
     ...achievementItems,
     ...articleItems,
     ...serviceItems,
     ...academicItems,
+    ...experienceItems,
+    ...testimonialItems,
   ];
 
   return allItems;

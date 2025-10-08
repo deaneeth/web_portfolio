@@ -172,7 +172,7 @@ export interface Achievement {
   verifyUrl?: string;
   skills: string[];
   featured: boolean;
-  type?: 'Achievement' | 'Certification';
+  type?: 'Achievement' | 'Certification' | 'Academic' | 'Competition';
   link?: string;
   tags?: string[];
   status?: string;
