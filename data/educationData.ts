@@ -9,7 +9,7 @@ export interface Education {
 
 export const education: Education[] = [
   {
-    location: "Berkeley, CA",
+    location: "Plymouth, UK",
     institution: "University of California",
     degree: "Master of Science in Web Design and Development",
     description: "Focused on advanced web technologies, user experience design, and front-end development.",
