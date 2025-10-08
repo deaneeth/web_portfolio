@@ -19,49 +19,13 @@ import {
 import { CuriosityTrigger } from '@/components/easter-egg/curiosity-trigger';
 import { SocialButtons } from '@/components/ui/social-buttons';
 import { getRecentActivityWithTime } from '@/lib/utils/recentActivity';
+import { getActivityIconStyle, getStatusColor } from '@/lib/utils/activityIcons';
 import { quickStats } from '@/data/homepage/quickStats';
 import { featuredSections } from '@/data/homepage/featuredSections';
 
 export default function HomePage() {
-  // Get recent activity dynamically from JSON data sources
-  const recentActivity = useMemo(() => getRecentActivityWithTime(4), []);
-
-  // Helper function to get icon and color for activity type
-  const getActivityStyle = (type: string) => {
-    switch (type) {
-      case 'Project':
-        return {
-          icon: <Code className="w-4 h-4" />,
-          bgColor: 'bg-blue-500/10 text-blue-500'
-        };
-      case 'Article':
-        return {
-          icon: <BookOpen className="w-4 h-4" />,
-          bgColor: 'bg-green-500/10 text-green-500'
-        };
-      case 'Achievement':
-      case 'Certification':
-        return {
-          icon: <Trophy className="w-4 h-4" />,
-          bgColor: 'bg-yellow-500/10 text-yellow-500'
-        };
-      case 'Service':
-        return {
-          icon: <Briefcase className="w-4 h-4" />,
-          bgColor: 'bg-purple-500/10 text-purple-500'
-        };
-      case 'Academic':
-        return {
-          icon: <BookOpen className="w-4 h-4" />,
-          bgColor: 'bg-indigo-500/10 text-indigo-500'
-        };
-      default:
-        return {
-          icon: <Sparkles className="w-4 h-4" />,
-          bgColor: 'bg-gray-500/10 text-gray-500'
-        };
-    }
-  };
+  // Get recent activity dynamically from data sources (top 5 most recent)
+  const recentActivity = useMemo(() => getRecentActivityWithTime(5), []);
 
   return (
     <div className="space-y-16">
@@ -230,7 +194,9 @@ export default function HomePage() {
 
         <div className="space-y-4">
           {recentActivity.map((activity, index) => {
-            const activityStyle = getActivityStyle(activity.type);
+            // Get icon configuration based on type, category, and tags
+            const iconStyle = getActivityIconStyle(activity.type, activity.category, activity.tags);
+            const ActivityIcon = iconStyle.icon;
             
             return (
               <motion.div
@@ -238,34 +204,47 @@ export default function HomePage() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.9 + (index * 0.1) }}
-                className="card"
+                className="card group"
                 whileHover={{ x: 4 }}
               >
                 <Link href={activity.link} className="block">
                   <div className="flex items-start gap-4">
-                    <div className={`p-2 rounded-lg ${activityStyle.bgColor}`}>
-                      {activityStyle.icon}
+                    {/* Icon with dynamic color and background */}
+                    <div className={`p-2.5 rounded-lg ${iconStyle.bgColor} ${iconStyle.textColor} flex-shrink-0`}>
+                      <ActivityIcon className="w-5 h-5" />
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-medium mb-1">{activity.title}</h3>
-                      <p className="text-sm text-muted-foreground mb-2">{activity.description}</p>
+                      {/* Title */}
+                      <h3 className="font-medium mb-1 group-hover:text-primary transition-colors">
+                        {activity.title}
+                      </h3>
+                      
+                      {/* Description */}
+                      <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
+                        {activity.description}
+                      </p>
+                      
+                      {/* Time and Status */}
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <span>{activity.time}</span>
+                        <span className="font-medium">{activity.time}</span>
                         <span>•</span>
-                        <span className={`capitalize ${
-                          activity.status === 'completed' ? 'text-green-500' :
-                          activity.status === 'published' ? 'text-blue-500' :
-                          activity.status === 'earned' ? 'text-yellow-500' :
-                          activity.status === 'available' ? 'text-purple-500' :
-                          'text-gray-500'
-                        }`}>
+                        <span className={`capitalize font-medium ${getStatusColor(activity.status)}`}>
                           {activity.status}
                         </span>
+                        {activity.tags && activity.tags.length > 0 && (
+                          <>
+                            <span>•</span>
+                            <span className="text-muted-foreground/70">
+                              {activity.tags[0]}
+                            </span>
+                          </>
+                        )}
                       </div>
                     </div>
                     
-                    <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                    {/* External link indicator */}
+                    <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
                   </div>
                 </Link>
               </motion.div>
