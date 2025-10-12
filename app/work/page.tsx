@@ -16,7 +16,7 @@ import { Modal } from '@/components/ui/modal';
 import { projects, projectCategories } from '@/data/featuredWork/allProjects';
 import { Project } from '@/data/types';
 
-const categories = ['All', ...projectCategories];
+const categories = projectCategories;
 
 export default function WorkPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -70,72 +70,95 @@ export default function WorkPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
-                className="group relative bg-card border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary/50 h-full flex flex-col"
+                className="group relative bg-card border border-border rounded-xl overflow-hidden transition-all duration-300 h-full flex flex-col hover:outline hover:outline-[1.5px] hover:outline-offset-2 hover:outline-indigo-400/40"
                 onClick={() => setSelectedProject(project)}
               >
-                <div className="relative h-48 overflow-hidden">
+                {/* Featured Badge */}
+                {project.featured && (
+                  <div className="absolute top-4 left-4 z-10 pointer-events-none">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-lg">
+                      Featured
+                    </span>
+                  </div>
+                )}
+
+                {/* Thumbnail with Hover Overlay - Isolated Hover Group */}
+                <div 
+                  className="group/thumb relative h-48 overflow-hidden cursor-default"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-110"
                   />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                  
+                  {/* Hover Overlay with Demo & Code Buttons - Shows only on thumbnail hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-medium rounded-full hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-lg transform hover:scale-105 cursor-pointer"
+                      aria-label="View demo"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Demo
+                    </a>
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-card/90 backdrop-blur-sm border border-border text-foreground text-sm font-medium rounded-full hover:bg-card transition-all duration-200 shadow-lg transform hover:scale-105 cursor-pointer"
+                      aria-label="View source code"
+                    >
+                      <Github className="w-4 h-4" />
+                      Code
+                    </a>
+                  </div>
                 </div>
                 
-                <div className="p-6 flex-1 flex flex-col">
-                  <div className="flex items-start justify-between mb-3">
-                    <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                <div className="p-6 flex-1 flex flex-col cursor-pointer">
+                  {/* Category & Date */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-medium">
                       {project.category}
                     </span>
-                    <div className="flex items-center gap-2">
-                      <span className={`text-xs px-2 py-1 rounded-full ${
-                        project.status === 'Completed' ? 'bg-green-500/10 text-green-500' :
-                        project.status === 'In Progress' ? 'bg-blue-500/10 text-blue-500' :
-                        'bg-yellow-500/10 text-yellow-500'
-                      }`}>
-                        {project.status}
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(project.date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
+                    </span>
                   </div>
 
-                  <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                  <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
                     {project.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2 flex-1">
                     {project.description}
                   </p>
 
+                  {/* Tags */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.slice(0, 3).map(tag => (
-                      <span key={tag} className="text-xs bg-muted/50 text-muted-foreground px-2 py-1 rounded">
+                      <span key={tag} className="text-xs bg-muted/50 text-muted-foreground px-2.5 py-1 rounded-full">
                         {tag}
                       </span>
                     ))}
                     {project.tags.length > 3 && (
-                      <span className="text-xs text-muted-foreground">
-                        +{project.tags.length - 3} more
+                      <span className="text-xs text-muted-foreground px-2.5 py-1">
+                        +{project.tags.length - 3}
                       </span>
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="text-sm font-medium text-primary">{project.impact}</span>
-                    <div className="flex gap-2">
-                      <a
-                        href={project.github}
-                        className="p-2 hover:bg-muted rounded-lg transition-colors"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Github className="w-4 h-4" />
-                      </a>
-                      <a
-                        href={project.demo}
-                        className="p-2 hover:bg-muted rounded-lg transition-colors"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
+                  {/* Impact - Bottom aligned */}
+                  <div className="mt-auto pt-2 border-t border-border/50">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-primary flex items-center gap-1">
+                        {project.impact}
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -202,51 +225,96 @@ export default function WorkPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
-                className="group relative bg-card border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary/50 h-full flex flex-col"
+                className="group relative bg-card border border-border rounded-xl overflow-hidden transition-all duration-300 h-full flex flex-col hover:outline hover:outline-[1.5px] hover:outline-offset-2 hover:outline-indigo-400/40"
                 onClick={() => setSelectedProject(project)}
               >
-                <div className="relative h-48 overflow-hidden">
+                {/* Featured Badge */}
+                {project.featured && (
+                  <div className="absolute top-4 left-4 z-10 pointer-events-none">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-lg">
+                      Featured
+                    </span>
+                  </div>
+                )}
+
+                {/* Thumbnail with Hover Overlay - Isolated Hover Group */}
+                <div 
+                  className="group/thumb relative h-48 overflow-hidden cursor-default"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-110"
                   />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                  
+                  {/* Hover Overlay with Demo & Code Buttons - Shows only on thumbnail hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-medium rounded-full hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-lg transform hover:scale-105 cursor-pointer"
+                      aria-label="View demo"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Demo
+                    </a>
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-card/90 backdrop-blur-sm border border-border text-foreground text-sm font-medium rounded-full hover:bg-card transition-all duration-200 shadow-lg transform hover:scale-105 cursor-pointer"
+                      aria-label="View source code"
+                    >
+                      <Github className="w-4 h-4" />
+                      Code
+                    </a>
+                  </div>
                 </div>
                 
-                <div className="p-6 flex-1 flex flex-col">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                <div className="p-6 flex-1 flex flex-col cursor-pointer">
+                  {/* Category & Date */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-medium">
                       {project.category}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      {new Date(project.date).toLocaleDateString()}
+                      {new Date(project.date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                  <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
                     {project.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2 flex-1">
                     {project.description}
                   </p>
 
+                  {/* Tags */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.slice(0, 3).map(tag => (
-                      <span key={tag} className="text-xs bg-muted/50 text-muted-foreground px-2 py-1 rounded">
+                      <span key={tag} className="text-xs bg-muted/50 text-muted-foreground px-2.5 py-1 rounded-full">
                         {tag}
                       </span>
                     ))}
                     {project.tags.length > 3 && (
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-xs text-muted-foreground px-2.5 py-1">
                         +{project.tags.length - 3}
                       </span>
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="text-sm font-medium text-primary">{project.impact}</span>
-                    <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  {/* Impact - Bottom aligned */}
+                  <div className="mt-auto pt-2 border-t border-border/50">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-primary flex items-center gap-1">
+                        {project.impact}
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
                   </div>
                 </div>
               </motion.div>
