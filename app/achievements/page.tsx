@@ -5,7 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import { Trophy, Award, Star, Search, Medal, FileCheck, Sparkles, ExternalLink, Calendar, Filter } from 'lucide-react';
 import { achievements, achievementCategories } from '@/data/achievements/achievementsDetailed';
 
-const categories = ['All', ...achievementCategories];
+const categories = achievementCategories;
 
 export default function AchievementsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
