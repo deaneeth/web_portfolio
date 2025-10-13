@@ -1,4 +1,4 @@
-import { Testimonial } from '../types';
+import { Testimonial } from '../types.d';
 
 /**
  * Client testimonials showcasing service quality and client satisfaction

@@ -1,4 +1,4 @@
-import { ProcessStep } from '../types';
+import { ProcessStep } from '../types.d';
 
 /**
  * Service workflow process steps

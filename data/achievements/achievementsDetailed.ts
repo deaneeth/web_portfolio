@@ -1,4 +1,4 @@
-import { Achievement } from '../types';
+import { Achievement } from '../types.d';
 
 /**
  * Comprehensive achievements and certifications collection

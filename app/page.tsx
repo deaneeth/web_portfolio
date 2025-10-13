@@ -21,7 +21,7 @@ import { SocialButtons } from '@/components/ui/social-buttons';
 import { getRecentActivityWithTime } from '@/lib/utils/recentActivity';
 import { getActivityIconStyle, getStatusColor } from '@/lib/utils/activityIcons';
 import { quickStats } from '@/data/homepage/quickStats';
-import { featuredSections } from '@/data/featuredWork/featuredSections';
+import { featuredSections } from '@/data/homepage/featuredSections';
 
 export default function HomePage() {
   // Get recent activity dynamically from data sources (top 5 most recent)

@@ -1,5 +1,5 @@
 import { Brain, Code, Palette, Zap } from 'lucide-react';
-import { Service } from '../types';
+import { Service } from '../types.d';
 
 /**
  * Detailed service offerings with comprehensive information

@@ -12,7 +12,7 @@ import {
   LineChart, 
   TrendingUp 
 } from 'lucide-react';
-import { Skill } from '../types';
+import { Skill } from '../types.d';
 
 /**
  * Skills organized by category
