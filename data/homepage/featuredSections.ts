@@ -1,6 +1,6 @@
 import { FolderOpen, Briefcase, Trophy, Mail } from 'lucide-react';
-import { FeaturedSection } from '../types';
-import { projects } from './allProjects';
+import { FeaturedSection } from '../types.d';
+import { projects } from '../featuredWork/allProjects';
 import { services } from '../services/servicesDetailed';
 import { achievements } from '../achievements/achievementsDetailed';
 

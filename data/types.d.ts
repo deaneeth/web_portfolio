@@ -72,6 +72,11 @@ export interface ProjectMetric {
   value: string;
 }
 
+export interface TechStack {
+  name: string;
+  icon: string; // Coloured Icons class (e.g., "ci ci-react")
+}
+
 export interface Project {
   id: number | string;
   title: string;
@@ -88,7 +93,8 @@ export interface Project {
   date: string; // ISO format YYYY-MM-DD
   problem?: string;
   solution?: string;
-  technologies?: string[];
+  technologies?: string[]; // Deprecated: Use techStack instead
+  techStack?: TechStack[]; // New: Array of tech with icon classes
   metrics?: ProjectMetric[];
   type?: 'Project';
   link?: string;

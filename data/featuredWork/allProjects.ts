@@ -1,4 +1,4 @@
-import { Project } from '../types';
+import { Project } from '../types.d';
 
 /**
  * Comprehensive project portfolio with detailed case studies
@@ -21,7 +21,14 @@ export const projects: Project[] = [
     date: '2024-12-01',
     problem: 'Traditional style transfer methods were slow and produced inconsistent results.',
     solution: 'Developed an optimized neural network architecture with custom loss functions.',
-    technologies: ['Python', 'TensorFlow', 'PyTorch', 'OpenCV', 'Flask', 'React'],
+    techStack: [
+      { name: 'Python', icon: 'ci ci-python' },
+      { name: 'TensorFlow', icon: 'ci ci-tensorflow' },
+      { name: 'PyTorch', icon: 'ci ci-pytorch' },
+      { name: 'OpenCV', icon: 'ci ci-opencv' },
+      { name: 'Flask', icon: 'ci ci-flask' },
+      { name: 'React', icon: 'ci ci-react' }
+    ],
     metrics: [
       { label: 'Processing Speed', value: '3x faster' },
       { label: 'Style Accuracy', value: '95%' },
@@ -46,7 +53,13 @@ export const projects: Project[] = [
     date: '2024-11-15',
     problem: 'Students struggled to navigate large campus and avoid crowded areas.',
     solution: 'Created an IoT-enabled system with real-time crowd monitoring.',
-    technologies: ['React', 'Node.js', 'MongoDB', 'Arduino', 'Socket.io'],
+    techStack: [
+      { name: 'React', icon: 'ci ci-react' },
+      { name: 'Node.js', icon: 'ci ci-nodejs' },
+      { name: 'MongoDB', icon: 'ci ci-mongodb' },
+      { name: 'Arduino', icon: 'ci ci-arduino' },
+      { name: 'Socket.io', icon: 'ci ci-socketio' }
+    ],
     metrics: [
       { label: 'Congestion Reduction', value: '40%' },
       { label: 'User Adoption', value: '2,500+' },
@@ -71,7 +84,13 @@ export const projects: Project[] = [
     date: '2024-10-20',
     problem: 'Limited NLP tools available for South Asian languages.',
     solution: 'Fine-tuned BERT model specifically for regional language patterns.',
-    technologies: ['Python', 'Transformers', 'PyTorch', 'Hugging Face', 'FastAPI'],
+    techStack: [
+      { name: 'Python', icon: 'ci ci-python' },
+      { name: 'Transformers', icon: 'ci ci-huggingface' },
+      { name: 'PyTorch', icon: 'ci ci-pytorch' },
+      { name: 'Hugging Face', icon: 'ci ci-huggingface' },
+      { name: 'FastAPI', icon: 'ci ci-fastapi' }
+    ],
     metrics: [
       { label: 'Sinhala Accuracy', value: '92%' },
       { label: 'Tamil Accuracy', value: '89%' },
@@ -96,7 +115,14 @@ export const projects: Project[] = [
     date: '2024-09-10',
     problem: 'Manual infrastructure setup was time-consuming and error-prone.',
     solution: 'Implemented automated IaC pipeline with monitoring and rollback capabilities.',
-    technologies: ['Terraform', 'AWS', 'Docker', 'Kubernetes', 'Jenkins', 'Ansible'],
+    techStack: [
+      { name: 'Terraform', icon: 'ci ci-terraform' },
+      { name: 'AWS', icon: 'ci ci-aws' },
+      { name: 'Docker', icon: 'ci ci-docker' },
+      { name: 'Kubernetes', icon: 'ci ci-kubernetes' },
+      { name: 'Jenkins', icon: 'ci ci-jenkins' },
+      { name: 'Ansible', icon: 'ci ci-ansible' }
+    ],
     metrics: [
       { label: 'Deployment Speed', value: '70% faster' },
       { label: 'Error Reduction', value: '85%' },

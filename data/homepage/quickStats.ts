@@ -1,4 +1,4 @@
-import { QuickStat } from '../types';
+import { QuickStat } from '../types.d';
 
 /**
  * Quick Statistics displayed on the homepage

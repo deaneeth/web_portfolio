@@ -13,8 +13,9 @@ import {
   Star
 } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
+import { ProjectModal } from '@/components/ui/project-modal';
 import { projects, projectCategories } from '@/data/featuredWork/allProjects';
-import { Project } from '@/data/types';
+import { Project } from '@/data/types.d';
 
 const categories = projectCategories;
 
@@ -336,114 +337,11 @@ export default function WorkPage() {
       </div>
 
       {/* Project Detail Modal */}
-      <Modal
+      <ProjectModal
         isOpen={!!selectedProject}
         onClose={() => setSelectedProject(null)}
-        maxWidth="4xl"
-      >
-        {selectedProject && (
-          <div className="p-8">
-            <div className="flex items-start justify-between mb-6">
-              <div>
-                <h2 className="text-2xl font-bold mb-2">{selectedProject.title}</h2>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <span className="bg-primary/10 text-primary px-2 py-1 rounded-full">
-                    {selectedProject.category}
-                  </span>
-                  <span>{new Date(selectedProject.date).toLocaleDateString()}</span>
-                  <span className={`px-2 py-1 rounded-full ${
-                    selectedProject.status === 'Completed' ? 'bg-green-500/10 text-green-500' :
-                    selectedProject.status === 'In Progress' ? 'bg-blue-500/10 text-blue-500' :
-                    'bg-yellow-500/10 text-yellow-500'
-                  }`}>
-                    {selectedProject.status}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <img
-              src={selectedProject.image}
-              alt={selectedProject.title}
-              className="w-full h-64 object-cover rounded-lg mb-6"
-            />
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
-                <div>
-                  <h3 className="font-semibold mb-3">Overview</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {selectedProject.longDescription}
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-3">Problem</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {selectedProject.problem}
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-3">Solution</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {selectedProject.solution}
-                  </p>
-                </div>
-
-                {selectedProject.technologies && selectedProject.technologies.length > 0 && (
-                  <div>
-                    <h3 className="font-semibold mb-3">Technologies Used</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.technologies.map(tech => (
-                        <span key={tech} className="bg-muted/50 text-muted-foreground px-3 py-1 rounded-full text-sm">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="space-y-6">
-                {selectedProject.metrics && selectedProject.metrics.length > 0 && (
-                  <div>
-                    <h3 className="font-semibold mb-3">Key Metrics</h3>
-                    <div className="space-y-3">
-                      {selectedProject.metrics.map(metric => (
-                        <div key={metric.label} className="flex justify-between">
-                          <span className="text-sm text-muted-foreground">{metric.label}</span>
-                          <span className="text-sm font-medium">{metric.value}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div>
-                  <h3 className="font-semibold mb-3">Links</h3>
-                  <div className="space-y-2">
-                    <a
-                      href={selectedProject.github}
-                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <Github className="w-4 h-4" />
-                      View Source Code
-                    </a>
-                    <a
-                      href={selectedProject.demo}
-                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Live Demo
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </Modal>
+        project={selectedProject}
+      />
     </div>
   );
 }

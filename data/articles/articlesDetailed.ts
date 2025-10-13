@@ -1,4 +1,4 @@
-import { Article } from '../types';
+import { Article } from '../types.d';
 
 /**
  * Comprehensive articles collection with detailed metadata

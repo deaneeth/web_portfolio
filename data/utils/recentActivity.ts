@@ -9,7 +9,7 @@ import { projects } from '../featuredWork/allProjects';
 import { articles } from '../articles/articlesDetailed';
 import { achievements } from '../achievements/achievementsDetailed';
 import { services } from '../services/servicesDetailed';
-import type { Project, Article, Achievement, Service } from '../types';
+import type { Project, Article, Achievement, Service } from '../types.d';
 
 // ============================================================================
 // UNIFIED ACTIVITY TYPE

@@ -13,4 +13,4 @@ export {
   default as getActivities,
 } from './recentActivity';
 
-export type { RecentActivity, ActivityType } from '../types';
+export type { RecentActivity, ActivityType } from '../types.d';
