@@ -304,44 +304,40 @@ export function ServiceOrderModal({ isOpen, onClose, service }: ServiceOrderModa
             }}
           />
 
-          {/* Modal Container - Scrollable wrapper */}
+          {/* Modal Container - Fixed positioning, no scroll here */}
           <div 
-            className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+            className="absolute inset-0 flex items-center justify-center p-4"
             style={{
               position: 'absolute',
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
-              overflowY: 'auto',
-              overflowX: 'hidden',
-              padding: '1rem'
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '1rem',
+              overflow: 'hidden'
             }}
+            onClick={handleClose}
           >
-            <div 
-              className="min-h-full flex items-center justify-center py-8 px-4"
-              onClick={handleClose}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="relative w-full max-w-3xl max-h-[90vh] flex flex-col"
+              onClick={(e) => e.stopPropagation()}
               style={{
-                minHeight: '100%',
+                position: 'relative',
+                width: '100%',
+                maxWidth: '48rem',
+                maxHeight: '90vh',
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
+                flexDirection: 'column'
               }}
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="relative w-full max-w-3xl"
-                onClick={(e) => e.stopPropagation()}
-                style={{
-                  position: 'relative',
-                  width: '100%',
-                  maxWidth: '48rem'
-                }}
-              >
-                <div className="bg-card border border-border rounded-2xl shadow-2xl relative">
+              <div className="bg-card border border-border rounded-2xl shadow-2xl relative flex flex-col max-h-full overflow-hidden">
                   {/* Success Overlay */}
                   <AnimatePresence>
                     {showSuccess && (
@@ -397,10 +393,11 @@ export function ServiceOrderModal({ isOpen, onClose, service }: ServiceOrderModa
                     </div>
                   </div>
 
-                  {/* Form */}
-                  <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                    {/* Name & Email Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Form - Scrollable Content */}
+                  <div className="overflow-y-auto overflow-x-hidden" style={{ maxHeight: 'calc(90vh - 120px)' }}>
+                    <form onSubmit={handleSubmit} className="p-6 space-y-4">
+                      {/* Name & Email Row */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Name Field */}
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -641,11 +638,11 @@ export function ServiceOrderModal({ isOpen, onClose, service }: ServiceOrderModa
                         )}
                       </button>
                     </div>
-                  </form>
+                    </form>
+                  </div>
                 </div>
               </motion.div>
             </div>
-          </div>
         </div>
       )}
     </AnimatePresence>
