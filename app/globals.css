@@ -756,4 +756,14 @@ select.form-input option {
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
 }
 
+/* Hide scrollbar for horizontal scroll sections */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 
